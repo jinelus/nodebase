@@ -1,0 +1,49 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.3.1/schema.json",
+  "extends": ["../../biome.json"],
+  "files": {
+    "ignoreUnknown": true,
+    "includes": [
+      "./src/**/*",
+      "!.next",
+      "!/out",
+      "!/build",
+      "!/dist",
+      "!/public",
+      "!!./src/generated-route-tree.gen.ts"
+    ]
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "a11y": {
+        "useButtonType": "off"
+      },
+      "complexity": {
+        "noExtraBooleanCast": "error",
+        "noUselessCatch": "error",
+        "noUselessTypeConstraint": "error"
+      },
+      "style": "off"
+    },
+    "domains": {
+      "test": "recommended",
+      "next": "all",
+      "react": "all",
+      "tailwind": "all",
+      "project": "recommended"
+    }
+  },
+  "overrides": [
+    {
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUndeclaredVariables": "off"
+          }
+        }
+      }
+    }
+  ]
+}

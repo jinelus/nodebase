@@ -1,0 +1,91 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.3.1/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "includes": ["**", "!.next", "!dist", "!build"]
+  },
+  "formatter": {
+    "enabled": true,
+    "lineWidth": 100,
+    "indentWidth": 2,
+    "indentStyle": "space"
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "complexity": {
+        "recommended": true,
+        "noStaticOnlyClass": "off"
+      },
+      "correctness": {
+        "recommended": true,
+        "noUnusedImports": {
+          "fix": "safe",
+          "level": "warn",
+          "options": {}
+        },
+        "useUniqueElementIds": "off",
+        "noNestedComponentDefinitions": "off"
+      },
+      "style": {
+        "recommended": true,
+        "useImportType": "off"
+      },
+      "nursery": {
+        "recommended": true,
+        "noNextAsyncClientComponent": "error",
+        "useSortedClasses": {
+          "fix": "safe",
+          "level": "warn",
+          "options": {
+            "attributes": ["className"],
+            "functions": ["cn", "tv", "className"]
+          }
+        }
+      },
+      "a11y": "on",
+      "performance": { "recommended": true, "noNamespaceImport": "off" },
+      "security": "on",
+      "suspicious": {
+        "recommended": true
+      }
+    },
+    "domains": {
+      "test": "recommended",
+      "next": "all",
+      "react": "all",
+      "tailwind": "all",
+      "project": "recommended"
+    }
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "recommended": true,
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "enabled": true,
+      "quoteStyle": "single",
+      "semicolons": "asNeeded",
+      "trailingCommas": "all",
+      "arrowParentheses": "always"
+    }
+  },
+  "json": {
+    "formatter": {
+      "enabled": true,
+      "indentWidth": 2
+    }
+  }
+}
