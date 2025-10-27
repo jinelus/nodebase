@@ -24,8 +24,7 @@
         "noExtraBooleanCast": "error",
         "noUselessCatch": "error",
         "noUselessTypeConstraint": "error"
-      },
-      "style": "off"
+      }
     },
     "domains": {
       "test": "recommended",
