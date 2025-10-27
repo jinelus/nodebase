@@ -1,4 +1,4 @@
-/* eslint-disable */
+/** biome-ignore-all lint/suspicious/noExplicitAny: <> */
 
 // @ts-nocheck
 
@@ -9,8 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './pages/__root'
-import { Route as IndexRouteImport } from './pages/index'
 import { Route as AuthSignInRouteImport } from './pages/_auth/sign-in'
+import { Route as IndexRouteImport } from './pages/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
