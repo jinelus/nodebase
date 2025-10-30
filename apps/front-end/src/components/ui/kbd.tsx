@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/security/noSecrets: <shadcn> */
 import { cn } from '@/lib/utils'
 
 function Kbd({ className, ...props }: React.ComponentProps<'kbd'>) {

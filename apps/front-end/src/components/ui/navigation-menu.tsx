@@ -1,9 +1,7 @@
-/** biome-ignore-all lint/security/noSecrets: <> */
-/** biome-ignore-all lint/style/useComponentExportOnlyModules: <> */
 import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu'
 import { cva } from 'class-variance-authority'
 import { ChevronDownIcon } from 'lucide-react'
-import * as React from 'react'
+import type * as React from 'react'
 
 import { cn } from '@/lib/utils'
 

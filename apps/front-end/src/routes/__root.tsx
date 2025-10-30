@@ -1,75 +1,56 @@
-import type { QueryClient } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { createRootRouteWithContext, Link, Outlet, useRouterState } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-import type { TRPCOptionsProxy } from '@trpc/tanstack-react-query'
-import { Spinner } from '../components/ui/spinner'
-import type { AppRouter } from '../server/trpc'
+import { TanStackDevtools } from '@tanstack/react-devtools'
+import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
+import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 
-export interface RouterAppContext {
-  trpc: TRPCOptionsProxy<AppRouter>
-  queryClient: QueryClient
-}
+import Header from '../components/Header'
 
-export const Route = createRootRouteWithContext<RouterAppContext>()({
-  component: RootComponent,
+import appCss from '../styles.css?url'
+
+export const Route = createRootRoute({
+  head: () => ({
+    meta: [
+      {
+        charSet: 'utf-8',
+      },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1',
+      },
+      {
+        title: 'TanStack Start Starter',
+      },
+    ],
+    links: [
+      {
+        rel: 'stylesheet',
+        href: appCss,
+      },
+    ],
+  }),
+
+  shellComponent: RootDocument,
 })
 
-function RootComponent() {
-  const isFetching = useRouterState({ select: (s) => s.isLoading })
-
+function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <div className={`flex min-h-screen flex-col`}>
-        <div className={`flex items-center gap-2 border-b`}>
-          <h1 className={`p-2 text-3xl`}>With tRPC + TanStack Query</h1>
-          {/* Show a global spinner when the router is transitioning */}
-          <div
-            className={`text-3xl opacity-0 delay-0 duration-300 ${
-              isFetching ? `opacity-40 duration-1000` : ''
-            }`}
-          >
-            <Spinner />
-          </div>
-        </div>
-        <div className={`flex flex-1`}>
-          <div className={`w-56 divide-y`}>
-            {(
-              [
-                ['/', 'Home'],
-                ['/', 'Dashboard'],
-              ] as const
-            ).map(([to, label]) => {
-              return (
-                <div key={to}>
-                  <Link
-                    to={to}
-                    activeOptions={
-                      {
-                        // If the route points to the root of it's parent,
-                        // make sure it's only active if it's exact
-                        // exact: to === '.',
-                      }
-                    }
-                    preload="intent"
-                    className={`block px-3 py-2 text-blue-700`}
-                    // Make "active" links bold
-                    activeProps={{ className: `font-bold` }}
-                  >
-                    {label}
-                  </Link>
-                </div>
-              )
-            })}
-          </div>
-          <div className={`flex-1 border-gray-200 border-l`}>
-            {/* Render our first route match */}
-            <Outlet />
-          </div>
-        </div>
-      </div>
-      <TanStackRouterDevtools position="bottom-left" />
-      <ReactQueryDevtools position="bottom" buttonPosition="bottom-right" />
-    </>
+    <html lang="en">
+      <HeadContent />
+      <body>
+        <Header />
+        {children}
+        <TanStackDevtools
+          config={{
+            position: 'bottom-right',
+          }}
+          plugins={[
+            {
+              name: 'Tanstack Router',
+              render: <TanStackRouterDevtoolsPanel />,
+            },
+          ]}
+        />
+        <Scripts />
+      </body>
+    </html>
   )
 }

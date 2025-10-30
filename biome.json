@@ -53,7 +53,8 @@
       "performance": { "recommended": true, "noNamespaceImport": "off" },
       "security": "on",
       "suspicious": {
-        "recommended": true
+        "recommended": true,
+        "noArrayIndexKey": "off"
       }
     },
     "domains": {

@@ -1,8 +1,6 @@
-/** biome-ignore-all lint/a11y/useFocusableInteractive: <Shadcn> */
-/** biome-ignore-all lint/a11y/useSemanticElements: <Shadcn> */
 import { Slot } from '@radix-ui/react-slot'
 import { ChevronRight, MoreHorizontal } from 'lucide-react'
-import * as React from 'react'
+import type * as React from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -53,6 +51,8 @@ function BreadcrumbLink({
 
 function BreadcrumbPage({ className, ...props }: React.ComponentProps<'span'>) {
   return (
+    // biome-ignore lint/a11y/useFocusableInteractive: <>
+    // biome-ignore lint/a11y/useSemanticElements: <>
     <span
       data-slot="breadcrumb-page"
       role="link"

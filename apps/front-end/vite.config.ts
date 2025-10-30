@@ -1,51 +1,21 @@
-import path from 'node:path'
-import url from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
-import { tanstackRouter } from '@tanstack/router-plugin/vite'
-import react from '@vitejs/plugin-react'
-import type { BuildEnvironmentOptions } from 'vite'
+import { nitroV2Plugin } from '@tanstack/nitro-v2-vite-plugin'
+import { tanstackStart } from '@tanstack/react-start/plugin/vite'
+import viteReact from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
-import tsconfigPaths from 'vite-tsconfig-paths'
+import viteTsConfigPaths from 'vite-tsconfig-paths'
 
-const __filename = url.fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-
-// Client Build Configuration
-const clientBuildConfig: BuildEnvironmentOptions = {
-  outDir: 'dist/client',
-  emitAssets: true,
-  copyPublicDir: true,
-  emptyOutDir: true,
-}
-
-// Server Build Configuration
-const serverBuildConfig: BuildEnvironmentOptions = {
-  ssr: true,
-  outDir: 'dist/server',
-  copyPublicDir: false,
-  emptyOutDir: true,
-  rollupOptions: {
-    input: path.resolve(__dirname, 'src/server/server.ts'),
-    output: {
-      entryFileNames: '[name].js',
-      chunkFileNames: 'assets/[name]-[hash].js',
-      assetFileNames: 'assets/[name]-[hash][extname]',
-    },
-  },
-}
-
-// https://vitejs.dev/config/
-export default defineConfig((configEnv) => {
-  return {
-    plugins: [
-      tanstackRouter({
-        target: 'react',
-        autoCodeSplitting: true,
-      }),
-      react(),
-      tsconfigPaths(),
-      tailwindcss(),
-    ],
-    build: configEnv.mode === 'server' ? serverBuildConfig : clientBuildConfig,
-  }
+const config = defineConfig({
+  plugins: [
+    nitroV2Plugin(),
+    // this is the plugin that enables path aliases
+    viteTsConfigPaths({
+      projects: ['./tsconfig.json'],
+    }),
+    tailwindcss(),
+    tanstackStart(),
+    viteReact(),
+  ],
 })
+
+export default config

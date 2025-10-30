@@ -1,6 +1,3 @@
-/** biome-ignore-all lint/security/noSecrets: <Shadcn> */
-/** biome-ignore-all lint/style/useComponentExportOnlyModules: <shadcn> */
-/** biome-ignore-all lint/a11y/useSemanticElements: <shadcn> */
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { Separator } from '@/components/ui/separator'
@@ -29,6 +26,7 @@ function ButtonGroup({
   ...props
 }: React.ComponentProps<'div'> & VariantProps<typeof buttonGroupVariants>) {
   return (
+    // biome-ignore lint/a11y/useSemanticElements: <>
     <div
       role="group"
       data-slot="button-group"
@@ -51,6 +49,7 @@ function ButtonGroupText({
   return (
     <Comp
       className={cn(
+        // biome-ignore lint/security/noSecrets: <>
         "flex items-center gap-2 rounded-md border bg-muted px-4 font-medium text-sm shadow-xs [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none",
         className,
       )}
