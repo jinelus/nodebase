@@ -49,7 +49,10 @@
           }
         }
       },
-      "a11y": "on",
+      "a11y": {
+        "recommended": true,
+        "useButtonType": "off"
+      },
       "performance": { "recommended": true, "noNamespaceImport": "off" },
       "security": "on",
       "suspicious": {

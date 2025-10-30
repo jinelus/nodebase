@@ -35,6 +35,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <HeadContent />
+
       <body>
         <Header />
         {children}
