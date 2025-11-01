@@ -1,6 +1,4 @@
-/* eslint-disable */
-
-// @ts-nocheck
+// biome-ignore-all lint/suspicious: <>
 
 // noinspection JSUnusedGlobalSymbols
 
