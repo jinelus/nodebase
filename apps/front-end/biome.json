@@ -3,15 +3,7 @@
   "extends": ["../../biome.json"],
   "files": {
     "ignoreUnknown": true,
-    "includes": [
-      "./src/**/*",
-      "!.next",
-      "!/out",
-      "!/build",
-      "!/dist",
-      "!/public",
-      "!!./src/generated-route-tree.gen.ts"
-    ]
+    "includes": ["./src/**/*", "!.next", "!/out", "!/build", "!/dist", "!/public"]
   },
   "linter": {
     "enabled": true,
