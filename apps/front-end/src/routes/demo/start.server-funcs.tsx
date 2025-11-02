@@ -34,7 +34,7 @@ async function readTodos() {
 
 const getTodos = createServerFn({
   method: 'GET',
-}).handler(async () => await readTodos())
+}).handler(async () => (await readTodos()) as { id: number; name: string }[])
 
 const addTodo = createServerFn({ method: 'POST' })
   .inputValidator((d: string) => d)
@@ -56,6 +56,7 @@ function Home() {
 
   const [todo, setTodo] = useState('')
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   const submitTodo = useCallback(async () => {
     todos = await addTodo({ data: todo })
     setTodo('')
@@ -64,7 +65,7 @@ function Home() {
 
   return (
     <div
-      className="flex min-h-screen items-center justify-center bg-gradient-to-br from-zinc-800 to-black p-4 text-white"
+      className="flex min-h-screen items-center justify-center bg-linear-to-br from-zinc-800 to-black p-4 text-white"
       style={{
         backgroundImage:
           'radial-gradient(50% 50% at 20% 60%, #23272a 0%, #18181b 50%, #000000 100%)',
