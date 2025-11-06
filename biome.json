@@ -53,8 +53,11 @@
         "recommended": true,
         "useButtonType": "off"
       },
-      "performance": { "recommended": true, "noNamespaceImport": "off" },
-      "security": "on",
+      "performance": { "recommended": true, "noNamespaceImport": "off", "noImgElement": "off" },
+      "security": {
+        "recommended": true,
+        "noSecrets": "off"
+      },
       "suspicious": {
         "recommended": true,
         "noArrayIndexKey": "off"
@@ -64,7 +67,6 @@
       "test": "recommended",
       "next": "all",
       "react": "all",
-      "tailwind": "all",
       "project": "recommended"
     }
   },
