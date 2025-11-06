@@ -1,16 +1,15 @@
-import 'dotenv/config'
+import { createEnv } from '@t3-oss/env-core'
 import { z } from 'zod'
 
-const envSchema = z.object({
-  DATABASE_URL: z.string(),
-  BETTER_AUTH_URL: z.string().optional(),
+export const env = createEnv({
+  server: {
+    DATABASE_URL: z.string().url(),
+    BETTER_AUTH_URL: z.string().optional(),
+  },
+  clientPrefix: 'VITE_',
+  client: {
+    VITE_BETTER_AUTH_URL: z.string().optional(),
+  },
+  runtimeEnv: process.env,
+  emptyStringAsUndefined: true,
 })
-
-const _env = envSchema.safeParse(process.env)
-
-if (!_env.success) {
-  console.error('❌ Invalid environment variables:', _env.error)
-  throw new Error('Invalid environment variables')
-}
-
-export const env = _env.data
