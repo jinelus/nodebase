@@ -20,9 +20,7 @@
     },
     "domains": {
       "test": "recommended",
-      "next": "all",
       "react": "all",
-      "tailwind": "all",
       "project": "recommended"
     }
   },
@@ -31,7 +29,7 @@
       "linter": {
         "rules": {
           "correctness": {
-            "noUndeclaredVariables": "off"
+            "noUndeclaredVariables": "warn"
           }
         }
       }
