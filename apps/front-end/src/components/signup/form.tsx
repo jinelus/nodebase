@@ -74,10 +74,7 @@ export function SignupForm() {
                   <Label>
                     Username <span className="text-red-600 text-sm">*</span>{' '}
                   </Label>
-                  <Input
-                    className="w-full rounded-md border border-gray-300 px-3 py-2"
-                    {...field}
-                  />
+                  <Input className="w-full rounded-md px-3 py-2" {...field} />
                   <FormMessage className="text-red-600 text-sm" />
                 </div>
               )}
@@ -90,10 +87,7 @@ export function SignupForm() {
                   <Label>
                     Email <span className="text-red-600 text-sm">*</span>{' '}
                   </Label>
-                  <Input
-                    className="w-full rounded-md border border-gray-300 px-3 py-2"
-                    {...field}
-                  />
+                  <Input className="w-full rounded-md px-3 py-2" {...field} />
                   <FormMessage className="text-red-600 text-sm" />
                 </div>
               )}
@@ -106,11 +100,7 @@ export function SignupForm() {
                   <Label>
                     Password <span className="text-red-600 text-sm">*</span>{' '}
                   </Label>
-                  <Input
-                    type="password"
-                    className="w-full rounded-md border border-gray-300 px-3 py-2"
-                    {...field}
-                  />
+                  <Input type="password" className="w-full rounded-md px-3 py-2" {...field} />
                   <FormMessage className="text-red-600 text-sm" />
                 </div>
               )}
@@ -123,11 +113,7 @@ export function SignupForm() {
                   <Label>
                     Confirm Password <span className="text-red-600 text-sm">*</span>{' '}
                   </Label>
-                  <Input
-                    type="password"
-                    className="w-full rounded-md border border-gray-300 px-3 py-2"
-                    {...field}
-                  />
+                  <Input type="password" className="w-full rounded-md px-3 py-2" {...field} />
                   <FormMessage className="text-red-600 text-sm" />
                 </div>
               )}
