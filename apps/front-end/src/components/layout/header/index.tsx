@@ -3,7 +3,7 @@ import { useTheme } from 'next-themes'
 import { Button } from '@/components/ui/button'
 
 export const Header = () => {
-  const { theme, setTheme } = useTheme()
+  const { theme = 'system', setTheme } = useTheme()
 
   return (
     <header className="w-full px-6 py-4">
