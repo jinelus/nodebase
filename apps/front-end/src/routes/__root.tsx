@@ -1,6 +1,8 @@
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
+import { ThemeProvider } from 'next-themes'
+import { Header } from '@/components/layout/header'
 import { Toaster } from '@/components/ui/sonner'
 import appCss from '../styles.css?url'
 
@@ -36,20 +38,23 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <HeadContent />
 
       <body>
-        <div className="px-6">{children}</div>
-        <Toaster position="top-right" richColors />
-        <TanStackDevtools
-          config={{
-            position: 'bottom-right',
-          }}
-          plugins={[
-            {
-              name: 'Tanstack Router',
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
-        />
-        <Scripts />
+        <ThemeProvider enableSystem attribute={'class'}>
+          <Header />
+          <div className="min-h-screen px-6">{children}</div>
+          <Toaster position="top-right" richColors />
+          <TanStackDevtools
+            config={{
+              position: 'bottom-right',
+            }}
+            plugins={[
+              {
+                name: 'Tanstack Router',
+                render: <TanStackRouterDevtoolsPanel />,
+              },
+            ]}
+          />
+          <Scripts />
+        </ThemeProvider>
       </body>
     </html>
   )
