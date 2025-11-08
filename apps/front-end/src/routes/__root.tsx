@@ -33,9 +33,9 @@ export const Route = createRootRoute({
   shellComponent: RootDocument,
 })
 
-function RootDocument({ children }: { children: React.ReactNode }) {
-  const queryClient = new QueryClient()
+const queryClient = new QueryClient()
 
+function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <HeadContent />

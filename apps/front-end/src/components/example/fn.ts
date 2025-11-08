@@ -4,7 +4,7 @@ import { helloWorld } from '@/lib/trigger/example'
 export const triggerServerFn = createServerFn({ method: 'POST' })
   .inputValidator((data: { name: string }) => data)
   .handler(async ({ data }) => {
-    helloWorld.trigger({
+    return await helloWorld.trigger({
       name: data.name || 'World',
     })
   })
