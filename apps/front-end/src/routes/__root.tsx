@@ -1,4 +1,5 @@
 import { TanStackDevtools } from '@tanstack/react-devtools'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { ThemeProvider } from 'next-themes'
@@ -32,29 +33,33 @@ export const Route = createRootRoute({
   shellComponent: RootDocument,
 })
 
+const queryClient = new QueryClient()
+
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <HeadContent />
 
       <body>
-        <ThemeProvider enableSystem attribute={'class'}>
-          <Header />
-          <div className="min-h-screen px-6">{children}</div>
-          <Toaster position="top-right" richColors />
-          <TanStackDevtools
-            config={{
-              position: 'bottom-right',
-            }}
-            plugins={[
-              {
-                name: 'Tanstack Router',
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-            ]}
-          />
-          <Scripts />
-        </ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider enableSystem attribute={'class'}>
+            <Header />
+            <div className="min-h-screen px-6">{children}</div>
+            <Toaster position="top-right" richColors />
+            <TanStackDevtools
+              config={{
+                position: 'bottom-right',
+              }}
+              plugins={[
+                {
+                  name: 'Tanstack Router',
+                  render: <TanStackRouterDevtoolsPanel />,
+                },
+              ]}
+            />
+            <Scripts />
+          </ThemeProvider>
+        </QueryClientProvider>
       </body>
     </html>
   )

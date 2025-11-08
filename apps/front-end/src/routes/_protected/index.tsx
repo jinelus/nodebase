@@ -1,4 +1,5 @@
 import { createFileRoute, getRouteApi } from '@tanstack/react-router'
+import { TriggerExample } from '@/components/example'
 
 const parentRoute = getRouteApi('/_protected')
 
@@ -8,5 +9,10 @@ export const Route = createFileRoute('/_protected/')({
 
 function Home() {
   const { authSession } = parentRoute.useLoaderData()
-  return <div>Welcome!{JSON.stringify(authSession, null, 2)} </div>
+  return (
+    <div>
+      <div>Welcome!{JSON.stringify(authSession, null, 2)}</div>
+      <TriggerExample />
+    </div>
+  )
 }
