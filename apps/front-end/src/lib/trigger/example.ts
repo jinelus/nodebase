@@ -27,6 +27,11 @@ export const backgroundIAProvider = task({
     const { text } = await generateText({
       model: google('gemini-2.5-pro'),
       prompt: payload.prompt,
+      experimental_telemetry: {
+        isEnabled: true,
+        recordInputs: true,
+        recordOutputs: true,
+      },
     })
 
     return text
