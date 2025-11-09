@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/tanstackstart-react'
 import { useMutation } from '@tanstack/react-query'
 import { Button } from '../ui/button'
 import { aiProvider } from './ai-provider'
@@ -11,6 +12,8 @@ export function TriggerExample() {
   const executeAiProviderTest = useMutation({
     mutationFn: () => aiProvider({ data: { prompt: 'What is love?' } }),
   })
+
+  Sentry.logger.info('User triggered test log', { log_source: 'sentry_test' })
 
   return (
     <div className="flex items-center gap-14">
@@ -41,6 +44,16 @@ export function TriggerExample() {
             <pre>{executeAiProviderTest.data.id}</pre>
           </div>
         )}
+      </div>
+
+      <div className="mt-6 space-y-4">
+        <Button
+          onClick={() => {
+            throw new Error('Test Sentry Error')
+          }}
+        >
+          Trigger Sentry Error
+        </Button>
       </div>
     </div>
   )
