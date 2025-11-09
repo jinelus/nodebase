@@ -1,3 +1,4 @@
+import { wrapVinxiConfigWithSentry } from '@sentry/tanstackstart-react'
 import tailwindcss from '@tailwindcss/vite'
 import { nitroV2Plugin } from '@tanstack/nitro-v2-vite-plugin'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
@@ -18,4 +19,14 @@ const config = defineConfig({
   ],
 })
 
-export default config
+const wrappedConfig = wrapVinxiConfigWithSentry(config, {
+  org: 'cristooo',
+  project: 'javascript-tanstackstart-react',
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+
+  // Only print logs for uploading source maps in CI
+  // Set to `true` to suppress logs
+  silent: !process.env.CI,
+})
+
+export default wrappedConfig
