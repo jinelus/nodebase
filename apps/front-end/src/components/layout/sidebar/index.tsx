@@ -68,7 +68,7 @@ export const AppSidebar = () => {
               <SidebarMenuButton
                 tooltip={item.label}
                 asChild
-                isActive={currentPath === item.href}
+                isActive={currentPath.startsWith(item.href)}
                 className="h-10 items-center gap-x-4 px-4"
               >
                 <Link to={item.href} preload="intent">
