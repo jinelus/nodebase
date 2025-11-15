@@ -12,9 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as ProtectedIndexRouteImport } from './routes/_protected/index'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
+import { Route as ProtectedRestRouteImport } from './routes/_protected/_rest'
 import { Route as AuthSignupRouteImport } from './routes/_auth/signup'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as ProtectedRestWorkflowsIndexRouteImport } from './routes/_protected/_rest/workflows/index'
+import { Route as ProtectedRestExecutionsIndexRouteImport } from './routes/_protected/_rest/executions/index'
+import { Route as ProtectedRestCredentialsIndexRouteImport } from './routes/_protected/_rest/credentials/index'
+import { Route as ProtectedRestExecutionsExecutionIdRouteImport } from './routes/_protected/_rest/executions/$executionId'
+import { Route as ProtectedRestCredentialsCredentialIdRouteImport } from './routes/_protected/_rest/credentials/$credentialId'
+import { Route as ProtectedEditorWorkflowsWorkflowIdRouteImport } from './routes/_protected/_editor/workflows/$workflowId'
 
 const ProtectedRoute = ProtectedRouteImport.update({
   id: '/_protected',
@@ -28,6 +35,10 @@ const ProtectedIndexRoute = ProtectedIndexRouteImport.update({
 const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+const ProtectedRestRoute = ProtectedRestRouteImport.update({
+  id: '/_rest',
   getParentRoute: () => ProtectedRoute,
 } as any)
 const AuthSignupRoute = AuthSignupRouteImport.update({
@@ -45,6 +56,42 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProtectedRestWorkflowsIndexRoute =
+  ProtectedRestWorkflowsIndexRouteImport.update({
+    id: '/workflows/',
+    path: '/workflows/',
+    getParentRoute: () => ProtectedRestRoute,
+  } as any)
+const ProtectedRestExecutionsIndexRoute =
+  ProtectedRestExecutionsIndexRouteImport.update({
+    id: '/executions/',
+    path: '/executions/',
+    getParentRoute: () => ProtectedRestRoute,
+  } as any)
+const ProtectedRestCredentialsIndexRoute =
+  ProtectedRestCredentialsIndexRouteImport.update({
+    id: '/credentials/',
+    path: '/credentials/',
+    getParentRoute: () => ProtectedRestRoute,
+  } as any)
+const ProtectedRestExecutionsExecutionIdRoute =
+  ProtectedRestExecutionsExecutionIdRouteImport.update({
+    id: '/executions/$executionId',
+    path: '/executions/$executionId',
+    getParentRoute: () => ProtectedRestRoute,
+  } as any)
+const ProtectedRestCredentialsCredentialIdRoute =
+  ProtectedRestCredentialsCredentialIdRouteImport.update({
+    id: '/credentials/$credentialId',
+    path: '/credentials/$credentialId',
+    getParentRoute: () => ProtectedRestRoute,
+  } as any)
+const ProtectedEditorWorkflowsWorkflowIdRoute =
+  ProtectedEditorWorkflowsWorkflowIdRouteImport.update({
+    id: '/_editor/workflows/$workflowId',
+    path: '/workflows/$workflowId',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/login': typeof AuthLoginRoute
@@ -52,6 +99,12 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof ProtectedDashboardRoute
   '/': typeof ProtectedIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/workflows/$workflowId': typeof ProtectedEditorWorkflowsWorkflowIdRoute
+  '/credentials/$credentialId': typeof ProtectedRestCredentialsCredentialIdRoute
+  '/executions/$executionId': typeof ProtectedRestExecutionsExecutionIdRoute
+  '/credentials': typeof ProtectedRestCredentialsIndexRoute
+  '/executions': typeof ProtectedRestExecutionsIndexRoute
+  '/workflows': typeof ProtectedRestWorkflowsIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
@@ -59,29 +112,71 @@ export interface FileRoutesByTo {
   '/dashboard': typeof ProtectedDashboardRoute
   '/': typeof ProtectedIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/workflows/$workflowId': typeof ProtectedEditorWorkflowsWorkflowIdRoute
+  '/credentials/$credentialId': typeof ProtectedRestCredentialsCredentialIdRoute
+  '/executions/$executionId': typeof ProtectedRestExecutionsExecutionIdRoute
+  '/credentials': typeof ProtectedRestCredentialsIndexRoute
+  '/executions': typeof ProtectedRestExecutionsIndexRoute
+  '/workflows': typeof ProtectedRestWorkflowsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_protected': typeof ProtectedRouteWithChildren
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/signup': typeof AuthSignupRoute
+  '/_protected/_rest': typeof ProtectedRestRouteWithChildren
   '/_protected/dashboard': typeof ProtectedDashboardRoute
   '/_protected/': typeof ProtectedIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/_protected/_editor/workflows/$workflowId': typeof ProtectedEditorWorkflowsWorkflowIdRoute
+  '/_protected/_rest/credentials/$credentialId': typeof ProtectedRestCredentialsCredentialIdRoute
+  '/_protected/_rest/executions/$executionId': typeof ProtectedRestExecutionsExecutionIdRoute
+  '/_protected/_rest/credentials/': typeof ProtectedRestCredentialsIndexRoute
+  '/_protected/_rest/executions/': typeof ProtectedRestExecutionsIndexRoute
+  '/_protected/_rest/workflows/': typeof ProtectedRestWorkflowsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/signup' | '/dashboard' | '/' | '/api/auth/$'
+  fullPaths:
+    | '/login'
+    | '/signup'
+    | '/dashboard'
+    | '/'
+    | '/api/auth/$'
+    | '/workflows/$workflowId'
+    | '/credentials/$credentialId'
+    | '/executions/$executionId'
+    | '/credentials'
+    | '/executions'
+    | '/workflows'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/signup' | '/dashboard' | '/' | '/api/auth/$'
+  to:
+    | '/login'
+    | '/signup'
+    | '/dashboard'
+    | '/'
+    | '/api/auth/$'
+    | '/workflows/$workflowId'
+    | '/credentials/$credentialId'
+    | '/executions/$executionId'
+    | '/credentials'
+    | '/executions'
+    | '/workflows'
   id:
     | '__root__'
     | '/_protected'
     | '/_auth/login'
     | '/_auth/signup'
+    | '/_protected/_rest'
     | '/_protected/dashboard'
     | '/_protected/'
     | '/api/auth/$'
+    | '/_protected/_editor/workflows/$workflowId'
+    | '/_protected/_rest/credentials/$credentialId'
+    | '/_protected/_rest/executions/$executionId'
+    | '/_protected/_rest/credentials/'
+    | '/_protected/_rest/executions/'
+    | '/_protected/_rest/workflows/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -114,6 +209,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedDashboardRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/_rest': {
+      id: '/_protected/_rest'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof ProtectedRestRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/_auth/signup': {
       id: '/_auth/signup'
       path: '/signup'
@@ -135,17 +237,86 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_protected/_rest/workflows/': {
+      id: '/_protected/_rest/workflows/'
+      path: '/workflows'
+      fullPath: '/workflows'
+      preLoaderRoute: typeof ProtectedRestWorkflowsIndexRouteImport
+      parentRoute: typeof ProtectedRestRoute
+    }
+    '/_protected/_rest/executions/': {
+      id: '/_protected/_rest/executions/'
+      path: '/executions'
+      fullPath: '/executions'
+      preLoaderRoute: typeof ProtectedRestExecutionsIndexRouteImport
+      parentRoute: typeof ProtectedRestRoute
+    }
+    '/_protected/_rest/credentials/': {
+      id: '/_protected/_rest/credentials/'
+      path: '/credentials'
+      fullPath: '/credentials'
+      preLoaderRoute: typeof ProtectedRestCredentialsIndexRouteImport
+      parentRoute: typeof ProtectedRestRoute
+    }
+    '/_protected/_rest/executions/$executionId': {
+      id: '/_protected/_rest/executions/$executionId'
+      path: '/executions/$executionId'
+      fullPath: '/executions/$executionId'
+      preLoaderRoute: typeof ProtectedRestExecutionsExecutionIdRouteImport
+      parentRoute: typeof ProtectedRestRoute
+    }
+    '/_protected/_rest/credentials/$credentialId': {
+      id: '/_protected/_rest/credentials/$credentialId'
+      path: '/credentials/$credentialId'
+      fullPath: '/credentials/$credentialId'
+      preLoaderRoute: typeof ProtectedRestCredentialsCredentialIdRouteImport
+      parentRoute: typeof ProtectedRestRoute
+    }
+    '/_protected/_editor/workflows/$workflowId': {
+      id: '/_protected/_editor/workflows/$workflowId'
+      path: '/workflows/$workflowId'
+      fullPath: '/workflows/$workflowId'
+      preLoaderRoute: typeof ProtectedEditorWorkflowsWorkflowIdRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
   }
 }
 
+interface ProtectedRestRouteChildren {
+  ProtectedRestCredentialsCredentialIdRoute: typeof ProtectedRestCredentialsCredentialIdRoute
+  ProtectedRestExecutionsExecutionIdRoute: typeof ProtectedRestExecutionsExecutionIdRoute
+  ProtectedRestCredentialsIndexRoute: typeof ProtectedRestCredentialsIndexRoute
+  ProtectedRestExecutionsIndexRoute: typeof ProtectedRestExecutionsIndexRoute
+  ProtectedRestWorkflowsIndexRoute: typeof ProtectedRestWorkflowsIndexRoute
+}
+
+const ProtectedRestRouteChildren: ProtectedRestRouteChildren = {
+  ProtectedRestCredentialsCredentialIdRoute:
+    ProtectedRestCredentialsCredentialIdRoute,
+  ProtectedRestExecutionsExecutionIdRoute:
+    ProtectedRestExecutionsExecutionIdRoute,
+  ProtectedRestCredentialsIndexRoute: ProtectedRestCredentialsIndexRoute,
+  ProtectedRestExecutionsIndexRoute: ProtectedRestExecutionsIndexRoute,
+  ProtectedRestWorkflowsIndexRoute: ProtectedRestWorkflowsIndexRoute,
+}
+
+const ProtectedRestRouteWithChildren = ProtectedRestRoute._addFileChildren(
+  ProtectedRestRouteChildren,
+)
+
 interface ProtectedRouteChildren {
+  ProtectedRestRoute: typeof ProtectedRestRouteWithChildren
   ProtectedDashboardRoute: typeof ProtectedDashboardRoute
   ProtectedIndexRoute: typeof ProtectedIndexRoute
+  ProtectedEditorWorkflowsWorkflowIdRoute: typeof ProtectedEditorWorkflowsWorkflowIdRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
+  ProtectedRestRoute: ProtectedRestRouteWithChildren,
   ProtectedDashboardRoute: ProtectedDashboardRoute,
   ProtectedIndexRoute: ProtectedIndexRoute,
+  ProtectedEditorWorkflowsWorkflowIdRoute:
+    ProtectedEditorWorkflowsWorkflowIdRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(

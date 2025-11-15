@@ -1,18 +1,10 @@
-import { createFileRoute, getRouteApi } from '@tanstack/react-router'
-import { TriggerExample } from '@/components/example'
-
-const parentRoute = getRouteApi('/_protected')
+import { createFileRoute, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_protected/')({
-  component: Home,
+  beforeLoad: () => {
+    throw redirect({
+      to: '/workflows',
+      replace: true,
+    })
+  },
 })
-
-function Home() {
-  const { authSession } = parentRoute.useLoaderData()
-  return (
-    <div>
-      <div>Welcome!{JSON.stringify(authSession, null, 2)}</div>
-      <TriggerExample />
-    </div>
-  )
-}

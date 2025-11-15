@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { ThemeProvider } from 'next-themes'
-import { Header } from '@/components/layout/header'
 import { Toaster } from '@/components/ui/sonner'
 import appCss from '../styles.css?url'
 
@@ -44,7 +43,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider enableSystem attribute={'class'}>
-            <Header />
             <div className="min-h-screen px-6">{children}</div>
             <Toaster position="top-right" richColors />
             <TanStackDevtools
