@@ -1,5 +1,7 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 import { createMiddleware } from '@tanstack/react-start'
+import { AppSidebar } from '@/components/layout/sidebar'
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { auth } from '@/lib/auth'
 
 const authMiddleware = createMiddleware().server(async ({ request, next }) => {
@@ -30,5 +32,18 @@ export const Route = createFileRoute('/_protected')({
       authSession: serverContext?.session,
     }
   },
-  component: () => <Outlet />,
+  component: () => <ProtectedLayout />,
 })
+
+const ProtectedLayout = () => {
+  return (
+    <main>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset className="bg-accent/20">
+          <Outlet />
+        </SidebarInset>
+      </SidebarProvider>
+    </main>
+  )
+}
