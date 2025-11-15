@@ -26,7 +26,7 @@ export const activeSubscribedUser = createServerFn().handler(
       externalId: userSession.user.id,
     })
 
-    if (!customer.activeSubscriptions || customer.activeSubscriptions.length === 0) {
+    if (!customer?.activeSubscriptions || customer?.activeSubscriptions?.length === 0) {
       return {
         success: false,
         code: 'FORBIDDEN',
