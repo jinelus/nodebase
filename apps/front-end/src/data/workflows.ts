@@ -1,5 +1,5 @@
 import { createServerFn } from '@tanstack/react-start'
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import { z } from 'zod'
 import { db } from '@/db/connection'
 import { workflows } from '@/db/schemas'
@@ -61,7 +61,7 @@ export const getWorkflowByIdFn = createServerFn({ method: 'GET' })
     const [workflow] = await db
       .select()
       .from(workflows)
-      .where(eq(workflows.id, workflowId) && eq(workflows.userId, context.session.user.id))
+      .where(and(eq(workflows.id, workflowId), eq(workflows.userId, context.session.user.id)))
 
     if (!workflow) {
       return null
@@ -83,7 +83,9 @@ export const updateWorkflowFn = createServerFn({ method: 'POST' })
     const [existing] = await db
       .select()
       .from(workflows)
-      .where(eq(workflows.id, data.id) && eq(workflows.userId, authResult.data.userSession.user.id))
+      .where(
+        and(eq(workflows.id, data.id), eq(workflows.userId, authResult.data.userSession.user.id)),
+      )
 
     if (!existing) {
       throw new Error('Workflow not found or access denied')
@@ -114,7 +116,10 @@ export const deleteWorkflowFn = createServerFn({ method: 'POST' })
       .select()
       .from(workflows)
       .where(
-        eq(workflows.id, workflowId) && eq(workflows.userId, authResult.data.userSession.user.id),
+        and(
+          eq(workflows.id, workflowId),
+          eq(workflows.userId, authResult.data.userSession.user.id),
+        ),
       )
 
     if (!existing) {
