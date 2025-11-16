@@ -4,7 +4,7 @@ import { AppSidebar } from '@/components/layout/sidebar'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { auth } from '@/lib/auth'
 
-const authMiddleware = createMiddleware().server(async ({ request, next }) => {
+export const authMiddleware = createMiddleware().server(async ({ request, next }) => {
   const session = await auth.api.getSession({ headers: request.headers })
 
   if (!session) {
@@ -40,7 +40,7 @@ const ProtectedLayout = () => {
     <main>
       <SidebarProvider>
         <AppSidebar />
-        <SidebarInset className="bg-accent/20">
+        <SidebarInset className="">
           <Outlet />
         </SidebarInset>
       </SidebarProvider>
