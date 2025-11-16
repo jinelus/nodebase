@@ -1,20 +1,23 @@
 import type { CustomerState } from '@polar-sh/sdk/models/components/customerstate.js'
 import { createServerFn } from '@tanstack/react-start'
 import { polarClient } from '@/lib/polar'
-import { getSession } from '@/utils/get-session'
+import { authMiddleware } from '@/routes/_protected'
+import type { getSession } from '@/utils/get-session'
 
 type SubscribedUserResult =
   | {
       success: true
-      data: { userSession: Awaited<ReturnType<typeof getSession>>; customer: CustomerState }
+      data: {
+        userSession: NonNullable<Awaited<ReturnType<typeof getSession>>>
+        customer: CustomerState
+      }
     }
   | { success: false; code: 'UNAUTHORIZED' | 'FORBIDDEN'; message: string }
 
-export const activeSubscribedUser = createServerFn().handler(
-  async (): Promise<SubscribedUserResult> => {
-    const userSession = await getSession()
-
-    if (!userSession) {
+export const activeSubscribedUser = createServerFn()
+  .middleware([authMiddleware])
+  .handler(async ({ context }): Promise<SubscribedUserResult> => {
+    if (!context.session) {
       return {
         success: false,
         code: 'UNAUTHORIZED',
@@ -23,7 +26,7 @@ export const activeSubscribedUser = createServerFn().handler(
     }
 
     const customer = await polarClient.customers.getStateExternal({
-      externalId: userSession.user.id,
+      externalId: context.session.user.id,
     })
 
     if (!customer?.activeSubscriptions || customer?.activeSubscriptions?.length === 0) {
@@ -37,9 +40,8 @@ export const activeSubscribedUser = createServerFn().handler(
     return {
       success: true,
       data: {
-        userSession,
+        userSession: context.session,
         customer,
       },
     }
-  },
-)
+  })
