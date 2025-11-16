@@ -1,13 +1,17 @@
 import { wrapCreateRootRouteWithSentry } from '@sentry/tanstackstart-react'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
+import { createRootRouteWithContext, HeadContent, Scripts } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { ThemeProvider } from 'next-themes'
 import { Toaster } from '@/components/ui/sonner'
 import appCss from '../styles.css?url'
 
-export const Route = wrapCreateRootRouteWithSentry(createRootRoute)({
+export const Route = wrapCreateRootRouteWithSentry(
+  createRootRouteWithContext<{
+    queryClient: QueryClient
+  }>,
+)()({
   head: () => ({
     meta: [
       {
