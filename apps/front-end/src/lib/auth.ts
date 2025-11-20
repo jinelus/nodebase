@@ -15,6 +15,9 @@ export const auth = betterAuth({
     enabled: true,
     autoSignIn: true,
   },
+  advanced: {
+    cookiePrefix: 'nodebase',
+  },
   plugins: [
     reactStartCookies(),
     polar({

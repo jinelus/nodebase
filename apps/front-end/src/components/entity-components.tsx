@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router'
-import { PlusIcon } from 'lucide-react'
+import { PlusIcon, SearchIcon } from 'lucide-react'
 import { Button } from './ui/button'
+import { Input } from './ui/input'
 
 type EntityHeaderProps = {
   title: string
@@ -66,5 +67,69 @@ export const EntityContainer = ({ children, header, search, pagination }: Entity
         {pagination}
       </div>
     </main>
+  )
+}
+
+interface EntitySearchProps {
+  value: string
+  onChange: (value: string) => void
+  placeholder?: string
+}
+
+export const EntitySearch: React.FC<EntitySearchProps> = ({
+  value,
+  onChange,
+  placeholder = 'Search',
+}) => {
+  return (
+    <div className="relative ml-auto">
+      <SearchIcon className="-translate-y-1/2 absolute top-1/2 left-3 size-3.5 text-muted-foreground" />
+      <Input
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        className="max-w-[200px] border border-border bg-transparent pl-8 shadow-none"
+      />
+    </div>
+  )
+}
+
+interface EntityPaginationProps {
+  page: number
+  totalPages: number
+  onPageChange: (newPage: number) => void
+  disabled?: boolean
+}
+
+export const EntityPagination: React.FC<EntityPaginationProps> = ({
+  page,
+  totalPages,
+  onPageChange,
+  disabled,
+}) => {
+  return (
+    <div className="flex w-full items-center justify-between gap-x-2">
+      <div className="flex-1 text-muted-foreground text-sm">
+        Page {page} of {totalPages}
+      </div>
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <Button
+          disabled={disabled || page <= 1}
+          onClick={() => onPageChange(page - 1)}
+          size={'sm'}
+          variant={'outline'}
+        >
+          Previous
+        </Button>
+        <Button
+          disabled={disabled || page >= totalPages || totalPages === 0}
+          onClick={() => onPageChange(page + 1)}
+          size={'sm'}
+          variant={'outline'}
+        >
+          Next
+        </Button>
+      </div>
+    </div>
   )
 }
