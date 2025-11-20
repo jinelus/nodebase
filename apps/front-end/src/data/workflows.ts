@@ -1,10 +1,11 @@
 import { createServerFn } from '@tanstack/react-start'
-import { and, eq } from 'drizzle-orm'
+import { and, count, desc, eq, ilike } from 'drizzle-orm'
 import { z } from 'zod'
 import { db } from '@/db/connection'
 import { workflows } from '@/db/schemas'
 import { activeSubscribedUser } from '@/features/subscriptions/active-subscribed-user'
 import { authMiddleware } from '@/routes/_protected'
+import { type PaginationParams, paginationParamsSchema } from '@/utils/pagination'
 
 const createWorkflowSchema = z.object({
   name: z.string().max(255),
@@ -37,17 +38,48 @@ export const createWorkflowFn = createServerFn({ method: 'POST' })
 
 export const getWorkflowsFn = createServerFn({ method: 'GET' })
   .middleware([authMiddleware])
-  .handler(async ({ context }) => {
+  .inputValidator((data?: PaginationParams) => paginationParamsSchema.parse(data))
+  .handler(async ({ context, data: params }) => {
     if (!context.session?.user.id) {
-      return []
+      return {
+        workflows: [],
+        totalPages: 0,
+        totalItems: 0,
+        currentPage: 1,
+        hasNextPage: false,
+        hasPreviousPage: false,
+      }
     }
 
-    const userWorkflows = await db
-      .select()
-      .from(workflows)
-      .where(eq(workflows.userId, context.session.user.id))
+    const { page, perPage, search } = params ?? {}
 
-    return userWorkflows
+    const conditions = [eq(workflows.userId, context.session.user.id)]
+    if (search) conditions.push(ilike(workflows.name, `%${search}%`))
+
+    const userWorkflows = await db.query.workflows.findMany({
+      where: and(...conditions),
+      offset: ((page ?? 1) - 1) * (perPage ?? 10),
+      limit: perPage ?? 10,
+      orderBy: desc(workflows.updatedAt),
+    })
+
+    const [{ total }] = await db
+      .select({ total: count() })
+      .from(workflows)
+      .where(and(...conditions))
+
+    const totalPages = Math.ceil(total / (params?.perPage ?? 10))
+    const hasNextPage = (params?.page ?? 1) < totalPages
+    const hasPreviousPage = (params?.page ?? 1) > 1
+
+    return {
+      workflows: userWorkflows,
+      totalPages,
+      totalItems: total,
+      currentPage: params?.page ?? 1,
+      hasNextPage,
+      hasPreviousPage,
+    }
   })
 
 export const getWorkflowByIdFn = createServerFn({ method: 'GET' })
@@ -58,10 +90,10 @@ export const getWorkflowByIdFn = createServerFn({ method: 'GET' })
       return null
     }
 
-    const [workflow] = await db
-      .select()
-      .from(workflows)
-      .where(and(eq(workflows.id, workflowId), eq(workflows.userId, context.session.user.id)))
+    const workflow = await db.query.workflows.findFirst({
+      where: (workflow, { eq, and }) =>
+        and(eq(workflow.id, workflowId), eq(workflow.userId, context.session.user.id)),
+    })
 
     if (!workflow) {
       return null

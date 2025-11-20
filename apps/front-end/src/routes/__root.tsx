@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createRootRouteWithContext, HeadContent, Scripts } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { ThemeProvider } from 'next-themes'
+import { NuqsAdapter } from 'nuqs/adapters/tanstack-router'
 import { Toaster } from '@/components/ui/sonner'
 import appCss from '../styles.css?url'
 
@@ -46,22 +47,24 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 
       <body>
         <QueryClientProvider client={queryClient}>
-          <ThemeProvider enableSystem attribute={'class'}>
-            <div className="min-h-screen px-6">{children}</div>
-            <Toaster position="top-right" richColors />
-            <TanStackDevtools
-              config={{
-                position: 'bottom-right',
-              }}
-              plugins={[
-                {
-                  name: 'Tanstack Router',
-                  render: <TanStackRouterDevtoolsPanel />,
-                },
-              ]}
-            />
-            <Scripts />
-          </ThemeProvider>
+          <NuqsAdapter>
+            <ThemeProvider enableSystem attribute={'class'}>
+              <div className="min-h-screen px-6">{children}</div>
+              <Toaster position="top-right" richColors />
+              <TanStackDevtools
+                config={{
+                  position: 'bottom-right',
+                }}
+                plugins={[
+                  {
+                    name: 'Tanstack Router',
+                    render: <TanStackRouterDevtoolsPanel />,
+                  },
+                ]}
+              />
+              <Scripts />
+            </ThemeProvider>
+          </NuqsAdapter>
         </QueryClientProvider>
       </body>
     </html>
