@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useDebouncedCallback } from 'use-debounce'
 
 interface UseEntitySearchProps<
   T extends {
@@ -19,7 +20,7 @@ export function useEntitySearch<
 >({ params, setParams, debounceTime = 300 }: UseEntitySearchProps<T>) {
   const [searchInput, setSearchInput] = useState(params.search)
 
-  const debouncedSearch = debounce((value: string) => {
+  const debouncedSearch = useDebouncedCallback((value: string) => {
     if (!value) {
       setParams({ ...params, search: null, page: 1 })
     } else {
@@ -35,14 +36,5 @@ export function useEntitySearch<
   return {
     searchValue: searchInput,
     setSearchValue: handleSearchInputChange,
-  }
-}
-
-function debounce(fn: (searchValue: string) => void, delay: number) {
-  let timeoutId: NodeJS.Timeout
-
-  return (value: string) => {
-    clearTimeout(timeoutId)
-    timeoutId = setTimeout(() => fn(value), delay)
   }
 }
