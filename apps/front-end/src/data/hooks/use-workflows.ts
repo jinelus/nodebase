@@ -1,5 +1,12 @@
-import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+  keepPreviousData,
+  queryOptions,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query'
 import { toast } from 'sonner'
+import type { PaginationParams } from '@/utils/pagination'
 import {
   createWorkflowFn,
   deleteWorkflowFn,
@@ -10,10 +17,11 @@ import {
 
 const WORKFLOWS_QUERY_KEY = ['workflows']
 
-export const useGetWorkflows = () => {
+export const useGetWorkflows = (params?: PaginationParams) => {
   return queryOptions({
-    queryKey: WORKFLOWS_QUERY_KEY,
-    queryFn: async () => await getWorkflowsFn(),
+    queryKey: [...WORKFLOWS_QUERY_KEY, params],
+    queryFn: async () => await getWorkflowsFn({ data: params }),
+    placeholderData: keepPreviousData,
   })
 }
 
