@@ -15,8 +15,6 @@ export const Route = createFileRoute('/_protected/_rest/workflows/')({
   loaderDeps: ({ search }) => search,
   loader: async ({ context, deps }) => {
     await context.queryClient.ensureQueryData(useGetWorkflows(deps))
-
-    return
   },
   pendingComponent: () => <div>Loading workflows...</div>,
 })

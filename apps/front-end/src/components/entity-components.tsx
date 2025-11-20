@@ -212,7 +212,7 @@ export const EntityList = <T,>({
 }: EntityListProps<T>) => {
   if (items.length === 0 && emptyView) {
     return (
-      <div className="flex-1 items-center justify-center">
+      <div className="flex flex-1 items-center justify-center">
         <div className="mx-auto max-w-sm">{emptyView}</div>
       </div>
     )
@@ -220,7 +220,7 @@ export const EntityList = <T,>({
 
   return (
     <div className={cn('flex flex-col gap-y-4', className)}>
-      {items?.map((item, index) => {
+      {items.map((item, index) => {
         const key = getKey ? getKey(item, index) : index
         return <div key={key}>{renderItem(item, index)}</div>
       })}
@@ -261,7 +261,7 @@ export const EntityItem: React.FC<EntityItemProps> = ({
   }
 
   return (
-    <Link to={href} preload="intent">
+    <Link to={href} preload="intent" className={isRemoving ? 'pointer-events-none' : ''}>
       <Card
         className={cn(
           'cursor-pointer p-4 shadow-none hover:shadow',
@@ -294,8 +294,10 @@ export const EntityItem: React.FC<EntityItemProps> = ({
                       onClick={(e) => {
                         e.stopPropagation()
                       }}
+                      aria-label="More options"
                     >
                       <MoreVerticalIcon className="size-4" />
+                      <span className="sr-only">More options</span>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
