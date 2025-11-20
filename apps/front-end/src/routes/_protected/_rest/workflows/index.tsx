@@ -1,12 +1,11 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { createFileRoute, getRouteApi } from '@tanstack/react-router'
+import { useQuery } from '@tanstack/react-query'
+import { createFileRoute } from '@tanstack/react-router'
 import { createStandardSchemaV1 } from 'nuqs'
-import { Suspense } from 'react'
-import { WorkflowContainer } from '@/components/sections/workflow'
+import { WorkflowContainer, WorkflowLoading, WorkflowsList } from '@/components/sections/workflow'
 import { useGetWorkflows } from '@/data/hooks/use-workflows'
 import { workflowsParams } from '@/utils/params'
 
-const parentRoute = getRouteApi('/_protected')
+// const parentRoute = getRouteApi('/_protected')
 
 export const Route = createFileRoute('/_protected/_rest/workflows/')({
   component: RouteComponent,
@@ -16,16 +15,16 @@ export const Route = createFileRoute('/_protected/_rest/workflows/')({
   loaderDeps: ({ search }) => search,
   loader: async ({ context, deps }) => {
     await context.queryClient.ensureQueryData(useGetWorkflows(deps))
+
+    return
   },
   pendingComponent: () => <div>Loading workflows...</div>,
 })
 
 function RouteComponent() {
-  const { authSession } = parentRoute.useLoaderData()
-
   const { page, perPage, search } = Route.useSearch()
 
-  const { data } = useSuspenseQuery(
+  const { data, isPending } = useQuery(
     useGetWorkflows({
       page,
       perPage,
@@ -35,12 +34,7 @@ function RouteComponent() {
 
   return (
     <WorkflowContainer>
-      <h1>Name:</h1>
-      <div> {`Hello ${authSession?.user.name}`}</div>
-      Workflows
-      <Suspense fallback={<div>Streaming workflows...</div>}>
-        <pre>{JSON.stringify(data, null, 2)}</pre>
-      </Suspense>
+      {isPending ? <WorkflowLoading /> : <WorkflowsList data={data?.workflows} />}
     </WorkflowContainer>
   )
 }
