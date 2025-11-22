@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1762101381222,
-      "tag": "0000_lyrical_war_machine",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1762102857239,
-      "tag": "0001_wide_chimera",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1763234728285,
-      "tag": "0002_odd_paper_doll",
+      "when": 1763839088226,
+      "tag": "0000_bouncy_morbius",
       "breakpoints": true
     }
   ]
