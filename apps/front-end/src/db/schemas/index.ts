@@ -1,3 +1,5 @@
 export * from './better-auth'
+export * from './connections'
+export * from './nodes'
 export * from './users'
 export * from './workflows'

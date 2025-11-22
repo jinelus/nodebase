@@ -1,5 +1,8 @@
 import { createId } from '@paralleldrive/cuid2'
+import { relations } from 'drizzle-orm'
 import { pgTable, text, timestamp } from 'drizzle-orm/pg-core'
+import { connections } from './connections'
+import { node } from './nodes'
 import { users } from './users'
 
 export const workflows = pgTable('workflows', {
@@ -16,3 +19,12 @@ export const workflows = pgTable('workflows', {
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
 })
+
+export const workflowsRelations = relations(workflows, ({ many, one }) => ({
+  node: many(node),
+  connections: many(connections),
+  user: one(users, {
+    fields: [workflows.userId],
+    references: [users.id],
+  }),
+}))

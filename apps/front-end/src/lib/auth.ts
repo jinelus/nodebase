@@ -1,3 +1,4 @@
+import { createId } from '@paralleldrive/cuid2'
 import { checkout, polar, portal, usage } from '@polar-sh/better-auth'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
@@ -17,6 +18,9 @@ export const auth = betterAuth({
   },
   advanced: {
     cookiePrefix: 'nodebase',
+    database: {
+      generateId: () => createId(),
+    },
   },
   plugins: [
     reactStartCookies(),
