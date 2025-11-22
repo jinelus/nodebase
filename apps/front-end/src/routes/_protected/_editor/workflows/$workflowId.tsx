@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { EditorContainer, EditorHeader } from '@/components/sections/editor'
 
 export const Route = createFileRoute('/_protected/_editor/workflows/$workflowId')({
   component: RouteComponent,
@@ -7,5 +8,10 @@ export const Route = createFileRoute('/_protected/_editor/workflows/$workflowId'
 function RouteComponent() {
   const { workflowId } = Route.useParams()
 
-  return <div>Hello "/_protected/_editor/workflows/{workflowId}"!</div>
+  return (
+    <main className="flex h-screen flex-col">
+      <EditorHeader workflowId={workflowId} />
+      <EditorContainer workflowId={workflowId} />
+    </main>
+  )
 }

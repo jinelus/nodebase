@@ -2,7 +2,7 @@ import { createServerFn } from '@tanstack/react-start'
 import { and, count, desc, eq, ilike } from 'drizzle-orm'
 import { z } from 'zod'
 import { db } from '@/db/connection'
-import { workflows } from '@/db/schemas'
+import { node, workflows } from '@/db/schemas'
 import { activeSubscribedUser } from '@/features/subscriptions/active-subscribed-user'
 import { authMiddleware } from '@/routes/_protected'
 import { type PaginationParams, paginationParamsSchema } from '@/utils/pagination'
@@ -32,6 +32,13 @@ export const createWorkflowFn = createServerFn({ method: 'POST' })
         userId: authResult.data.userSession.user.id,
       })
       .returning()
+
+    await db.insert(node).values({
+      workflowId: workflow.id,
+      name: 'INITIAL',
+      type: 'INITIAL',
+      position: { x: 0, y: 0 },
+    })
 
     return workflow
   })
@@ -86,8 +93,8 @@ export const getWorkflowByIdFn = createServerFn({ method: 'GET' })
   .middleware([authMiddleware])
   .inputValidator((id: string) => id.trim())
   .handler(async ({ data: workflowId, context }) => {
-    if (!context.session?.user.id) {
-      return null
+    if (!context.session.user) {
+      throw new Error('User not authenticated')
     }
 
     const workflow = await db.query.workflows.findFirst({
@@ -99,7 +106,29 @@ export const getWorkflowByIdFn = createServerFn({ method: 'GET' })
       return null
     }
 
-    return workflow
+    const nodes = await db.query.node.findMany({
+      where: (node, { eq }) => eq(node.workflowId, workflow.id),
+    })
+
+    const connections = await db.query.connections.findMany({
+      where: (connection, { eq }) => eq(connection.workflowId, workflow.id),
+    })
+
+    return {
+      id: workflow.id,
+      name: workflow.name,
+      nodes: nodes.map((n) => ({
+        id: n.id,
+        position: (n.position as { x: number; y: number }) ?? { x: 0, y: 0 },
+        data: n.data ?? {},
+        type: n.type ?? 'default',
+      })),
+      connections: connections.map((c) => ({
+        id: c.id,
+        source: c.fromNodeId,
+        target: c.toNodeId,
+      })),
+    }
   })
 
 export const updateWorkflowFn = createServerFn({ method: 'POST' })
