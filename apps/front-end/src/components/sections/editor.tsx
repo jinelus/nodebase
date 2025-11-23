@@ -56,7 +56,7 @@ export const EditorHeader = ({ workflowId }: { workflowId: string }) => {
         <div className="flex items-center gap-4">
           <Button size={'sm'}>
             Save
-            <SaveIcon className="mr-2" />
+            <SaveIcon className="ml-2" />
           </Button>
           <Button variant="outline" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
             {theme === 'light' ? <Moon /> : <Sun />}
@@ -106,7 +106,7 @@ export const EditorInputName = ({ workflowId }: { workflowId: string }) => {
     }
   }
 
-  const hanleKeyDown = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleSave()
     } else if (e.key === 'Escape') {
@@ -122,7 +122,7 @@ export const EditorInputName = ({ workflowId }: { workflowId: string }) => {
         value={name}
         onChange={(e) => setName(e.target.value)}
         onBlur={handleSave}
-        onKeyDown={hanleKeyDown}
+        onKeyDown={handleKeyDown}
         disabled={updateWorkflow.isPending}
         className="h-7 max-w-[100px] border-0 p-0 font-semibold text-lg focus:ring-0"
       />

@@ -3,7 +3,7 @@ import { relations } from 'drizzle-orm'
 import { json, pgEnum, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { workflows } from './workflows'
 
-export const nodeTypes = pgEnum('types', ['INITIAL'])
+export const nodeTypes = pgEnum('types', ['INITIAL', 'MANUAL_TRIGGER', 'HTTP_REQUEST'])
 
 export const node = pgTable('node', {
   id: text('id')
