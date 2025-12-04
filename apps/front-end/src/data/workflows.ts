@@ -2,10 +2,11 @@ import { createServerFn } from '@tanstack/react-start'
 import { and, count, desc, eq, ilike } from 'drizzle-orm'
 import { z } from 'zod'
 import { db } from '@/db/connection'
-import { node, workflows } from '@/db/schemas'
+import { connections, node, workflows } from '@/db/schemas'
 import { activeSubscribedUser } from '@/features/subscriptions/active-subscribed-user'
 import { authMiddleware } from '@/routes/_protected'
 import { type PaginationParams, paginationParamsSchema } from '@/utils/pagination'
+import type { NodeType } from '@/utils/types'
 
 const createWorkflowSchema = z.object({
   name: z.string().max(255),
@@ -15,6 +16,29 @@ const updateWorkflowSchema = z.object({
   id: z.string(),
   name: z.string().max(255),
 })
+
+const updateWorkflowNodesSchema = z.object({
+  id: z.string(),
+  nodes: z.array(
+    z.object({
+      id: z.string(),
+      position: z.object({ x: z.number(), y: z.number() }),
+      data: z.record(z.string(), z.any()).optional(),
+      type: z.string().nullish(),
+    }),
+  ),
+  edges: z.array(
+    z.object({
+      id: z.string(),
+      source: z.string(),
+      target: z.string(),
+      sourceHandle: z.string().nullish(),
+      targetHandle: z.string().nullish(),
+    }),
+  ),
+})
+
+export type UpdateWorkflowNodesInput = z.infer<typeof updateWorkflowNodesSchema>
 
 export const createWorkflowFn = createServerFn({ method: 'POST' })
   .inputValidator((data) => createWorkflowSchema.parse(data))
@@ -190,4 +214,54 @@ export const deleteWorkflowFn = createServerFn({ method: 'POST' })
     await db.delete(workflows).where(eq(workflows.id, workflowId))
 
     return { success: true, id: workflowId }
+  })
+
+export const updateWorkflowNodesFn = createServerFn({ method: 'POST' })
+  .inputValidator((data) => updateWorkflowNodesSchema.parse(data))
+  .handler(async ({ data }) => {
+    const authResult = await activeSubscribedUser()
+
+    if (!authResult.success) {
+      throw new Error(JSON.stringify(authResult))
+    }
+
+    const { edges, nodes, id } = data
+
+    const existing = await db.query.workflows.findFirst({
+      where: eq(workflows.id, id),
+    })
+
+    if (!existing) {
+      throw new Error('Workflow not found')
+    }
+
+    await db.transaction(async (tx) => {
+      await tx.delete(node).where(eq(node.workflowId, existing.id))
+
+      for (const n of nodes) {
+        await tx.insert(node).values({
+          id: n.id,
+          workflowId: existing.id,
+          name: n.type || 'unknown',
+          type: n.type as NodeType,
+          position: n.position,
+          data: n.data || {},
+        })
+      }
+
+      for (const e of edges) {
+        await tx.insert(connections).values({
+          id: e.id,
+          workflowId: existing.id,
+          fromNodeId: e.source,
+          toNodeId: e.target,
+          fromOutput: e.sourceHandle || 'main',
+          toInput: e.targetHandle || 'main',
+        })
+      }
+
+      await tx.update(workflows).set({ updatedAt: new Date() }).where(eq(workflows.id, existing.id))
+    })
+
+    return existing
   })
