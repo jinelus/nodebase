@@ -96,7 +96,7 @@ export const HttpRequestDialog: React.FC<HttpRequestDialogProps> = ({
                 render={({ field }) => (
                   <FormItem className="mb-4">
                     <FormLabel className="mb-1 block font-medium">HTTP Method</FormLabel>
-                    <Select defaultValue={field.value} onValueChange={field.onChange}>
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select HTTP Method" />
