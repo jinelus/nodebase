@@ -12,7 +12,9 @@ import {
   deleteWorkflowFn,
   getWorkflowByIdFn,
   getWorkflowsFn,
+  type UpdateWorkflowNodesInput,
   updateWorkflowFn,
+  updateWorkflowNodesFn,
 } from '../workflows'
 
 const WORKFLOWS_QUERY_KEY = ['workflows']
@@ -78,6 +80,27 @@ export const useDeleteWorkflow = () => {
     onError: (error) => {
       toast.error(
         `Error deleting workflow: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      )
+    },
+  })
+}
+
+export const useUpdateWorkflowNodes = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async (input: UpdateWorkflowNodesInput) =>
+      await updateWorkflowNodesFn({ data: input }),
+    onSuccess: (data) => {
+      toast.success('Workflow nodes updated successfully')
+      queryClient.invalidateQueries({ queryKey: WORKFLOWS_QUERY_KEY })
+      queryClient.invalidateQueries({ queryKey: [...WORKFLOWS_QUERY_KEY, data.id] })
+    },
+    onError: (error) => {
+      toast.error(
+        `Error updating workflow nodes: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`,
       )
     },
   })
