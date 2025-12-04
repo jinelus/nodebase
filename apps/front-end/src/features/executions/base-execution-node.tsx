@@ -28,7 +28,7 @@ export const BaseExecutionNode: React.FC<BaseExecutionNodeProps> = memo(
   }) => {
     const { setNodes, setEdges } = useReactFlow()
 
-    const hanldeDelete = () => {
+    const handleDelete = () => {
       setNodes((nds) => nds.filter((n) => n.id !== id))
 
       setEdges((eds) => eds.filter((e) => e.source !== id && e.target !== id))
@@ -39,7 +39,7 @@ export const BaseExecutionNode: React.FC<BaseExecutionNodeProps> = memo(
         name={name}
         description={description}
         onSettings={onSettings}
-        onDelete={hanldeDelete}
+        onDelete={handleDelete}
       >
         <NodeStatusIndicator status={status} variant="border" className="rounded-md">
           <BaseNode onDoubleClick={onDoubleClick} status={status}>
