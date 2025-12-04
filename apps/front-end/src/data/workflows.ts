@@ -228,11 +228,11 @@ export const updateWorkflowNodesFn = createServerFn({ method: 'POST' })
     const { edges, nodes, id } = data
 
     const existing = await db.query.workflows.findFirst({
-      where: eq(workflows.id, id),
+      where: and(eq(workflows.id, id), eq(workflows.userId, authResult.data.userSession.user.id)),
     })
 
     if (!existing) {
-      throw new Error('Workflow not found')
+      throw new Error('Workflow not found or access denied')
     }
 
     await db.transaction(async (tx) => {
@@ -263,5 +263,7 @@ export const updateWorkflowNodesFn = createServerFn({ method: 'POST' })
       await tx.update(workflows).set({ updatedAt: new Date() }).where(eq(workflows.id, existing.id))
     })
 
-    return existing
+    const [updated] = await db.select().from(workflows).where(eq(workflows.id, id))
+
+    return updated
   })
