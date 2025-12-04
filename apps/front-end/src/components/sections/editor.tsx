@@ -17,7 +17,7 @@ import {
 import { Moon, SaveIcon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useUpdateWorkflow, useWorkflow } from '@/data/hooks/use-workflows'
+import { useUpdateWorkflow, useUpdateWorkflowNodes, useWorkflow } from '@/data/hooks/use-workflows'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -30,11 +30,30 @@ import { Input } from '../ui/input'
 import { SidebarTrigger } from '../ui/sidebar'
 
 import '@xyflow/react/dist/style.css'
+import { useAtomValue, useSetAtom } from 'jotai'
+import { editorAtom } from '@/lib/store/atom'
 import { AddNodeButton } from '../add-node-button'
 import { nodeComponents } from '../node-component'
 
 export const EditorHeader = ({ workflowId }: { workflowId: string }) => {
   const { theme = 'system', setTheme } = useTheme()
+
+  const editor = useAtomValue(editorAtom)
+
+  const saveWorkflowNodes = useUpdateWorkflowNodes()
+
+  const handleSave = () => {
+    if (!editor) return
+
+    const nodes = editor.getNodes()
+    const edges = editor.getEdges()
+
+    saveWorkflowNodes.mutate({
+      id: workflowId,
+      nodes,
+      edges,
+    })
+  }
 
   return (
     <header className="flex w-full items-center justify-between gap-6 px-6 py-4">
@@ -54,7 +73,7 @@ export const EditorHeader = ({ workflowId }: { workflowId: string }) => {
           </BreadcrumbList>
         </Breadcrumb>
         <div className="flex items-center gap-4">
-          <Button size={'sm'}>
+          <Button size={'sm'} onClick={handleSave} disabled={saveWorkflowNodes.isPending}>
             Save
             <SaveIcon className="ml-2" />
           </Button>
@@ -144,6 +163,8 @@ export const EditorInputName = ({ workflowId }: { workflowId: string }) => {
 export const EditorContainer = ({ workflowId }: { workflowId: string }) => {
   const workflow = useWorkflow(workflowId)
 
+  const setEditor = useSetAtom(editorAtom)
+
   const [nodes, setNodes] = useState<Node[]>((workflow.data?.nodes as Node[]) || [])
   const [edges, setEdges] = useState<Edge[]>(workflow.data?.connections || [])
 
@@ -172,6 +193,12 @@ export const EditorContainer = ({ workflowId }: { workflowId: string }) => {
         onConnect={onConnect}
         nodeTypes={nodeComponents}
         fitView
+        onInit={setEditor}
+        snapGrid={[10, 10]}
+        snapToGrid
+        panOnScroll
+        panOnDrag={false}
+        selectionOnDrag
       >
         <Background />
         <Controls />
