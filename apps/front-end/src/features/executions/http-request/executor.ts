@@ -48,9 +48,11 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
     return {
       ...context,
       [data.variableName as string]: {
-        status: response.status,
-        statusText: response.statusText,
-        data: responseData,
+        httpRequestResponse: {
+          status: response.status,
+          statusText: response.statusText,
+          data: responseData,
+        },
       },
     }
   })
