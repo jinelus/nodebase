@@ -56,7 +56,7 @@ export const HttpRequestDialog: React.FC<HttpRequestDialogProps> = ({
     defaultValues: {
       endpoint: defaultValues?.endpoint,
       method: defaultValues?.method || 'GET',
-      body: defaultValues?.body,
+      body: defaultValues?.body ?? '',
     },
   })
 
@@ -65,7 +65,7 @@ export const HttpRequestDialog: React.FC<HttpRequestDialogProps> = ({
       form.reset({
         endpoint: defaultValues?.endpoint,
         method: defaultValues?.method || 'GET',
-        body: defaultValues?.body,
+        body: defaultValues?.body ?? '',
       })
     }
   }, [open, defaultValues, form])
