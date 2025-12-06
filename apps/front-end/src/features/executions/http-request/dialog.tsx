@@ -31,6 +31,13 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 
 const formSchema = z.object({
+  variableName: z
+    .string()
+    .min(1, 'Variable name is required')
+    .regex(
+      /^[a-zA-Z_$][a-zA-Z0-9_$]*$/,
+      'Variable name must start with a letter or underscore and contain only letters, numbers, and underscores.',
+    ),
   endpoint: z.url('Please enter a valid URL'),
   method: z.enum(['GET', 'POST', 'PUT', 'DELETE', 'PATCH']),
   body: z.string().optional(),
@@ -54,6 +61,7 @@ export const HttpRequestDialog: React.FC<HttpRequestDialogProps> = ({
   const form = useForm<HttpRequestFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      variableName: defaultValues?.variableName ?? 'response',
       endpoint: defaultValues?.endpoint,
       method: defaultValues?.method || 'GET',
       body: defaultValues?.body ?? '',
@@ -63,6 +71,7 @@ export const HttpRequestDialog: React.FC<HttpRequestDialogProps> = ({
   useEffect(() => {
     if (open) {
       form.reset({
+        variableName: defaultValues?.variableName ?? 'response',
         endpoint: defaultValues?.endpoint,
         method: defaultValues?.method || 'GET',
         body: defaultValues?.body ?? '',
@@ -71,6 +80,7 @@ export const HttpRequestDialog: React.FC<HttpRequestDialogProps> = ({
   }, [open, defaultValues, form])
 
   const watchMethod = form.watch('method')
+  const watchVariableName = form.watch('variableName')
 
   const showBodyField = ['POST', 'PUT', 'PATCH'].includes(watchMethod)
 
@@ -90,6 +100,21 @@ export const HttpRequestDialog: React.FC<HttpRequestDialogProps> = ({
         <div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)}>
+              <FormField
+                control={form.control}
+                name="variableName"
+                render={({ field }) => (
+                  <FormItem className="mb-4">
+                    <FormLabel className="mb-1 block font-medium">Variable Name</FormLabel>
+                    <Input {...field} placeholder="response" />
+                    <FormDescription className="text-xs">
+                      The name of the variable to store the HTTP response, and will be accessible in
+                      subsequent nodes: {`{{${watchVariableName}.httpRequestResponse.data}}`}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="method"
