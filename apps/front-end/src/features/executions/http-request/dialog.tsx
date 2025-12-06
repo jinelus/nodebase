@@ -54,9 +54,9 @@ export const HttpRequestDialog: React.FC<HttpRequestDialogProps> = ({
   const form = useForm<HttpRequestFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      endpoint: defaultValues?.endpoint ?? undefined,
+      endpoint: defaultValues?.endpoint,
       method: defaultValues?.method || 'GET',
-      body: defaultValues?.body || '',
+      body: defaultValues?.body ?? '',
     },
   })
 
@@ -65,7 +65,7 @@ export const HttpRequestDialog: React.FC<HttpRequestDialogProps> = ({
       form.reset({
         endpoint: defaultValues?.endpoint,
         method: defaultValues?.method || 'GET',
-        body: defaultValues?.body,
+        body: defaultValues?.body ?? '',
       })
     }
   }, [open, defaultValues, form])
