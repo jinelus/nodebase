@@ -3,6 +3,7 @@ import ky, { type Options as KyOptions } from 'ky'
 import type { NodeExecutor } from '@/utils/types'
 
 type HttpRequestData = {
+  variableName?: string
   endpoint?: string
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
   body?: string
@@ -18,6 +19,10 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
     throw new AbortTaskRunError(`No endpoint provided for HTTP Request node: ${nodeId}`)
   }
 
+  if (!data.variableName) {
+    throw new AbortTaskRunError(`No variable name provided for HTTP Request node: ${nodeId}`)
+  }
+
   // TODO: Publish loading state to the taskContext logger
 
   const result = await taskContext.run('http-request', async () => {
@@ -29,6 +34,9 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
 
     if (['POST', 'PUT', 'PATCH'].includes(method) && data.body) {
       options.body = data.body
+      options.headers = {
+        'Content-Type': 'application/json',
+      }
     }
 
     const response = await ky(endpoint, options)
@@ -39,7 +47,7 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
 
     return {
       ...context,
-      httpRequestResponse: {
+      [data.variableName as string]: {
         status: response.status,
         statusText: response.statusText,
         data: responseData,
