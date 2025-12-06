@@ -7,6 +7,7 @@ import {
 } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import type { PaginationParams } from '@/utils/pagination'
+import { executeWorkflowFn } from '../trigger/execute-workflow'
 import {
   createWorkflowFn,
   deleteWorkflowFn,
@@ -101,6 +102,23 @@ export const useUpdateWorkflowNodes = () => {
         `Error updating workflow nodes: ${
           error instanceof Error ? error.message : 'Unknown error'
         }`,
+      )
+    },
+  })
+}
+
+export const useExecuteWorkflow = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async (workflowId: string) => await executeWorkflowFn({ data: { workflowId } }),
+    onSuccess: (data) => {
+      toast.success('Workflow execution started successfully')
+      queryClient.invalidateQueries({ queryKey: [...WORKFLOWS_QUERY_KEY, data.id] })
+    },
+    onError: (error) => {
+      toast.error(
+        `Error executing workflow: ${error instanceof Error ? error.message : 'Unknown error'}`,
       )
     },
   })
