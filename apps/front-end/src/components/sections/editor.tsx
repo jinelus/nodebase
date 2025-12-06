@@ -33,7 +33,8 @@ import '@xyflow/react/dist/style.css'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { editorAtom } from '@/lib/store/atom'
 import { AddNodeButton } from '../add-node-button'
-import { nodeComponents } from '../node-component'
+import { NODETYPE, nodeComponents } from '../node-component'
+import { ExecuteWorkflowBtn } from './execute-workflow-btn'
 
 export const EditorHeader = ({ workflowId }: { workflowId: string }) => {
   const { theme = 'system', setTheme } = useTheme()
@@ -183,6 +184,8 @@ export const EditorContainer = ({ workflowId }: { workflowId: string }) => {
     [],
   )
 
+  const hasManualTriggerNode = nodes.some((node) => node.type === NODETYPE.MANUAL_TRIGGER)
+
   return (
     <div className="w-full flex-1">
       <ReactFlow
@@ -206,6 +209,11 @@ export const EditorContainer = ({ workflowId }: { workflowId: string }) => {
         <Panel position="top-right">
           <AddNodeButton />
         </Panel>
+        {hasManualTriggerNode && (
+          <Panel position="bottom-center">
+            <ExecuteWorkflowBtn workflowId={workflowId} />
+          </Panel>
+        )}
       </ReactFlow>
     </div>
   )
