@@ -1,6 +1,12 @@
 import { AbortTaskRunError } from '@trigger.dev/sdk'
+import Handlebars from 'handlebars'
 import ky, { type Options as KyOptions } from 'ky'
 import type { NodeExecutor } from '@/utils/types'
+
+Handlebars.registerHelper('json', (context) => {
+  const jsonString = JSON.stringify(context, null, 2)
+  return new Handlebars.SafeString(jsonString)
+})
 
 type HttpRequestData = {
   variableName?: string
@@ -26,14 +32,16 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
   // TODO: Publish loading state to the taskContext logger
 
   const result = await taskContext.run('http-request', async () => {
-    const endpoint = data.endpoint as string
+    const endpoint = Handlebars.compile(data.endpoint)(context)
 
     const method = data.method || 'GET'
 
     const options: KyOptions = { method }
 
     if (['POST', 'PUT', 'PATCH'].includes(method) && data.body) {
-      options.body = data.body
+      const resolvedBody = Handlebars.compile(data.body ?? '{}')(context)
+      JSON.parse(resolvedBody) // Validate JSON
+      options.body = resolvedBody
       options.headers = {
         'Content-Type': 'application/json',
       }
