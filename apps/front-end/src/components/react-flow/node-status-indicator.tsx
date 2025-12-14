@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 
 import { cn } from '@/lib/utils'
 
-export type NodeStatus = 'loading' | 'success' | 'error' | 'initial'
+export type NodeStatus = 'LOADING' | 'SUCCESS' | 'ERROR' | 'INITIAL'
 
 export type NodeStatusVariant = 'overlay' | 'border'
 
@@ -86,7 +86,7 @@ export const NodeStatusIndicator = ({
   className,
 }: NodeStatusIndicatorProps) => {
   switch (status) {
-    case 'loading':
+    case 'LOADING':
       switch (variant) {
         case 'overlay':
           return <SpinnerLoadingIndicator>{children}</SpinnerLoadingIndicator>
@@ -95,11 +95,11 @@ export const NodeStatusIndicator = ({
         default:
           return <>{children}</>
       }
-    case 'success':
+    case 'SUCCESS':
       return (
         <StatusBorder className={cn('border-green-700/50', className)}>{children}</StatusBorder>
       )
-    case 'error':
+    case 'ERROR':
       return <StatusBorder className={cn('border-red-700/50', className)}>{children}</StatusBorder>
     default:
       return <>{children}</>
