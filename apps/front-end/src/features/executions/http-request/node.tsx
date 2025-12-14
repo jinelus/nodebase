@@ -1,6 +1,7 @@
 import { type Node, type NodeProps, useReactFlow } from '@xyflow/react'
 import { GlobeIcon } from 'lucide-react'
 import { memo, useState } from 'react'
+import { useWorkflowExecution } from '@/features/hooks/use-workflow-execution'
 import { BaseExecutionNode } from '../base-execution-node'
 import { HttpRequestDialog, type HttpRequestFormValues } from './dialog'
 
@@ -23,7 +24,7 @@ export const HttpRequestNode = memo((props: NodeProps<HttpRequestNodeType>) => {
     ? `${nodeData.method || 'GET'}: ${nodeData.endpoint}`
     : 'Not configured'
 
-  const status = 'initial'
+  const status = useWorkflowExecution().getNodeStatus(props.id)
 
   const handleSettings = () => setOpen(true)
 

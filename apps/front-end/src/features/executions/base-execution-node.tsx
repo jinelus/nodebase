@@ -24,7 +24,7 @@ export const BaseExecutionNode: React.FC<BaseExecutionNodeProps> = memo(
     onSettings,
     onDoubleClick,
     id,
-    status = 'initial',
+    status = 'INITIAL',
   }) => {
     const { setNodes, setEdges } = useReactFlow()
 

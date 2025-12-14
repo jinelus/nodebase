@@ -1,9 +1,18 @@
-import { AbortTaskRunError, schemaTask } from '@trigger.dev/sdk'
+import { AbortTaskRunError, metadata, schemaTask } from '@trigger.dev/sdk'
 import z from 'zod'
 import { db } from '@/db/connection'
 import type { NodeType } from '@/utils/types'
 import { getExecutor } from '../executor-registry'
 import { createTaskContext, topologicalSort } from './utils'
+
+export type NodeStatus = 'INITIAL' | 'LOADING' | 'SUCCESS' | 'ERROR'
+export type NodeExecution = {
+  nodeId: string
+  status: NodeStatus
+  startedAt?: number
+  completedAt?: number
+  error?: string
+}
 
 export const executeWorkflow = schemaTask({
   id: 'execute-workflow',
@@ -25,14 +34,49 @@ export const executeWorkflow = schemaTask({
 
     let context = payload?.initialData || {}
 
+    // Initialize node executions tracking by metadata
+    const nodeExecutions: Record<string, NodeExecution> = {}
+    sortedNodes.forEach((node) => {
+      nodeExecutions[node.id] = { nodeId: node.id, status: 'INITIAL' }
+    })
+    metadata.set('nodes', nodeExecutions)
+
     for (const node of sortedNodes) {
-      const executor = getExecutor(node.type as NodeType)
-      context = await executor({
-        data: node.data as Record<string, unknown>,
+      // Update node status to LOADING
+      nodeExecutions[node.id] = {
         nodeId: node.id,
-        context,
-        taskContext: createTaskContext(),
-      })
+        status: 'LOADING',
+        startedAt: Date.now(),
+      }
+      metadata.set('nodes', nodeExecutions)
+
+      try {
+        const executor = getExecutor(node.type as NodeType)
+        context = await executor({
+          data: node.data as Record<string, unknown>,
+          nodeId: node.id,
+          context,
+          taskContext: createTaskContext(),
+        })
+
+        // Update node status to SUCCESS
+        nodeExecutions[node.id] = {
+          ...nodeExecutions[node.id],
+          status: 'SUCCESS',
+          completedAt: Date.now(),
+        }
+        metadata.set('nodes', nodeExecutions)
+      } catch (error) {
+        nodeExecutions[node.id] = {
+          ...nodeExecutions[node.id],
+          status: 'ERROR',
+          completedAt: Date.now(),
+          error: error instanceof AbortTaskRunError ? error.message : 'Unknown error',
+        }
+        metadata.set('nodes', nodeExecutions)
+
+        throw error
+      }
     }
 
     return {

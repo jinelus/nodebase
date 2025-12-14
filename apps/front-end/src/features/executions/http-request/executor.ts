@@ -29,8 +29,6 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
     throw new AbortTaskRunError(`No variable name provided for HTTP Request node: ${nodeId}`)
   }
 
-  // TODO: Publish loading state to the taskContext logger
-
   const result = await taskContext.run('http-request', async () => {
     const endpoint = Handlebars.compile(data.endpoint)(context)
 
@@ -64,8 +62,6 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
       },
     }
   })
-
-  // TODO: Publish success state to the taskContext logger
 
   return result
 }
