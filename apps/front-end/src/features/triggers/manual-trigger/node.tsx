@@ -1,6 +1,7 @@
 import type { NodeProps } from '@xyflow/react'
 import { MousePointerIcon } from 'lucide-react'
 import { memo, useState } from 'react'
+import { useWorkflowExecution } from '@/features/hooks/use-workflow-execution'
 import { BaseTriggerNode } from '../base-trigger-node'
 import { ManualTriggerDialog } from './dialog'
 
@@ -9,7 +10,7 @@ export const ManualTriggerNode = memo((props: NodeProps) => {
 
   const handleSettings = () => setOpen(true)
 
-  const status = 'initial'
+  const status = useWorkflowExecution().getNodeStatus(props.id)
 
   return (
     <>
