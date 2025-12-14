@@ -18,13 +18,13 @@ export function BaseNode({ status, className, ...props }: BaseNodeProps) {
       {...props}
     >
       {props.children}
-      {status === 'error' && (
+      {status === 'ERROR' && (
         <XCircleIcon className="absolute right-0.5 bottom-0.5 size-2 stroke-3 text-destructive" />
       )}
-      {status === 'success' && (
+      {status === 'SUCCESS' && (
         <CheckIcon className="absolute right-0.5 bottom-0.5 size-2 stroke-3 text-green-700" />
       )}
-      {status === 'loading' && (
+      {status === 'LOADING' && (
         <LoaderIcon className="-right-0.5 -bottom-0.5 absolute size-2 animate-spin stroke-3 text-blue-700" />
       )}
     </div>
