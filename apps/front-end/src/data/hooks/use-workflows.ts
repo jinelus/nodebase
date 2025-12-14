@@ -108,13 +108,10 @@ export const useUpdateWorkflowNodes = () => {
 }
 
 export const useExecuteWorkflow = () => {
-  const queryClient = useQueryClient()
-
   return useMutation({
     mutationFn: async (workflowId: string) => await executeWorkflowFn({ data: { workflowId } }),
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success('Workflow execution started successfully')
-      queryClient.invalidateQueries({ queryKey: [...WORKFLOWS_QUERY_KEY, data.runId] })
     },
     onError: (error) => {
       toast.error(
