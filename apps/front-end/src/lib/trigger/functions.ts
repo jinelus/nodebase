@@ -1,4 +1,4 @@
-import { AbortTaskRunError, metadata, schemaTask, wait } from '@trigger.dev/sdk'
+import { AbortTaskRunError, metadata, schemaTask } from '@trigger.dev/sdk'
 import z from 'zod'
 import { db } from '@/db/connection'
 import type { NodeType } from '@/utils/types'
@@ -49,7 +49,6 @@ export const executeWorkflow = schemaTask({
         startedAt: Date.now(),
       }
       metadata.set('nodes', nodeExecutions)
-      await wait.for({ seconds: 5 })
 
       try {
         const executor = getExecutor(node.type as NodeType)
