@@ -1,3 +1,4 @@
+import { useParams } from '@tanstack/react-router'
 import type { NodeProps } from '@xyflow/react'
 import { MousePointerIcon } from 'lucide-react'
 import { memo, useState } from 'react'
@@ -8,10 +9,12 @@ import { ManualTriggerDialog } from './dialog'
 export const ManualTriggerNode = memo((props: NodeProps) => {
   const [open, setOpen] = useState(false)
 
+  const { workflowId } = useParams({ from: '/_protected/_editor/workflows/$workflowId' })
+
   const handleSettings = () => setOpen(true)
 
-  const status = useWorkflowExecution().getNodeStatus(props.id)
-
+  const status = useWorkflowExecution({ workflowId }).getNodeStatus(props.id)
+  
   return (
     <>
       <ManualTriggerDialog open={open} onOpenChange={setOpen} />
