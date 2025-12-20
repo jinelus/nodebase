@@ -17,6 +17,9 @@ const config = defineConfig({
     tanstackStart(),
     viteReact(),
   ],
+  server: {
+    allowedHosts: true,
+  },
 })
 
 const wrappedConfig = wrapVinxiConfigWithSentry(config, {
