@@ -16,6 +16,7 @@ import { Route as ProtectedRestRouteImport } from './routes/_protected/_rest'
 import { Route as AuthSignupRouteImport } from './routes/_auth/signup'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as ApiWebhooksGoogleFormIndexRouteImport } from './routes/api/webhooks/google-form/index'
 import { Route as ProtectedRestWorkflowsIndexRouteImport } from './routes/_protected/_rest/workflows/index'
 import { Route as ProtectedRestExecutionsIndexRouteImport } from './routes/_protected/_rest/executions/index'
 import { Route as ProtectedRestCredentialsIndexRouteImport } from './routes/_protected/_rest/credentials/index'
@@ -56,6 +57,12 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiWebhooksGoogleFormIndexRoute =
+  ApiWebhooksGoogleFormIndexRouteImport.update({
+    id: '/api/webhooks/google-form/',
+    path: '/api/webhooks/google-form/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ProtectedRestWorkflowsIndexRoute =
   ProtectedRestWorkflowsIndexRouteImport.update({
     id: '/workflows/',
@@ -105,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/credentials': typeof ProtectedRestCredentialsIndexRoute
   '/executions': typeof ProtectedRestExecutionsIndexRoute
   '/workflows': typeof ProtectedRestWorkflowsIndexRoute
+  '/api/webhooks/google-form': typeof ApiWebhooksGoogleFormIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
@@ -118,6 +126,7 @@ export interface FileRoutesByTo {
   '/credentials': typeof ProtectedRestCredentialsIndexRoute
   '/executions': typeof ProtectedRestExecutionsIndexRoute
   '/workflows': typeof ProtectedRestWorkflowsIndexRoute
+  '/api/webhooks/google-form': typeof ApiWebhooksGoogleFormIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -134,6 +143,7 @@ export interface FileRoutesById {
   '/_protected/_rest/credentials/': typeof ProtectedRestCredentialsIndexRoute
   '/_protected/_rest/executions/': typeof ProtectedRestExecutionsIndexRoute
   '/_protected/_rest/workflows/': typeof ProtectedRestWorkflowsIndexRoute
+  '/api/webhooks/google-form/': typeof ApiWebhooksGoogleFormIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -149,6 +159,7 @@ export interface FileRouteTypes {
     | '/credentials'
     | '/executions'
     | '/workflows'
+    | '/api/webhooks/google-form'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -162,6 +173,7 @@ export interface FileRouteTypes {
     | '/credentials'
     | '/executions'
     | '/workflows'
+    | '/api/webhooks/google-form'
   id:
     | '__root__'
     | '/_protected'
@@ -177,6 +189,7 @@ export interface FileRouteTypes {
     | '/_protected/_rest/credentials/'
     | '/_protected/_rest/executions/'
     | '/_protected/_rest/workflows/'
+    | '/api/webhooks/google-form/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -184,6 +197,7 @@ export interface RootRouteChildren {
   AuthLoginRoute: typeof AuthLoginRoute
   AuthSignupRoute: typeof AuthSignupRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiWebhooksGoogleFormIndexRoute: typeof ApiWebhooksGoogleFormIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -235,6 +249,13 @@ declare module '@tanstack/react-router' {
       path: '/api/auth/$'
       fullPath: '/api/auth/$'
       preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/webhooks/google-form/': {
+      id: '/api/webhooks/google-form/'
+      path: '/api/webhooks/google-form'
+      fullPath: '/api/webhooks/google-form'
+      preLoaderRoute: typeof ApiWebhooksGoogleFormIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_protected/_rest/workflows/': {
@@ -328,6 +349,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiWebhooksGoogleFormIndexRoute: ApiWebhooksGoogleFormIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

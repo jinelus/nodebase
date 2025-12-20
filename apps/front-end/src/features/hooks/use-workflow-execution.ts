@@ -1,42 +1,42 @@
-'use client'
+import Pusher from 'pusher-js'
+import { useEffect, useState } from 'react'
+import type { NodeExecution, NodeStatus } from '@/lib/trigger/functions'
+import { env } from '@/utils/env'
 
-import { useRealtimeRun } from '@trigger.dev/react-hooks'
-import { useAtomValue } from 'jotai'
-import { useMemo } from 'react'
-import type { NodeStatus } from '@/components/react-flow/node-status-indicator'
-import { workflowExecutionAtom } from '@/lib/store/atom'
+export function useWorkflowExecution({ workflowId }: { workflowId: string }) {
+  const [nodeStatuses, setNodeStatuses] = useState<Map<string, NodeStatus>>(new Map())
 
-export function useWorkflowExecution() {
-  const { runId, publicAuthToken } = useAtomValue(workflowExecutionAtom) ?? {}
+  useEffect(() => {
+    if (!env.VITE_PUSHER_KEY || !env.VITE_PUSHER_CLUSTER) {
+      console.warn('Pusher keys are not set in environment variables')
+      return
+    }
 
-  const { run, error } = useRealtimeRun(runId || '', {
-    enabled: !!runId && !!publicAuthToken,
-    accessToken: publicAuthToken || '',
-  })
+    const pusherClient = new Pusher(env.VITE_PUSHER_KEY, {
+      cluster: env.VITE_PUSHER_CLUSTER,
+    })
 
-  const nodeStatuses = useMemo(() => {
-    // biome-ignore lint/suspicious/noExplicitAny: <nodes from metadata can be anything>
-    const nodes = run?.metadata?.nodes as Record<string, any> | undefined
-    if (!nodes) return new Map<string, NodeStatus>()
+    const channel = pusherClient.subscribe(`workflow-${workflowId}`)
 
-    return new Map(
-      Object.entries(nodes).map(([nodeId, execution]) => [nodeId, execution.status as NodeStatus]),
-    )
-  }, [run?.metadata?.nodes])
+    channel.bind('nodes', (data: Record<string, NodeExecution>) => {
+      setNodeStatuses(
+        new Map(
+          Object.entries(data).map(([nodeId, execution]) => [
+            nodeId,
+            execution.status as NodeStatus,
+          ]),
+        ),
+      )
+    })
+
+    return () => {
+      channel.unbind_all()
+      channel.unsubscribe()
+      pusherClient.disconnect()
+    }
+  }, [workflowId])
 
   return {
-    run,
-    error,
-    isExecuting: run?.status === 'EXECUTING',
-    isCompleted: run?.status === 'COMPLETED',
-    isFailed: run?.status === 'FAILED',
-    getNodeStatus: (nodeId: string): NodeStatus => {
-      return nodeStatuses.get(nodeId) || 'INITIAL'
-    },
-    getNodeExecution: (nodeId: string) => {
-      // biome-ignore lint/suspicious/noExplicitAny: <nodes from metadata can be anything>
-      const nodes = run?.metadata?.nodes as Record<string, any> | undefined
-      return nodes?.[nodeId]
-    },
+    getNodeStatus: (nodeId: string) => nodeStatuses.get(nodeId) ?? 'INITIAL',
   }
 }

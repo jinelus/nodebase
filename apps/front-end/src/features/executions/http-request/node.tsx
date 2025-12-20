@@ -1,3 +1,4 @@
+import { useParams } from '@tanstack/react-router'
 import { type Node, type NodeProps, useReactFlow } from '@xyflow/react'
 import { GlobeIcon } from 'lucide-react'
 import { memo, useState } from 'react'
@@ -17,6 +18,8 @@ type HttpRequestNodeType = Node<HttpRequestNodeData>
 export const HttpRequestNode = memo((props: NodeProps<HttpRequestNodeType>) => {
   const [open, setOpen] = useState(false)
 
+  const { workflowId } = useParams({ from: '/_protected/_editor/workflows/$workflowId' })
+
   const { setNodes } = useReactFlow()
 
   const nodeData = props.data as HttpRequestNodeData
@@ -24,7 +27,7 @@ export const HttpRequestNode = memo((props: NodeProps<HttpRequestNodeType>) => {
     ? `${nodeData.method || 'GET'}: ${nodeData.endpoint}`
     : 'Not configured'
 
-  const status = useWorkflowExecution().getNodeStatus(props.id)
+  const status = useWorkflowExecution({ workflowId }).getNodeStatus(props.id)
 
   const handleSettings = () => setOpen(true)
 
@@ -45,6 +48,7 @@ export const HttpRequestNode = memo((props: NodeProps<HttpRequestNodeType>) => {
     )
     setOpen(false)
   }
+
 
   return (
     <>
