@@ -6,7 +6,6 @@ import { env } from '@/utils/env'
 export function useWorkflowExecution({ workflowId }: { workflowId: string }) {
   const [nodeStatuses, setNodeStatuses] = useState<Map<string, NodeStatus>>(new Map())
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   useEffect(() => {
     if (!env.VITE_PUSHER_KEY || !env.VITE_PUSHER_CLUSTER) {
       console.warn('Pusher keys are not set in environment variables')
@@ -35,7 +34,7 @@ export function useWorkflowExecution({ workflowId }: { workflowId: string }) {
       channel.unsubscribe()
       pusherClient.disconnect()
     }
-  }, [])
+  }, [workflowId])
 
   return {
     getNodeStatus: (nodeId: string) => nodeStatuses.get(nodeId) ?? 'INITIAL',

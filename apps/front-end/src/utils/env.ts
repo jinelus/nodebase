@@ -3,16 +3,16 @@ import { z } from 'zod'
 
 export const env = createEnv({
   server: {
-    DATABASE_URL: z.string().url(),
+    DATABASE_URL: z.url(),
     BETTER_AUTH_URL: z.string().optional(),
     POLAR_ACCESS_TOKEN: z.string().optional(),
     POLAR_SUCCESS_URL: z.string().optional(),
     POLAR_SERVER: z.enum(['production', 'sandbox']).default('sandbox'),
-    NGROK_URL: z.string().url().optional(),
-    PUSHER_APP_ID: z.string().optional(),
-    PUSHER_KEY: z.string().optional(),
-    PUSHER_SECRET: z.string().optional(),
-    PUSHER_CLUSTER: z.string().optional(),
+    NGROK_URL: z.url().optional(),
+    PUSHER_APP_ID: z.string({ error: 'PUSHER_APP_ID is required' }),
+    PUSHER_KEY: z.string({ error: 'PUSHER_KEY is required' }),
+    PUSHER_SECRET: z.string({ error: 'PUSHER_SECRET is required' }),
+    PUSHER_CLUSTER: z.string({ error: 'PUSHER_CLUSTER is required' }),
   },
   clientPrefix: 'VITE_',
   client: {
