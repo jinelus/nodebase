@@ -1,8 +1,9 @@
-import { AbortTaskRunError, metadata, schemaTask } from '@trigger.dev/sdk'
+import { AbortTaskRunError, schemaTask } from '@trigger.dev/sdk'
 import z from 'zod'
 import { db } from '@/db/connection'
 import type { NodeType } from '@/utils/types'
 import { getExecutor } from '../executor-registry'
+import { pusher } from '../pusher'
 import { createTaskContext, topologicalSort } from './utils'
 
 export type NodeStatus = 'INITIAL' | 'LOADING' | 'SUCCESS' | 'ERROR'
@@ -31,6 +32,7 @@ export const executeWorkflow = schemaTask({
     }
 
     const sortedNodes = topologicalSort(workflow.node, workflow.connections)
+    const channel = `workflow-${workflow.id}`
 
     let context = payload?.initialData || {}
 
@@ -39,7 +41,7 @@ export const executeWorkflow = schemaTask({
     sortedNodes.forEach((node) => {
       nodeExecutions[node.id] = { nodeId: node.id, status: 'INITIAL' }
     })
-    metadata.set('nodes', nodeExecutions)
+    await pusher.trigger(channel, 'nodes', nodeExecutions)
 
     for (const node of sortedNodes) {
       // Update node status to LOADING
@@ -48,7 +50,7 @@ export const executeWorkflow = schemaTask({
         status: 'LOADING',
         startedAt: Date.now(),
       }
-      metadata.set('nodes', nodeExecutions)
+      await pusher.trigger(channel, 'nodes', nodeExecutions)
 
       try {
         const executor = getExecutor(node.type as NodeType)
@@ -65,7 +67,7 @@ export const executeWorkflow = schemaTask({
           status: 'SUCCESS',
           completedAt: Date.now(),
         }
-        metadata.set('nodes', nodeExecutions)
+        await pusher.trigger(channel, 'nodes', nodeExecutions)
       } catch (error) {
         nodeExecutions[node.id] = {
           ...nodeExecutions[node.id],
@@ -73,7 +75,7 @@ export const executeWorkflow = schemaTask({
           completedAt: Date.now(),
           error: error instanceof AbortTaskRunError ? error.message : 'Unknown error',
         }
-        metadata.set('nodes', nodeExecutions)
+        await pusher.trigger(channel, 'nodes', nodeExecutions)
 
         throw error
       }
