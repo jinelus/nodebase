@@ -70,24 +70,24 @@ export const StripeTriggerDialog: React.FC<StripeTriggerDialogProps> = ({ open, 
             <h4 className="font-medium text-sm">Available Variables</h4>
             <ul className="space-y-1 text-muted-foreground text-sm">
               <li>
-                <code className="rounded bg-background px-1 py-0.5">{'{{stripe.amount}}'}</code> -
-                Payment amount
-              </li>
-              <li>
-                <code className="rounded bg-background px-1 py-0.5">{'{{stripe.currency}}'}</code> -
-                Payment currency
-              </li>
-              <li>
-                <code className="rounded bg-background px-1 py-0.5">{'{{stripe.customerId}}'}</code>{' '}
-                - Customer ID
-              </li>
-              <li>
-                <code className="rounded bg-background px-1 py-0.5">{'{{json.stripe}}'}</code> -
-                Full event data JSON
+                <code className="rounded bg-background px-1 py-0.5">{'{{stripe.eventId}}'}</code> -
+                Unique event identifier
               </li>
               <li>
                 <code className="rounded bg-background px-1 py-0.5">{'{{stripe.eventType}}'}</code>{' '}
                 - Event type (e.g., payment_intent.succeeded)
+              </li>
+              <li>
+                <code className="rounded bg-background px-1 py-0.5">{'{{stripe.raw}}'}</code> - +
+                Full event data object
+              </li>
+              <li>
+                <code className="rounded bg-background px-1 py-0.5">{'{{stripe.timestamp}}'}</code>{' '}
+                - Event timestamp
+              </li>
+              <li>
+                <code className="rounded bg-background px-1 py-0.5">{'{{stripe.livemode}}'}</code> -
+                Whether this is a live event
               </li>
             </ul>
           </div>
