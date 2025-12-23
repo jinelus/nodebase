@@ -2,6 +2,7 @@ import { NODETYPE } from '@/components/node-component'
 import { httpRequestExecutor } from '@/features/executions/http-request/executor'
 import { googleFormExecutor } from '@/features/triggers/google-form/executor'
 import { manualTriggerExecutor } from '@/features/triggers/manual-trigger/executor'
+import { stripeExecutor } from '@/features/triggers/stripe/executor'
 import type { NodeExecutor, NodeType } from '@/utils/types'
 
 export const executorRegistry: Record<NodeType, NodeExecutor> = {
@@ -9,6 +10,7 @@ export const executorRegistry: Record<NodeType, NodeExecutor> = {
   [NODETYPE.INITIAL]: manualTriggerExecutor,
   [NODETYPE.HTTP_REQUEST]: httpRequestExecutor,
   [NODETYPE.GOOGLE_FORM_TRIGGER]: googleFormExecutor,
+  [NODETYPE.STRIPE_TRIGGER]: stripeExecutor,
 }
 
 export const getExecutor = (type: NodeType): NodeExecutor => {

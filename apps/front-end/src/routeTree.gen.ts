@@ -16,6 +16,7 @@ import { Route as ProtectedRestRouteImport } from './routes/_protected/_rest'
 import { Route as AuthSignupRouteImport } from './routes/_auth/signup'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as ApiWebhooksStripeIndexRouteImport } from './routes/api/webhooks/stripe/index'
 import { Route as ApiWebhooksGoogleFormIndexRouteImport } from './routes/api/webhooks/google-form/index'
 import { Route as ProtectedRestWorkflowsIndexRouteImport } from './routes/_protected/_rest/workflows/index'
 import { Route as ProtectedRestExecutionsIndexRouteImport } from './routes/_protected/_rest/executions/index'
@@ -55,6 +56,11 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiWebhooksStripeIndexRoute = ApiWebhooksStripeIndexRouteImport.update({
+  id: '/api/webhooks/stripe/',
+  path: '/api/webhooks/stripe/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiWebhooksGoogleFormIndexRoute =
@@ -113,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/executions': typeof ProtectedRestExecutionsIndexRoute
   '/workflows': typeof ProtectedRestWorkflowsIndexRoute
   '/api/webhooks/google-form': typeof ApiWebhooksGoogleFormIndexRoute
+  '/api/webhooks/stripe': typeof ApiWebhooksStripeIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
@@ -127,6 +134,7 @@ export interface FileRoutesByTo {
   '/executions': typeof ProtectedRestExecutionsIndexRoute
   '/workflows': typeof ProtectedRestWorkflowsIndexRoute
   '/api/webhooks/google-form': typeof ApiWebhooksGoogleFormIndexRoute
+  '/api/webhooks/stripe': typeof ApiWebhooksStripeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -144,6 +152,7 @@ export interface FileRoutesById {
   '/_protected/_rest/executions/': typeof ProtectedRestExecutionsIndexRoute
   '/_protected/_rest/workflows/': typeof ProtectedRestWorkflowsIndexRoute
   '/api/webhooks/google-form/': typeof ApiWebhooksGoogleFormIndexRoute
+  '/api/webhooks/stripe/': typeof ApiWebhooksStripeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -160,6 +169,7 @@ export interface FileRouteTypes {
     | '/executions'
     | '/workflows'
     | '/api/webhooks/google-form'
+    | '/api/webhooks/stripe'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
     | '/executions'
     | '/workflows'
     | '/api/webhooks/google-form'
+    | '/api/webhooks/stripe'
   id:
     | '__root__'
     | '/_protected'
@@ -190,6 +201,7 @@ export interface FileRouteTypes {
     | '/_protected/_rest/executions/'
     | '/_protected/_rest/workflows/'
     | '/api/webhooks/google-form/'
+    | '/api/webhooks/stripe/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -198,6 +210,7 @@ export interface RootRouteChildren {
   AuthSignupRoute: typeof AuthSignupRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiWebhooksGoogleFormIndexRoute: typeof ApiWebhooksGoogleFormIndexRoute
+  ApiWebhooksStripeIndexRoute: typeof ApiWebhooksStripeIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -249,6 +262,13 @@ declare module '@tanstack/react-router' {
       path: '/api/auth/$'
       fullPath: '/api/auth/$'
       preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/webhooks/stripe/': {
+      id: '/api/webhooks/stripe/'
+      path: '/api/webhooks/stripe'
+      fullPath: '/api/webhooks/stripe'
+      preLoaderRoute: typeof ApiWebhooksStripeIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/webhooks/google-form/': {
@@ -350,6 +370,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthSignupRoute: AuthSignupRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiWebhooksGoogleFormIndexRoute: ApiWebhooksGoogleFormIndexRoute,
+  ApiWebhooksStripeIndexRoute: ApiWebhooksStripeIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

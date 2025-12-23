@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { executeWorkflow } from '@/lib/trigger/functions'
 
-export const Route = createFileRoute('/api/webhooks/google-form/')({
+export const Route = createFileRoute('/api/webhooks/stripe/')({
   server: {
     handlers: {
       POST: async ({ request }) => {
@@ -17,26 +17,25 @@ export const Route = createFileRoute('/api/webhooks/google-form/')({
         const body = await request.json()
 
         const formData = {
-          formId: body.formId,
-          formTitle: body.formTitle,
-          responseId: body.responseId,
-          timestamp: body.timestamp,
-          respondentEmail: body.respondentEmail,
-          responses: body.responses,
-          raw: body,
+          // Event metadata
+          eventId: body.id,
+          eventType: body.type,
+          timestamp: body.created,
+          livemode: body.livemode,
+          raw: body.data?.object,
         }
 
         await executeWorkflow.trigger({
           workflowId,
           initialData: {
-            googleForm: formData,
+            stripe: formData,
           },
         })
 
         return new Response(
           JSON.stringify({
             success: true,
-            message: 'Google Form webhook received',
+            message: 'Stripe webhook received',
           }),
           { status: 200 },
         )
