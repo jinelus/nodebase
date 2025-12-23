@@ -6,7 +6,7 @@ export const googleFormExecutor: NodeExecutor<GoogleFormData> = async ({
   context,
   taskContext,
 }) => {
-  const result = taskContext.run('google-form-trigger', async () => context)
+  const result = await taskContext.run('google-form-trigger', async () => context)
 
   return result
 }

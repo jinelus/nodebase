@@ -8,6 +8,7 @@ export const nodeTypes = pgEnum('types', [
   'MANUAL_TRIGGER',
   'HTTP_REQUEST',
   'GOOGLE_FORM_TRIGGER',
+  'STRIPE_TRIGGER',
 ])
 
 export const node = pgTable('node', {
