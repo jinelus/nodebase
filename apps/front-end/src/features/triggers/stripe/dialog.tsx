@@ -36,7 +36,7 @@ export const StripeTriggerDialog: React.FC<StripeTriggerDialogProps> = ({ open, 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[80vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Stripe Trigger Configuration</DialogTitle>
           <DialogDescription>

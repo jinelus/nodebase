@@ -48,6 +48,36 @@ const executionNodes: NodeTypeOption[] = [
     description: 'Makes an HTTP request',
     icon: GlobeIcon,
   },
+  {
+    type: 'GEMINI',
+    label: 'Gemini',
+    description: "Interact with Google's Gemini API to generate text or images.",
+    icon: '/logos/gemini.svg',
+  },
+  {
+    type: 'OPENAI',
+    label: 'OpenAI',
+    description: 'Interact with OpenAI models to generate text or images.',
+    icon: '/logos/chatgpt.svg',
+  },
+  {
+    type: 'ANTHROPIC',
+    label: 'Anthropic',
+    description: 'Interact with Anthropic models to generate text.',
+    icon: '/logos/claude.svg',
+  },
+  {
+    type: 'GROK',
+    label: 'Grok',
+    description: 'Interact with Grok models to generate text.',
+    icon: '/logos/grok-light.svg',
+  },
+  {
+    type: 'DEEPSEEK',
+    label: 'Deepseek',
+    description: 'Interact with Deepseek models to generate text.',
+    icon: '/logos/deepseek.svg',
+  },
 ]
 
 interface NodeSelectorProps {
