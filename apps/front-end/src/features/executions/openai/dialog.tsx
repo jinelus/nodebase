@@ -133,7 +133,7 @@ export const OpenAiDialog: React.FC<OpenAiDialogProps> = ({
                     <Input {...field} placeholder="response" />
                     <FormDescription className="text-xs">
                       The name of the variable to store the HTTP response, and will be accessible in
-                      subsequent nodes: {`{{${watchVariableName}.openaiResponse.data}}`}
+                      subsequent nodes: {`{{${watchVariableName}.openaiResponse}}`}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

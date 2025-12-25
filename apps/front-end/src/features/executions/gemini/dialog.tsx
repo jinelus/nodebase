@@ -132,7 +132,7 @@ export const GeminiDialog: React.FC<GeminiDialogProps> = ({
                     <Input {...field} placeholder="response" />
                     <FormDescription className="text-xs">
                       The name of the variable to store the HTTP response, and will be accessible in
-                      subsequent nodes: {`{{${watchVariableName}.geminiResponse.data}}`}
+                      subsequent nodes: {`{{${watchVariableName}.geminiResponse}}`}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
