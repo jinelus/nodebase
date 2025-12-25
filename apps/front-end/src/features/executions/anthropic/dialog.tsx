@@ -30,6 +30,19 @@ import {
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 
+export const AVAILABLE_MODELS = [
+  'claude-3-5-haiku-20241022',
+  'claude-3-5-haiku-latest',
+  'claude-3-7-sonnet-latest',
+  'claude-haiku-4-5',
+  'claude-opus-4-0',
+  'claude-opus-4-1-20250805',
+  'claude-opus-4-5',
+  'claude-sonnet-4-5',
+] as const
+
+export type AvailableModels = (typeof AVAILABLE_MODELS)[number]
+
 const formSchema = z.object({
   variableName: z
     .string()
@@ -38,33 +51,33 @@ const formSchema = z.object({
       /^[a-zA-Z_$][a-zA-Z0-9_$]*$/,
       'Variable name must start with a letter or underscore and contain only letters, numbers, and underscores.',
     ),
-  endpoint: z.url('Please enter a valid URL'),
-  method: z.enum(['GET', 'POST', 'PUT', 'DELETE', 'PATCH']),
-  body: z.string().optional(),
+  model: z.enum(AVAILABLE_MODELS, { message: 'Please select a valid model' }),
+  userPrompt: z.string().min(1, 'User prompt is required'),
+  systemPrompt: z.string().optional(),
 })
 
-export type HttpRequestFormValues = z.infer<typeof formSchema>
+export type AnthropicFormValues = z.infer<typeof formSchema>
 
-interface HttpRequestDialogProps {
+interface AnthropicDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onSubmit: (values: HttpRequestFormValues) => void
-  defaultValues?: Partial<HttpRequestFormValues>
+  onSubmit: (values: AnthropicFormValues) => void
+  defaultValues?: Partial<AnthropicFormValues>
 }
 
-export const HttpRequestDialog: React.FC<HttpRequestDialogProps> = ({
+export const AnthropicDialog: React.FC<AnthropicDialogProps> = ({
   open,
   onOpenChange,
   defaultValues,
   onSubmit,
 }) => {
-  const form = useForm<HttpRequestFormValues>({
+  const form = useForm<AnthropicFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       variableName: defaultValues?.variableName ?? 'response',
-      endpoint: defaultValues?.endpoint,
-      method: defaultValues?.method || 'GET',
-      body: defaultValues?.body ?? '',
+      model: defaultValues?.model ?? 'claude-sonnet-4-5',
+      userPrompt: defaultValues?.userPrompt ?? '',
+      systemPrompt: defaultValues?.systemPrompt ?? '',
     },
   })
 
@@ -72,19 +85,16 @@ export const HttpRequestDialog: React.FC<HttpRequestDialogProps> = ({
     if (open) {
       form.reset({
         variableName: defaultValues?.variableName ?? 'response',
-        endpoint: defaultValues?.endpoint,
-        method: defaultValues?.method || 'GET',
-        body: defaultValues?.body ?? '',
+        model: defaultValues?.model ?? 'claude-sonnet-4-5',
+        userPrompt: defaultValues?.userPrompt ?? '',
+        systemPrompt: defaultValues?.systemPrompt ?? '',
       })
     }
   }, [open, defaultValues, form])
 
-  const watchMethod = form.watch('method')
   const watchVariableName = form.watch('variableName')
 
-  const showBodyField = ['POST', 'PUT', 'PATCH'].includes(watchMethod)
-
-  const handleSubmit = (values: HttpRequestFormValues) => {
+  const handleSubmit = (values: AnthropicFormValues) => {
     onSubmit(values)
     onOpenChange(false)
   }
@@ -93,8 +103,8 @@ export const HttpRequestDialog: React.FC<HttpRequestDialogProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>HTTP Request</DialogTitle>
-          <DialogDescription>Configure settings for the HTTP request here.</DialogDescription>
+          <DialogTitle>Anthropic Configuration</DialogTitle>
+          <DialogDescription>Configure settings for the Anthropic model here.</DialogDescription>
         </DialogHeader>
 
         <div>
@@ -109,7 +119,7 @@ export const HttpRequestDialog: React.FC<HttpRequestDialogProps> = ({
                     <Input {...field} placeholder="response" />
                     <FormDescription className="text-xs">
                       The name of the variable to store the HTTP response, and will be accessible in
-                      subsequent nodes: {`{{${watchVariableName}.httpRequestResponse.data}}`}
+                      subsequent nodes: {`{{${watchVariableName}.anthropicResponse}}`}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -117,26 +127,31 @@ export const HttpRequestDialog: React.FC<HttpRequestDialogProps> = ({
               />
               <FormField
                 control={form.control}
-                name="method"
+                name="model"
+                defaultValue={AVAILABLE_MODELS[0]}
                 render={({ field }) => (
                   <FormItem className="mb-4">
-                    <FormLabel className="mb-1 block font-medium">HTTP Method</FormLabel>
-                    <Select value={field.value} onValueChange={field.onChange}>
+                    <FormLabel className="mb-1 block font-medium">Model</FormLabel>
+                    <Select
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select HTTP Method" />
+                          <SelectValue placeholder="Select Model" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
-                        <SelectItem value="GET">GET</SelectItem>
-                        <SelectItem value="POST">POST</SelectItem>
-                        <SelectItem value="PUT">PUT</SelectItem>
-                        <SelectItem value="DELETE">DELETE</SelectItem>
-                        <SelectItem value="PATCH">PATCH</SelectItem>
+                      <SelectContent className="max-h-[150px]">
+                        {AVAILABLE_MODELS.map((model) => (
+                          <SelectItem key={model} value={model}>
+                            {model}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormDescription className="text-xs">
-                      The HTTP method to use for the request.
+                      The Anthropic model to use.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -144,42 +159,45 @@ export const HttpRequestDialog: React.FC<HttpRequestDialogProps> = ({
               />
               <FormField
                 control={form.control}
-                name="endpoint"
+                name="userPrompt"
                 render={({ field }) => (
                   <FormItem className="mb-4">
-                    <FormLabel className="mb-1 block font-medium">Endpoint Url</FormLabel>
-                    <Input
+                    <FormLabel className="mb-1 block font-medium">User Prompt</FormLabel>
+                    <Textarea
                       {...field}
-                      placeholder="https://api.example.com/users/{{httpResponse.data.id}}"
+                      className="min-h-[75px] font-mono text-sm"
+                      placeholder="Write a poem about a lonely cloud."
                     />
                     <FormDescription className="text-xs">
-                      Static Url or use {'{{variables}}'} for simple values or {'{{json variable}}'}{' '}
-                      to stringify objects.
+                      The prompt to generate the response. Use {'{{variables}}'} to reference simple
+                      values or {'{{json variable}}'} to stringify objects.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              {showBodyField && (
-                <FormField
-                  control={form.control}
-                  name="body"
-                  render={({ field }) => (
-                    <FormItem className="mb-4">
-                      <FormLabel className="mb-1 block font-medium">Request Body</FormLabel>
-                      <Textarea
-                        {...field}
-                        className="min-h-[120px] font-mono text-sm"
-                        placeholder={`{\n "userId": "{{httpResponse.data.id}}",\n "name": "{{httpResponse.data.name}}",\n "items": "{{httpResponse.data.items}}"\n}`}
-                      />
-                      <FormDescription className="text-xs">
-                        JSON with template variables supported. Leave empty for no body.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )}
+
+              <FormField
+                control={form.control}
+                name="systemPrompt"
+                render={({ field }) => (
+                  <FormItem className="mb-4">
+                    <FormLabel className="mb-1 block font-medium">
+                      System Prompt (Optional)
+                    </FormLabel>
+                    <Textarea
+                      {...field}
+                      className="min-h-[75px] font-mono text-sm"
+                      placeholder="You are a helpful assistant that provides concise answers."
+                    />
+                    <FormDescription className="text-xs">
+                      Set the behavior of the model. Use {'{{variables}}'} to reference simple
+                      values or {'{{json variable}}'} to stringify objects.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <DialogFooter className="mt-4">
                 <Button type="submit">Save</Button>

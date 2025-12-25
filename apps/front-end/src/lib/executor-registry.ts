@@ -1,5 +1,10 @@
 import { NODETYPE } from '@/components/node-component'
+import { anthropicExecutor } from '@/features/executions/anthropic/executor'
+import { deepseekExecutor } from '@/features/executions/deepseek/executor'
+import { geminiExecutor } from '@/features/executions/gemini/executor'
 import { httpRequestExecutor } from '@/features/executions/http-request/executor'
+import { openaiExecutor } from '@/features/executions/openai/executor'
+import { grokExecutor } from '@/features/executions/xia/executor'
 import { googleFormExecutor } from '@/features/triggers/google-form/executor'
 import { manualTriggerExecutor } from '@/features/triggers/manual-trigger/executor'
 import { stripeExecutor } from '@/features/triggers/stripe/executor'
@@ -11,6 +16,11 @@ export const executorRegistry: Record<NodeType, NodeExecutor> = {
   [NODETYPE.HTTP_REQUEST]: httpRequestExecutor,
   [NODETYPE.GOOGLE_FORM_TRIGGER]: googleFormExecutor,
   [NODETYPE.STRIPE_TRIGGER]: stripeExecutor,
+  [NODETYPE.GEMINI]: geminiExecutor,
+  [NODETYPE.OPENAI]: openaiExecutor,
+  [NODETYPE.ANTHROPIC]: anthropicExecutor,
+  [NODETYPE.GROK]: grokExecutor,
+  [NODETYPE.DEEPSEEK]: deepseekExecutor,
 }
 
 export const getExecutor = (type: NodeType): NodeExecutor => {

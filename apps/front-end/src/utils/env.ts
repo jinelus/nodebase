@@ -13,6 +13,11 @@ export const env = createEnv({
     PUSHER_KEY: z.string({ error: 'PUSHER_KEY is required' }),
     PUSHER_SECRET: z.string({ error: 'PUSHER_SECRET is required' }),
     PUSHER_CLUSTER: z.string({ error: 'PUSHER_CLUSTER is required' }),
+    GOOGLE_GENERATIVE_AI_API_KEY: z.string().default(''),
+    OPENAI_API_KEY: z.string().default(''),
+    ANTHROPIC_API_KEY: z.string().default(''),
+    XAI_API_KEY: z.string().default(''),
+    DEEPSEEK_API_KEY: z.string().default(''),
   },
   clientPrefix: 'VITE_',
   client: {
