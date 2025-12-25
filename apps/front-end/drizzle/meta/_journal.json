@@ -29,6 +29,20 @@
       "when": 1766274850229,
       "tag": "0003_aberrant_banshee",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1766513181495,
+      "tag": "0004_broad_husk",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1766523769170,
+      "tag": "0005_thin_penance",
+      "breakpoints": true
     }
   ]
 }
