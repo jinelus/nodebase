@@ -9,6 +9,11 @@ export const nodeTypes = pgEnum('types', [
   'HTTP_REQUEST',
   'GOOGLE_FORM_TRIGGER',
   'STRIPE_TRIGGER',
+  'GEMINI',
+  'OPENAI',
+  'ANTHROPIC',
+  'GROK',
+  'DEEPSEEK',
 ])
 
 export const node = pgTable('node', {
