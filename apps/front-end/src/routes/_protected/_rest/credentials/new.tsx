@@ -1,17 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { CredentialView } from '@/components/sections/credentials'
+import { CredentialForm } from '@/components/sections/credential-form'
 
-export const Route = createFileRoute('/_protected/_rest/credentials/$credentialId')({
+export const Route = createFileRoute('/_protected/_rest/credentials/new')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  const { credentialId } = Route.useParams()
-
   return (
     <div className="h-full p-4 md:px-10 md:py-6">
       <div className="mx-auto flex h-full w-full flex-col gap-y-8">
-        <CredentialView credentialId={credentialId} />
+        <CredentialForm />
       </div>
     </div>
   )
