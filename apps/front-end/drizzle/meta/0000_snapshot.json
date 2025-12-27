@@ -1,5 +1,5 @@
 {
-  "id": "6c1408c2-69d1-43c5-8ad2-08a5098ce5e3",
+  "id": "e2eb166a-9593-4053-96cd-2995ea094354",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -384,6 +384,78 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.credentials": {
+      "name": "credentials",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "value": {
+          "name": "value",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "types",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "credentials_user_id_users_id_fk": {
+          "name": "credentials_user_id_users_id_fk",
+          "tableFrom": "credentials",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.node": {
       "name": "node",
       "schema": "",
@@ -440,6 +512,12 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "credential_id": {
+          "name": "credential_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
@@ -455,6 +533,19 @@
             "id"
           ],
           "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "node_credential_id_credentials_id_fk": {
+          "name": "node_credential_id_credentials_id_fk",
+          "tableFrom": "node",
+          "tableTo": "credentials",
+          "columnsFrom": [
+            "credential_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
           "onUpdate": "no action"
         }
       },
@@ -602,7 +693,16 @@
       "name": "types",
       "schema": "public",
       "values": [
-        "INITIAL"
+        "INITIAL",
+        "MANUAL_TRIGGER",
+        "HTTP_REQUEST",
+        "GOOGLE_FORM_TRIGGER",
+        "STRIPE_TRIGGER",
+        "GEMINI",
+        "OPENAI",
+        "ANTHROPIC",
+        "GROK",
+        "DEEPSEEK"
       ]
     }
   },

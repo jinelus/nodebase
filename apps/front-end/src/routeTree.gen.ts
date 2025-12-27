@@ -22,6 +22,7 @@ import { Route as ProtectedRestWorkflowsIndexRouteImport } from './routes/_prote
 import { Route as ProtectedRestExecutionsIndexRouteImport } from './routes/_protected/_rest/executions/index'
 import { Route as ProtectedRestCredentialsIndexRouteImport } from './routes/_protected/_rest/credentials/index'
 import { Route as ProtectedRestExecutionsExecutionIdRouteImport } from './routes/_protected/_rest/executions/$executionId'
+import { Route as ProtectedRestCredentialsNewRouteImport } from './routes/_protected/_rest/credentials/new'
 import { Route as ProtectedRestCredentialsCredentialIdRouteImport } from './routes/_protected/_rest/credentials/$credentialId'
 import { Route as ProtectedEditorWorkflowsWorkflowIdRouteImport } from './routes/_protected/_editor/workflows/$workflowId'
 
@@ -93,6 +94,12 @@ const ProtectedRestExecutionsExecutionIdRoute =
     path: '/executions/$executionId',
     getParentRoute: () => ProtectedRestRoute,
   } as any)
+const ProtectedRestCredentialsNewRoute =
+  ProtectedRestCredentialsNewRouteImport.update({
+    id: '/credentials/new',
+    path: '/credentials/new',
+    getParentRoute: () => ProtectedRestRoute,
+  } as any)
 const ProtectedRestCredentialsCredentialIdRoute =
   ProtectedRestCredentialsCredentialIdRouteImport.update({
     id: '/credentials/$credentialId',
@@ -114,6 +121,7 @@ export interface FileRoutesByFullPath {
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/workflows/$workflowId': typeof ProtectedEditorWorkflowsWorkflowIdRoute
   '/credentials/$credentialId': typeof ProtectedRestCredentialsCredentialIdRoute
+  '/credentials/new': typeof ProtectedRestCredentialsNewRoute
   '/executions/$executionId': typeof ProtectedRestExecutionsExecutionIdRoute
   '/credentials': typeof ProtectedRestCredentialsIndexRoute
   '/executions': typeof ProtectedRestExecutionsIndexRoute
@@ -129,6 +137,7 @@ export interface FileRoutesByTo {
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/workflows/$workflowId': typeof ProtectedEditorWorkflowsWorkflowIdRoute
   '/credentials/$credentialId': typeof ProtectedRestCredentialsCredentialIdRoute
+  '/credentials/new': typeof ProtectedRestCredentialsNewRoute
   '/executions/$executionId': typeof ProtectedRestExecutionsExecutionIdRoute
   '/credentials': typeof ProtectedRestCredentialsIndexRoute
   '/executions': typeof ProtectedRestExecutionsIndexRoute
@@ -147,6 +156,7 @@ export interface FileRoutesById {
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_protected/_editor/workflows/$workflowId': typeof ProtectedEditorWorkflowsWorkflowIdRoute
   '/_protected/_rest/credentials/$credentialId': typeof ProtectedRestCredentialsCredentialIdRoute
+  '/_protected/_rest/credentials/new': typeof ProtectedRestCredentialsNewRoute
   '/_protected/_rest/executions/$executionId': typeof ProtectedRestExecutionsExecutionIdRoute
   '/_protected/_rest/credentials/': typeof ProtectedRestCredentialsIndexRoute
   '/_protected/_rest/executions/': typeof ProtectedRestExecutionsIndexRoute
@@ -164,6 +174,7 @@ export interface FileRouteTypes {
     | '/api/auth/$'
     | '/workflows/$workflowId'
     | '/credentials/$credentialId'
+    | '/credentials/new'
     | '/executions/$executionId'
     | '/credentials'
     | '/executions'
@@ -179,6 +190,7 @@ export interface FileRouteTypes {
     | '/api/auth/$'
     | '/workflows/$workflowId'
     | '/credentials/$credentialId'
+    | '/credentials/new'
     | '/executions/$executionId'
     | '/credentials'
     | '/executions'
@@ -196,6 +208,7 @@ export interface FileRouteTypes {
     | '/api/auth/$'
     | '/_protected/_editor/workflows/$workflowId'
     | '/_protected/_rest/credentials/$credentialId'
+    | '/_protected/_rest/credentials/new'
     | '/_protected/_rest/executions/$executionId'
     | '/_protected/_rest/credentials/'
     | '/_protected/_rest/executions/'
@@ -306,6 +319,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedRestExecutionsExecutionIdRouteImport
       parentRoute: typeof ProtectedRestRoute
     }
+    '/_protected/_rest/credentials/new': {
+      id: '/_protected/_rest/credentials/new'
+      path: '/credentials/new'
+      fullPath: '/credentials/new'
+      preLoaderRoute: typeof ProtectedRestCredentialsNewRouteImport
+      parentRoute: typeof ProtectedRestRoute
+    }
     '/_protected/_rest/credentials/$credentialId': {
       id: '/_protected/_rest/credentials/$credentialId'
       path: '/credentials/$credentialId'
@@ -325,6 +345,7 @@ declare module '@tanstack/react-router' {
 
 interface ProtectedRestRouteChildren {
   ProtectedRestCredentialsCredentialIdRoute: typeof ProtectedRestCredentialsCredentialIdRoute
+  ProtectedRestCredentialsNewRoute: typeof ProtectedRestCredentialsNewRoute
   ProtectedRestExecutionsExecutionIdRoute: typeof ProtectedRestExecutionsExecutionIdRoute
   ProtectedRestCredentialsIndexRoute: typeof ProtectedRestCredentialsIndexRoute
   ProtectedRestExecutionsIndexRoute: typeof ProtectedRestExecutionsIndexRoute
@@ -334,6 +355,7 @@ interface ProtectedRestRouteChildren {
 const ProtectedRestRouteChildren: ProtectedRestRouteChildren = {
   ProtectedRestCredentialsCredentialIdRoute:
     ProtectedRestCredentialsCredentialIdRoute,
+  ProtectedRestCredentialsNewRoute: ProtectedRestCredentialsNewRoute,
   ProtectedRestExecutionsExecutionIdRoute:
     ProtectedRestExecutionsExecutionIdRoute,
   ProtectedRestCredentialsIndexRoute: ProtectedRestCredentialsIndexRoute,

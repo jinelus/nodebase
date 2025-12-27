@@ -5,6 +5,7 @@ import { db } from '@/db/connection'
 import { connections, node, workflows } from '@/db/schemas'
 import { activeSubscribedUser } from '@/features/subscriptions/active-subscribed-user'
 import { authMiddleware } from '@/routes/_protected'
+import { escapeLike } from '@/utils/fn'
 import { type PaginationParams, paginationParamsSchema } from '@/utils/pagination'
 import type { NodeType } from '@/utils/types'
 
@@ -85,7 +86,7 @@ export const getWorkflowsFn = createServerFn({ method: 'GET' })
     const { page, perPage, search } = params ?? {}
 
     const conditions = [eq(workflows.userId, context.session.user.id)]
-    if (search) conditions.push(ilike(workflows.name, `%${search}%`))
+    if (search) conditions.push(ilike(workflows.name, `%${escapeLike(search)}%`))
 
     const userWorkflows = await db.query.workflows.findMany({
       where: and(...conditions),
