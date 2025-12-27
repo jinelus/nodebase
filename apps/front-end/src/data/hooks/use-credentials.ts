@@ -48,7 +48,7 @@ export const useUpdateCredential = () => {
     },
     onError: (error) => {
       toast.error(
-        `Error updating workflow: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        `Error updating credential: ${error instanceof Error ? error.message : 'Unknown error'}`,
       )
     },
   })
@@ -65,7 +65,7 @@ export const useDeleteCredential = () => {
     },
     onError: (error) => {
       toast.error(
-        `Error updating workflow: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        `Error deleting credential: ${error instanceof Error ? error.message : 'Unknown error'}`,
       )
     },
   })

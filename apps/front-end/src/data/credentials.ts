@@ -5,6 +5,7 @@ import { db } from '@/db/connection'
 import { credentials } from '@/db/schemas/credentials'
 import { activeSubscribedUser } from '@/features/subscriptions/active-subscribed-user'
 import { authMiddleware } from '@/routes/_protected'
+import { escapeLike } from '@/utils/fn'
 import type { PaginationParams } from '@/utils/pagination'
 
 export const CredentialsTypesValues = ['GEMINI', 'OPENAI', 'ANTHROPIC', 'GROK', 'DEEPSEEK'] as const
@@ -132,7 +133,7 @@ export const getUserCredentialsFn = createServerFn({ method: 'GET' })
     const { page, perPage, search } = data ?? {}
 
     const conditions = [eq(credentials.userId, context.session.user.id)]
-    if (search) conditions.push(ilike(credentials.name, `%${search}%`))
+    if (search) conditions.push(ilike(credentials.name, `%${escapeLike(search)}%`))
 
     const userCredentials = await db
       .select()
