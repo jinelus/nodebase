@@ -1,1 +1,0 @@
-ALTER TYPE "public"."types" ADD VALUE 'GEMINI';
