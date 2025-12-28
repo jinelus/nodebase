@@ -1,6 +1,5 @@
 /** biome-ignore-all lint/a11y/useSemanticElements: <> */
 /** biome-ignore-all lint/security/noSecrets: <> */
-'use client'
 
 import { cva, type VariantProps } from 'class-variance-authority'
 import { useMemo } from 'react'
