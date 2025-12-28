@@ -10,6 +10,7 @@ type DeepseekNodeData = {
   model?: AvailableModels
   userPrompt?: string
   systemPrompt?: string
+  credentialId?: string
 }
 
 type DeepseekNodeType = Node<DeepseekNodeData>

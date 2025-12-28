@@ -1,7 +1,6 @@
 /** biome-ignore-all lint/suspicious/noDocumentCookie: <> */
 /** biome-ignore-all lint/security/noSecrets: <> */
 /** biome-ignore-all lint/correctness/useExhaustiveDependencies: <> */
-'use client'
 
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'

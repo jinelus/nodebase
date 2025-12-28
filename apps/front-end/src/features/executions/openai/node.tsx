@@ -10,6 +10,7 @@ type OpenAiNodeData = {
   model?: AvailableModels
   userPrompt?: string
   systemPrompt?: string
+  credentialId?: string
 }
 
 type OpenAiNodeType = Node<OpenAiNodeData>

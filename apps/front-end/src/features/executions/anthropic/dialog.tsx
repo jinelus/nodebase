@@ -1,4 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Link } from '@tanstack/react-router'
+import { PlusIcon } from 'lucide-react'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
@@ -29,6 +31,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import { useGetCredentialsByType } from '@/data/hooks/use-credentials'
 
 export const AVAILABLE_MODELS = [
   'claude-3-5-haiku-20241022',
@@ -51,6 +54,7 @@ const formSchema = z.object({
       /^[a-zA-Z_$][a-zA-Z0-9_$]*$/,
       'Variable name must start with a letter or underscore and contain only letters, numbers, and underscores.',
     ),
+  credentialId: z.string().optional(),
   model: z.enum(AVAILABLE_MODELS, { message: 'Please select a valid model' }),
   userPrompt: z.string().min(1, 'User prompt is required'),
   systemPrompt: z.string().optional(),
@@ -78,8 +82,11 @@ export const AnthropicDialog: React.FC<AnthropicDialogProps> = ({
       model: defaultValues?.model ?? 'claude-sonnet-4-5',
       userPrompt: defaultValues?.userPrompt ?? '',
       systemPrompt: defaultValues?.systemPrompt ?? '',
+      credentialId: defaultValues?.credentialId ?? undefined,
     },
   })
+
+  const { data: credentials, isLoading } = useGetCredentialsByType('ANTHROPIC')
 
   useEffect(() => {
     if (open) {
@@ -88,6 +95,7 @@ export const AnthropicDialog: React.FC<AnthropicDialogProps> = ({
         model: defaultValues?.model ?? 'claude-sonnet-4-5',
         userPrompt: defaultValues?.userPrompt ?? '',
         systemPrompt: defaultValues?.systemPrompt ?? '',
+        credentialId: defaultValues?.credentialId ?? undefined,
       })
     }
   }, [open, defaultValues, form])
@@ -125,6 +133,46 @@ export const AnthropicDialog: React.FC<AnthropicDialogProps> = ({
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="credentialId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="mb-1 block font-medium">Credential</FormLabel>
+
+                    <Select
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      disabled={isLoading || !credentials || credentials.length === 0}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full shadow-none">
+                          <SelectValue placeholder="Select Credential" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="max-h-[150px]">
+                        {credentials?.map((credential) => (
+                          <SelectItem key={credential.id} value={credential.id}>
+                            <div className="flex items-center gap-2">
+                              <img src="/logos/claude.svg" alt="Anthropic" className="h-5 w-5" />
+                              {credential.name}
+                            </div>
+                          </SelectItem>
+                        ))}
+                        <Link
+                          to={'/credentials/new'}
+                          className="flex items-center justify-center gap-2 rounded-md border-border border-t p-2 text-sm hover:bg-gray-100"
+                        >
+                          Add new credential <PlusIcon className="size-4" />
+                        </Link>
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={form.control}
                 name="model"

@@ -1,8 +1,10 @@
 import { createAnthropic } from '@ai-sdk/anthropic'
 import { AbortTaskRunError } from '@trigger.dev/sdk'
 import { generateText } from 'ai'
+import { and, eq } from 'drizzle-orm'
 import Handlebars from 'handlebars'
-import { env } from '@/utils/env'
+import { db } from '@/db/connection'
+import { credentials } from '@/db/schemas/credentials'
 import type { NodeExecutor } from '@/utils/types'
 import type { AvailableModels } from './dialog'
 
@@ -16,6 +18,7 @@ type AnthropicData = {
   model?: AvailableModels
   userPrompt?: string
   systemPrompt?: string
+  credentialId?: string
 }
 
 export const anthropicExecutor: NodeExecutor<AnthropicData> = async ({
@@ -23,6 +26,7 @@ export const anthropicExecutor: NodeExecutor<AnthropicData> = async ({
   nodeId,
   context,
   taskContext,
+  userId,
 }) => {
   if (!data.variableName) {
     throw new AbortTaskRunError(`No variable name provided for Anthropic node: ${nodeId}`)
@@ -33,15 +37,26 @@ export const anthropicExecutor: NodeExecutor<AnthropicData> = async ({
       throw new AbortTaskRunError(`No model provided for Anthropic node: ${nodeId}`)
     }
 
+    if (!data.credentialId) {
+      throw new AbortTaskRunError(`No credential ID provided for Anthropic node: ${nodeId}`)
+    }
+
     const systemPromptTemplate = data.systemPrompt
       ? Handlebars.compile(data.systemPrompt)(context)
       : 'You are a helpful assistant.'
     const userPromptTemplate = Handlebars.compile(data.userPrompt)(context)
 
-    const credentialValue = env.ANTHROPIC_API_KEY
+    const [credential] = await db
+      .select()
+      .from(credentials)
+      .where(and(eq(credentials.id, data.credentialId), eq(credentials.userId, userId)))
+
+    if (!credential) {
+      throw new AbortTaskRunError(`Credential not found for Gemini node: ${nodeId}`)
+    }
 
     const anthropic = createAnthropic({
-      apiKey: credentialValue, // TODO: handle user API keys
+      apiKey: credential.value,
     })
 
     const { text } = await generateText({

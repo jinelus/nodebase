@@ -11,6 +11,7 @@ type GrokNodeData = {
   model?: AvailableModels
   userPrompt?: string
   systemPrompt?: string
+  credentialId?: string
 }
 
 type GrokNodeType = Node<GrokNodeData>

@@ -1,5 +1,4 @@
 /** biome-ignore-all lint/security/noSecrets: <> */
-'use client'
 
 import * as MenubarPrimitive from '@radix-ui/react-menubar'
 import { CheckIcon, ChevronRightIcon, CircleIcon } from 'lucide-react'
