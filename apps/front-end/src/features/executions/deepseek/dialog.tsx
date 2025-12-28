@@ -29,6 +29,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import { useGetCredentialsByType } from '@/data/hooks/use-credentials'
 
 export const AVAILABLE_MODELS = ['deepseek-chat', 'deepseek-reasoner'] as const
 
@@ -42,6 +43,7 @@ const formSchema = z.object({
       /^[a-zA-Z_$][a-zA-Z0-9_$]*$/,
       'Variable name must start with a letter or underscore and contain only letters, numbers, and underscores.',
     ),
+  credentialId: z.string().optional(),
   model: z.enum(AVAILABLE_MODELS, { message: 'Please select a valid model' }),
   userPrompt: z.string().min(1, 'User prompt is required'),
   systemPrompt: z.string().optional(),
@@ -69,8 +71,11 @@ export const DeepseekDialog: React.FC<DeepseekDialogProps> = ({
       model: defaultValues?.model ?? 'deepseek-chat',
       userPrompt: defaultValues?.userPrompt ?? '',
       systemPrompt: defaultValues?.systemPrompt ?? '',
+      credentialId: defaultValues?.credentialId ?? undefined,
     },
   })
+
+  const { data: credentials, isLoading } = useGetCredentialsByType('DEEPSEEK')
 
   useEffect(() => {
     if (open) {
@@ -79,6 +84,7 @@ export const DeepseekDialog: React.FC<DeepseekDialogProps> = ({
         model: defaultValues?.model ?? 'deepseek-chat',
         userPrompt: defaultValues?.userPrompt ?? '',
         systemPrompt: defaultValues?.systemPrompt ?? '',
+        credentialId: defaultValues?.credentialId ?? undefined,
       })
     }
   }, [open, defaultValues, form])
@@ -116,6 +122,40 @@ export const DeepseekDialog: React.FC<DeepseekDialogProps> = ({
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="credentialId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="mb-1 block font-medium">Credential</FormLabel>
+
+                    <Select
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      disabled={isLoading || !credentials || credentials.length === 0}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full shadow-none">
+                          <SelectValue placeholder="Select Credential" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="max-h-[150px]">
+                        {credentials?.map((credential) => (
+                          <SelectItem key={credential.id} value={credential.id}>
+                            <div className="flex items-center gap-2">
+                              <img src="/logos/deepseek.svg" alt="Deepseek" className="h-5 w-5" />
+                              {credential.name}
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={form.control}
                 name="model"

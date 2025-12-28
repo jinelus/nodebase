@@ -2,7 +2,6 @@
 /** biome-ignore-all lint/a11y/noNoninteractiveElementInteractions: <> */
 /** biome-ignore-all lint/a11y/useKeyWithClickEvents: <> */
 /** biome-ignore-all lint/security/noSecrets: <> */
-'use client'
 
 import { cva, type VariantProps } from 'class-variance-authority'
 import type * as React from 'react'

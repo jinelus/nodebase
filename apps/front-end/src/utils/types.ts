@@ -1,12 +1,15 @@
 import type { logger, tasks, wait } from '@trigger.dev/sdk'
 import type { InferSelectModel } from 'drizzle-orm'
 import type { connections, node, nodeTypes, workflows } from '@/db/schemas'
+import type { credentials } from '@/db/schemas/credentials'
 
 export type WorkflowSelect = InferSelectModel<typeof workflows>
 
 export type Node = InferSelectModel<typeof node>
 
 export type Connections = InferSelectModel<typeof connections>
+
+export type CredentialsSelect = InferSelectModel<typeof credentials>
 
 export type NodeType = (typeof nodeTypes.enumValues)[number]
 
@@ -24,6 +27,7 @@ export type NodeExecutorParams<TData = Record<string, unknown>> = {
   nodeId: string
   context: WorkflowContext
   taskContext: TaskContext
+  userId: string
 }
 
 export type NodeExecutor<TData = Record<string, unknown>, TResult = WorkflowContext> = (

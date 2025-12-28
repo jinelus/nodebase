@@ -1,6 +1,5 @@
 /** biome-ignore-all lint/security/noDangerouslySetInnerHtml: <> */
 /** biome-ignore-all lint/security/noSecrets: <> */
-'use client'
 
 import * as React from 'react'
 import * as RechartsPrimitive from 'recharts'

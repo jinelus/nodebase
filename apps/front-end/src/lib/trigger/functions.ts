@@ -59,6 +59,7 @@ export const executeWorkflow = schemaTask({
           nodeId: node.id,
           context,
           taskContext: createTaskContext(),
+          userId: workflow.userId,
         })
 
         // Update node status to SUCCESS

@@ -7,6 +7,7 @@ import { type AvailableModels, GeminiDialog, type GeminiFormValues } from './dia
 
 type GeminiNodeData = {
   variableName?: string
+  credentialId?: string
   model?: AvailableModels
   userPrompt?: string
   systemPrompt?: string
