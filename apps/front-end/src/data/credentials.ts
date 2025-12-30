@@ -5,7 +5,7 @@ import { db } from '@/db/connection'
 import { credentials } from '@/db/schemas/credentials'
 import { activeSubscribedUser } from '@/features/subscriptions/active-subscribed-user'
 import { authMiddleware } from '@/routes/_protected'
-import { escapeLike } from '@/utils/fn'
+import { decrypt, encrypt, escapeLike } from '@/utils/fn'
 import type { PaginationParams } from '@/utils/pagination'
 
 export const CredentialsTypesValues = ['GEMINI', 'OPENAI', 'ANTHROPIC', 'GROK', 'DEEPSEEK'] as const
@@ -34,11 +34,13 @@ export const createCredentialFn = createServerFn({ method: 'POST' })
       throw new Error(JSON.stringify(authResult))
     }
 
+    const valueEncrypted = await encrypt(data.value)
+
     const [credential] = await db
       .insert(credentials)
       .values({
         name: data.name,
-        value: data.value, // TODO: Encrypt this value before storing
+        value: valueEncrypted,
         type: data.type,
         userId: authResult.data.userSession.user.id,
       })
@@ -76,7 +78,8 @@ export const updateCredentialFn = createServerFn({ method: 'POST' })
       updatedValues.name = data.name
     }
     if (data.value !== undefined) {
-      updatedValues.value = data.value // TODO: Encrypt this value before storing
+      const valueEncrypted = await encrypt(data.value)
+      updatedValues.value = valueEncrypted
     }
     if (data.type !== undefined) {
       updatedValues.type = data.type
@@ -181,8 +184,13 @@ export const getCredentialByIdFn = createServerFn({ method: 'GET' })
         ),
       )
 
+    const decryptedValue = await decrypt(credential.value)
+
     return {
-      credential,
+      credential: {
+        ...credential,
+        value: decryptedValue,
+      },
     }
   })
 
