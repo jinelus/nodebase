@@ -1,4 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Link } from '@tanstack/react-router'
+import { PlusIcon } from 'lucide-react'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
@@ -150,6 +152,12 @@ export const DeepseekDialog: React.FC<DeepseekDialogProps> = ({
                             </div>
                           </SelectItem>
                         ))}
+                        <Link
+                          to={'/credentials/new'}
+                          className="flex items-center justify-center gap-2 rounded-md border-border border-t p-2 text-sm hover:bg-gray-100"
+                        >
+                          Add new credential <PlusIcon className="size-4" />
+                        </Link>
                       </SelectContent>
                     </Select>
                   </FormItem>
