@@ -174,6 +174,12 @@ export const GeminiDialog: React.FC<GeminiDialogProps> = ({
                             </div>
                           </SelectItem>
                         ))}
+                        <Link
+                          to={'/credentials/new'}
+                          className="flex items-center justify-center gap-2 rounded-md border-border border-t p-2 text-sm hover:bg-gray-100"
+                        >
+                          Add new credential <PlusIcon className="size-4" />
+                        </Link>
                       </SelectContent>
                     </Select>
                   </FormItem>
@@ -203,12 +209,6 @@ export const GeminiDialog: React.FC<GeminiDialogProps> = ({
                             {model}
                           </SelectItem>
                         ))}
-                        <Link
-                          to={'/credentials/new'}
-                          className="flex items-center justify-center gap-2 rounded-md border-border border-t p-2 text-sm hover:bg-gray-100"
-                        >
-                          Add new credential <PlusIcon className="size-4" />
-                        </Link>
                       </SelectContent>
                     </Select>
                     <FormDescription className="text-xs">The Gemini model to use.</FormDescription>

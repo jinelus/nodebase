@@ -184,6 +184,10 @@ export const getCredentialByIdFn = createServerFn({ method: 'GET' })
         ),
       )
 
+    if (!credential) {
+      throw new Error('Credential not found or access denied')
+    }
+
     const decryptedValue = await decrypt(credential.value)
 
     return {

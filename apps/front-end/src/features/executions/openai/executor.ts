@@ -53,7 +53,7 @@ export const openaiExecutor: NodeExecutor<OpenAiData> = async ({
       .where(and(eq(credentials.id, data.credentialId), eq(credentials.userId, userId)))
 
     if (!credential) {
-      throw new AbortTaskRunError(`Credential not found for Gemini node: ${nodeId}`)
+      throw new AbortTaskRunError(`Credential not found for OpenAI node: ${nodeId}`)
     }
 
     const valueDecrypted = await decrypt(credential.value)

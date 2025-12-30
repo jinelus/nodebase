@@ -53,7 +53,7 @@ export const deepseekExecutor: NodeExecutor<DeepseekData> = async ({
       .where(and(eq(credentials.id, data.credentialId), eq(credentials.userId, userId)))
 
     if (!credential) {
-      throw new AbortTaskRunError(`Credential not found for Gemini node: ${nodeId}`)
+      throw new AbortTaskRunError(`Credential not found for Deepseek node: ${nodeId}`)
     }
 
     const valueDecrypted = await decrypt(credential.value)
