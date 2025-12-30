@@ -18,6 +18,7 @@
     "trigger:cli": "pnpm dlx trigger.dev dev"
   },
   "dependencies": {
+    "@47ng/cloak": "^1.2.0",
     "@ai-sdk/anthropic": "^3.0.1",
     "@ai-sdk/deepseek": "^2.0.1",
     "@ai-sdk/google": "^3.0.1",

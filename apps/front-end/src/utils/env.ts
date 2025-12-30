@@ -18,6 +18,7 @@ export const env = createEnv({
     ANTHROPIC_API_KEY: z.string().default(''),
     XAI_API_KEY: z.string().default(''),
     DEEPSEEK_API_KEY: z.string().default(''),
+    ENCRYPTION_KEY: z.string().default(''),
   },
   clientPrefix: 'VITE_',
   client: {
