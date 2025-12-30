@@ -5,6 +5,7 @@ import { and, eq } from 'drizzle-orm'
 import Handlebars from 'handlebars'
 import { db } from '@/db/connection'
 import { credentials } from '@/db/schemas/credentials'
+import { decrypt } from '@/utils/fn'
 import type { NodeExecutor } from '@/utils/types'
 import type { AvailableModels } from './dialog'
 
@@ -52,11 +53,13 @@ export const grokExecutor: NodeExecutor<GrokData> = async ({
       .where(and(eq(credentials.id, data.credentialId), eq(credentials.userId, userId)))
 
     if (!credential) {
-      throw new AbortTaskRunError(`Credential not found for Gemini node: ${nodeId}`)
+      throw new AbortTaskRunError(`Credential not found for Grok node: ${nodeId}`)
     }
 
+    const valueDecrypted = await decrypt(credential.value)
+
     const xai = createXai({
-      apiKey: credential.value,
+      apiKey: valueDecrypted,
     })
 
     const { text } = await generateText({
