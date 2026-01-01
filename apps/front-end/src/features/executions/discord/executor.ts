@@ -48,7 +48,7 @@ export const discordExecutor: NodeExecutor<DiscordData> = async ({
       [data.variableName as string]: {
         discordResponse: {
           data: {
-            messageSended: true,
+            messageSent: true,
           },
         },
       },

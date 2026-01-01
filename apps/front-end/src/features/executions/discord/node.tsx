@@ -6,6 +6,7 @@ import { BaseExecutionNode } from '../base-execution-node'
 import { DiscordDialog, type DiscordFormValues } from './dialog'
 
 type DiscordNodeData = {
+  variableName: string
   webhookUrl: string
   content?: string
   username?: string

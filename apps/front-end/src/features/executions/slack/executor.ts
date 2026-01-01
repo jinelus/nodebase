@@ -44,7 +44,7 @@ export const slackExecutor: NodeExecutor<SlackData> = async ({
       [data.variableName as string]: {
         slackResponse: {
           data: {
-            messageSended: true,
+            messageSent: true,
           },
         },
       },

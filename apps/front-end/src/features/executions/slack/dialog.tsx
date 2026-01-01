@@ -48,7 +48,7 @@ export const SlackDialog: React.FC<SlackDialogProps> = ({
     defaultValues: {
       webhookUrl: defaultValues?.webhookUrl ?? '',
       content: defaultValues?.content ?? '',
-      variableName: defaultValues?.variableName ?? 'slackResponse',
+      variableName: defaultValues?.variableName ?? 'response',
     },
   })
 

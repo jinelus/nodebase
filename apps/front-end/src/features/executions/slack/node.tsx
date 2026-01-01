@@ -6,6 +6,7 @@ import { BaseExecutionNode } from '../base-execution-node'
 import { SlackDialog, type SlackFormValues } from './dialog'
 
 type SlackNodeData = {
+  variableName: string
   webhookUrl: string
   content?: string
 }

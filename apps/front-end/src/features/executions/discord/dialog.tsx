@@ -53,7 +53,7 @@ export const DiscordDialog: React.FC<DiscordDialogProps> = ({
       webhookUrl: defaultValues?.webhookUrl ?? '',
       content: defaultValues?.content ?? '',
       username: defaultValues?.username ?? '',
-      variableName: defaultValues?.variableName ?? 'discordResponse',
+      variableName: defaultValues?.variableName ?? 'response',
     },
   })
 
