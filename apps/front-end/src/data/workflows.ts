@@ -237,6 +237,7 @@ export const updateWorkflowNodesFn = createServerFn({ method: 'POST' })
     }
 
     await db.transaction(async (tx) => {
+      await tx.delete(connections).where(eq(connections.workflowId, existing.id))
       await tx.delete(node).where(eq(node.workflowId, existing.id))
 
       for (const n of nodes) {

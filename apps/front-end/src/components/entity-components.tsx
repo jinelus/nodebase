@@ -80,7 +80,7 @@ type EntityContainerProps = {
 
 export const EntityContainer = ({ children, header, search, pagination }: EntityContainerProps) => {
   return (
-    <main className="h-full p-4 md:px-10 md:py-6">
+    <main className="h-full min-h-[80vh] p-4 md:px-10 md:py-6">
       <div className="mx-auto flex h-full w-full flex-col gap-8">
         {header}
         <div className="flex h-full flex-col gap-y-4">

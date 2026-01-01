@@ -1,4 +1,4 @@
-CREATE TYPE "public"."types" AS ENUM('INITIAL', 'MANUAL_TRIGGER', 'HTTP_REQUEST', 'GOOGLE_FORM_TRIGGER', 'STRIPE_TRIGGER', 'GEMINI', 'OPENAI', 'ANTHROPIC', 'GROK', 'DEEPSEEK');--> statement-breakpoint
+CREATE TYPE "public"."types" AS ENUM('INITIAL', 'MANUAL_TRIGGER', 'HTTP_REQUEST', 'GOOGLE_FORM_TRIGGER', 'STRIPE_TRIGGER', 'GEMINI', 'OPENAI', 'ANTHROPIC', 'GROK', 'DEEPSEEK', 'DISCORD');--> statement-breakpoint
 CREATE TABLE "accounts" (
 	"id" text PRIMARY KEY NOT NULL,
 	"account_id" text NOT NULL,
@@ -65,8 +65,7 @@ CREATE TABLE "node" (
 	"data" json DEFAULT '{}',
 	"created_at" timestamp DEFAULT now(),
 	"updated_at" timestamp DEFAULT now(),
-	"workflow_id" text NOT NULL,
-	"credential_id" text
+	"workflow_id" text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "users" (
@@ -96,6 +95,5 @@ ALTER TABLE "connections" ADD CONSTRAINT "connections_from_node_id_node_id_fk" F
 ALTER TABLE "connections" ADD CONSTRAINT "connections_to_node_id_node_id_fk" FOREIGN KEY ("to_node_id") REFERENCES "public"."node"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "credentials" ADD CONSTRAINT "credentials_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "node" ADD CONSTRAINT "node_workflow_id_workflows_id_fk" FOREIGN KEY ("workflow_id") REFERENCES "public"."workflows"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "node" ADD CONSTRAINT "node_credential_id_credentials_id_fk" FOREIGN KEY ("credential_id") REFERENCES "public"."credentials"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "workflows" ADD CONSTRAINT "workflows_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 CREATE INDEX "unique_connextion_idx" ON "connections" USING btree ("from_output","to_input","from_node_id","to_node_id");
