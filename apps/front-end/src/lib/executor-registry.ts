@@ -1,9 +1,11 @@
 import { NODETYPE } from '@/components/node-component'
 import { anthropicExecutor } from '@/features/executions/anthropic/executor'
 import { deepseekExecutor } from '@/features/executions/deepseek/executor'
+import { discordExecutor } from '@/features/executions/discord/executor'
 import { geminiExecutor } from '@/features/executions/gemini/executor'
 import { httpRequestExecutor } from '@/features/executions/http-request/executor'
 import { openaiExecutor } from '@/features/executions/openai/executor'
+import { slackExecutor } from '@/features/executions/slack/executor'
 import { grokExecutor } from '@/features/executions/xia/executor'
 import { googleFormExecutor } from '@/features/triggers/google-form/executor'
 import { manualTriggerExecutor } from '@/features/triggers/manual-trigger/executor'
@@ -21,6 +23,8 @@ export const executorRegistry: Record<NodeType, NodeExecutor> = {
   [NODETYPE.ANTHROPIC]: anthropicExecutor,
   [NODETYPE.GROK]: grokExecutor,
   [NODETYPE.DEEPSEEK]: deepseekExecutor,
+  [NODETYPE.DISCORD]: discordExecutor,
+  [NODETYPE.SLACK]: slackExecutor,
 }
 
 export const getExecutor = (type: NodeType): NodeExecutor => {

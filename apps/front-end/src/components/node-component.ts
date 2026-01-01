@@ -1,9 +1,11 @@
 import type { NodeTypes } from '@xyflow/react'
 import { AnthropicNode } from '@/features/executions/anthropic/node'
 import { DeepseekNode } from '@/features/executions/deepseek/node'
+import { DiscordNode } from '@/features/executions/discord/node'
 import { GeminiNode } from '@/features/executions/gemini/node'
 import { HttpRequestNode } from '@/features/executions/http-request/node'
 import { OpenAiNode } from '@/features/executions/openai/node'
+import { SlackNode } from '@/features/executions/slack/node'
 import { GrokNode } from '@/features/executions/xia/node'
 import { GoogleFormTriggerNode } from '@/features/triggers/google-form/node'
 import { ManualTriggerNode } from '@/features/triggers/manual-trigger/node'
@@ -16,11 +18,13 @@ export const NODETYPE = {
   GOOGLE_FORM_TRIGGER: 'GOOGLE_FORM_TRIGGER',
   STRIPE_TRIGGER: 'STRIPE_TRIGGER',
   HTTP_REQUEST: 'HTTP_REQUEST',
+  DISCORD: 'DISCORD',
   GEMINI: 'GEMINI',
   OPENAI: 'OPENAI',
   ANTHROPIC: 'ANTHROPIC',
   GROK: 'GROK',
   DEEPSEEK: 'DEEPSEEK',
+  SLACK: 'SLACK',
 } as const
 
 export type NodeType = (typeof NODETYPE)[keyof typeof NODETYPE]
@@ -35,6 +39,8 @@ export const nodeComponents = {
 
   // Execution Nodes
   [NODETYPE.HTTP_REQUEST]: HttpRequestNode,
+  [NODETYPE.DISCORD]: DiscordNode,
+  [NODETYPE.SLACK]: SlackNode,
   [NODETYPE.GEMINI]: GeminiNode,
   [NODETYPE.OPENAI]: OpenAiNode,
   [NODETYPE.ANTHROPIC]: AnthropicNode,

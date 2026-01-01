@@ -49,6 +49,18 @@ const executionNodes: NodeTypeOption[] = [
     icon: GlobeIcon,
   },
   {
+    type: 'DISCORD',
+    label: 'Discord',
+    description: 'Send messages and interact with Discord channels and users.',
+    icon: '/logos/discord.svg',
+  },
+  {
+    type: 'SLACK',
+    label: 'Slack',
+    description: 'Send messages to Slack channels using webhooks.',
+    icon: '/logos/slack.svg',
+  },
+  {
     type: 'GEMINI',
     label: 'Gemini',
     description: "Interact with Google's Gemini API to generate text or images.",

@@ -14,6 +14,8 @@ export const nodeTypes = pgEnum('types', [
   'ANTHROPIC',
   'GROK',
   'DEEPSEEK',
+  'DISCORD',
+  'SLACK',
 ])
 
 export const node = pgTable('node', {

@@ -1,0 +1,1 @@
+ALTER TYPE "public"."types" ADD VALUE 'SLACK';
