@@ -1,5 +1,6 @@
 export * from './better-auth'
 export * from './connections'
+export * from './credentials'
 export * from './nodes'
 export * from './users'
 export * from './workflows'
