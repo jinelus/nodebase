@@ -1,6 +1,6 @@
 {
-  "id": "8e1c104c-0103-4123-ad0a-8d3c8cd9fff2",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "0d7f35ad-0ece-4a03-a54d-708098f8c104",
+  "prevId": "8e1c104c-0103-4123-ad0a-8d3c8cd9fff2",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -684,7 +684,8 @@
         "ANTHROPIC",
         "GROK",
         "DEEPSEEK",
-        "DISCORD"
+        "DISCORD",
+        "SLACK"
       ]
     }
   },
