@@ -1,5 +1,5 @@
 import { useQueryStates } from 'nuqs'
-import { credentialsParams, workflowsParams } from '@/utils/params'
+import { credentialsParams, executionsParams, workflowsParams } from '@/utils/params'
 
 export const useWorkflowsParams = () => {
   return useQueryStates(workflowsParams, {
@@ -9,6 +9,12 @@ export const useWorkflowsParams = () => {
 
 export const useCredentialsParams = () => {
   return useQueryStates(credentialsParams, {
+    shallow: false,
+  })
+}
+
+export const useExecutionsParams = () => {
+  return useQueryStates(executionsParams, {
     shallow: false,
   })
 }
