@@ -26,7 +26,7 @@ export const ExecutionsHeader: React.FC<{ disabled?: boolean }> = ({ disabled })
   return (
     <EntityHeader
       title="Executions"
-      description="Here your history of workflows executions."
+      description="Your workflow execution history."
       disabled={disabled}
     />
   )

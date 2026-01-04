@@ -91,6 +91,11 @@ export const getExecutionByIdFn = createServerFn({ method: 'GET' })
     }
 
     const [execution] = await db.select().from(executions).where(eq(executions.id, id))
+
+    if (!execution) {
+      throw new Error(JSON.stringify({ success: false, message: 'Execution not found' }))
+    }
+
     const [workflow] = await db
       .select({ name: workflows.name, id: workflows.id })
       .from(workflows)
@@ -99,7 +104,6 @@ export const getExecutionByIdFn = createServerFn({ method: 'GET' })
     return {
       ...execution,
       output: execution.output ?? null,
-
       workflow,
     }
   })

@@ -44,8 +44,8 @@ export const executeWorkflow = schemaTask({
       with: { node: true, connections: true },
     })
 
-    if (!runId || !workflow) {
-      throw new AbortTaskRunError('RunId or Workflow is missing')
+    if (!workflow) {
+      throw new AbortTaskRunError('Workflow is missing')
     }
 
     await db.insert(executions).values({
