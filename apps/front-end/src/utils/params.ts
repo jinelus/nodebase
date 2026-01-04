@@ -16,3 +16,10 @@ export const credentialsParams = {
     .withDefault(PAGINATION.DEFAULT_PER_PAGE)
     .withOptions({ clearOnDefault: true }),
 }
+
+export const executionsParams = {
+  page: parseAsInteger.withDefault(PAGINATION.DEFAULT_PAGE).withOptions({ clearOnDefault: true }),
+  perPage: parseAsInteger
+    .withDefault(PAGINATION.DEFAULT_PER_PAGE)
+    .withOptions({ clearOnDefault: true }),
+}

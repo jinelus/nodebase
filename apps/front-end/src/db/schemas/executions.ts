@@ -18,6 +18,7 @@ export const executions = pgTable('executions', {
   triggerEventId: text('trigger_event_id').notNull(),
   output: json(),
   error: text(),
+  errorStack: text(),
 })
 
 export const executionsRelations = relations(executions, ({ one }) => ({
