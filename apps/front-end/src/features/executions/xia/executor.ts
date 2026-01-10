@@ -1,10 +1,10 @@
 import { createXai } from '@ai-sdk/xai'
-import { AbortTaskRunError } from '@trigger.dev/sdk'
 import { generateText } from 'ai'
 import { and, eq } from 'drizzle-orm'
 import Handlebars from 'handlebars'
 import { db } from '@/db/connection'
 import { credentials } from '@/db/schemas/credentials'
+import { WorkflowError } from '@/utils/errors'
 import { decrypt } from '@/utils/fn'
 import type { NodeExecutor } from '@/utils/types'
 import type { AvailableModels } from './dialog'
@@ -30,16 +30,16 @@ export const grokExecutor: NodeExecutor<GrokData> = async ({
   userId,
 }) => {
   if (!data.variableName) {
-    throw new AbortTaskRunError(`No variable name provided for Grok node: ${nodeId}`)
+    throw new WorkflowError(`No variable name provided for Grok node: ${nodeId}`)
   }
 
   const result = await taskContext.run('grok', async () => {
     if (!data.model) {
-      throw new AbortTaskRunError(`No model provided for Grok node: ${nodeId}`)
+      throw new WorkflowError(`No model provided for Grok node: ${nodeId}`)
     }
 
     if (!data.credentialId) {
-      throw new AbortTaskRunError(`No credential ID provided for Grok node: ${nodeId}`)
+      throw new WorkflowError(`No credential ID provided for Grok node: ${nodeId}`)
     }
 
     const systemPromptTemplate = data.systemPrompt
@@ -53,7 +53,7 @@ export const grokExecutor: NodeExecutor<GrokData> = async ({
       .where(and(eq(credentials.id, data.credentialId), eq(credentials.userId, userId)))
 
     if (!credential) {
-      throw new AbortTaskRunError(`Credential not found for Grok node: ${nodeId}`)
+      throw new WorkflowError(`Credential not found for Grok node: ${nodeId}`)
     }
 
     const valueDecrypted = await decrypt(credential.value)

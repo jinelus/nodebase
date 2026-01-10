@@ -1,6 +1,6 @@
-import { AbortTaskRunError } from '@trigger.dev/sdk'
 import Handlebars from 'handlebars'
 import ky, { type Options as KyOptions } from 'ky'
+import { WorkflowError } from '@/utils/errors'
 import type { NodeExecutor } from '@/utils/types'
 
 Handlebars.registerHelper('json', (context) => {
@@ -22,11 +22,11 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
   taskContext,
 }) => {
   if (!data.endpoint) {
-    throw new AbortTaskRunError(`No endpoint provided for HTTP Request node: ${nodeId}`)
+    throw new WorkflowError(`No endpoint provided for HTTP Request node: ${nodeId}`)
   }
 
   if (!data.variableName) {
-    throw new AbortTaskRunError(`No variable name provided for HTTP Request node: ${nodeId}`)
+    throw new WorkflowError(`No variable name provided for HTTP Request node: ${nodeId}`)
   }
 
   const result = await taskContext.run('http-request', async () => {
