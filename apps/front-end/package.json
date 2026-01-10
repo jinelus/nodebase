@@ -3,19 +3,20 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "vite build && node -e \"const fs = require('fs'); if (fs.existsSync('.output/server')) { fs.copyFileSync('instrument.server.mjs', '.output/server/instrument.server.mjs') }\"",
+    "build": "pnpm env:load vite build && node -e \"const fs = require('fs'); if (fs.existsSync('.output/server')) { fs.copyFileSync('instrument.server.mjs', '.output/server/instrument.server.mjs') }\"",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:seed": "tsx ./src/db/seed.ts",
     "db:studio": "drizzle-kit studio",
-    "dev": "cross-env NODE_OPTIONS=--import=./instrument.server.mjs vite dev --port 3000",
+    "dev": "pnpm env:load cross-env NODE_OPTIONS=--import=./instrument.server.mjs vite dev --port 3000",
     "format": "biome format --write",
     "lint": "biome check --write",
     "ngrok:dev": "ngrok http --url=https://quaternate-theoretically-elba.ngrok-free.dev 3000",
     "serve": "vite preview",
     "test": "vitest run",
-    "trigger:cli": "pnpm dlx trigger.dev dev"
+    "trigger:cli": "pnpm dlx trigger.dev dev",
+    "env:load": "dotenv -e ../../.env --"
   },
   "dependencies": {
     "@47ng/cloak": "^1.2.0",
