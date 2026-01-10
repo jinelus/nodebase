@@ -16,6 +16,7 @@ export const auth = betterAuth({
     enabled: true,
     autoSignIn: true,
   },
+  trustedOrigins: [env.BETTER_AUTH_URL ?? 'http://localhost:3000'],
   advanced: {
     cookiePrefix: 'nodebase',
     database: {
