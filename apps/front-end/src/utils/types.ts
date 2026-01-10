@@ -1,4 +1,3 @@
-import type { logger, tasks, wait } from '@trigger.dev/sdk'
 import type { InferSelectModel } from 'drizzle-orm'
 import type { connections, executions, node, nodeTypes, workflows } from '@/db/schemas'
 import type { credentials } from '@/db/schemas/credentials'
@@ -16,10 +15,7 @@ export type ExecutionsSelect = InferSelectModel<typeof executions>
 export type NodeType = (typeof nodeTypes.enumValues)[number]
 
 export type TaskContext = {
-  logger: typeof logger
   run: <T>(name: string, fn: () => Promise<T>) => Promise<T>
-  wait?: typeof wait
-  tasks?: typeof tasks
 }
 
 export type WorkflowContext = Record<string, unknown>
