@@ -20,6 +20,14 @@ const config = defineConfig({
   server: {
     allowedHosts: true,
   },
+  build: {
+    minify: 'esbuild',
+    sourcemap: true,
+  },
+  ssr: {
+    external: ['@trigger.dev/sdk'],
+    noExternal: process.env.NODE_ENV === 'production' ? [] : ['@trigger.dev/sdk'],
+  },
 })
 
 const wrappedConfig = wrapVinxiConfigWithSentry(config, {
