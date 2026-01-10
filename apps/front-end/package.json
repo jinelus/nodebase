@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "vite build && node -e \"require('fs').copyFileSync('instrument.server.mjs', '.output/server/instrument.server.mjs')\"",
+    "build": "vite build && node -e \"const fs = require('fs'); if (fs.existsSync('.output/server')) { fs.copyFileSync('instrument.server.mjs', '.output/server/instrument.server.mjs') }\"",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
