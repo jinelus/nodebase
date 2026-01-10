@@ -1,7 +1,7 @@
-import { AbortTaskRunError } from '@trigger.dev/sdk'
 import Handlebars from 'handlebars'
 import { decode } from 'html-entities'
 import ky, { type Options as KyOptions } from 'ky'
+import { WorkflowError } from '@/utils/errors'
 import type { NodeExecutor } from '@/utils/types'
 
 Handlebars.registerHelper('json', (context) => {
@@ -24,11 +24,11 @@ export const discordExecutor: NodeExecutor<DiscordData> = async ({
 }) => {
   const result = await taskContext.run('http-request', async () => {
     if (!data.webhookUrl) {
-      throw new AbortTaskRunError(`No webhook URL provided for Discord node: ${nodeId}`)
+      throw new WorkflowError(`No webhook URL provided for Discord node: ${nodeId}`)
     }
 
     if (!data.variableName) {
-      throw new AbortTaskRunError(`No variable name provided for Discord node: ${nodeId}`)
+      throw new WorkflowError(`No variable name provided for Discord node: ${nodeId}`)
     }
     const rawContent = Handlebars.compile(data.content)(context)
 

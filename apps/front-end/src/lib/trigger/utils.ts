@@ -1,4 +1,3 @@
-import { logger } from '@trigger.dev/sdk'
 import toposort from 'toposort'
 import type { Connections, Node, TaskContext } from '@/utils/types'
 
@@ -54,15 +53,12 @@ export const topologicalSort = (nodes: Node[], connections: Connections[]): Arra
 
 export function createTaskContext(): TaskContext {
   return {
-    logger,
-    run: async <T>(name: string, fn: () => Promise<T>): Promise<T> => {
-      logger.info(`Running step: ${name}`)
+    run: async <T>(_name: string, fn: () => Promise<T>): Promise<T> => {
       try {
         const result = await fn()
-        logger.info(`Step completed: ${name}`, { result })
         return result
       } catch (error) {
-        logger.error(`Step failed: ${name}`, { error })
+        console.error('Error in task context run:', error)
         throw error
       }
     },

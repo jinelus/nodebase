@@ -3,6 +3,7 @@ import { and, eq } from 'drizzle-orm'
 import z from 'zod'
 import { db } from '@/db/connection'
 import { executions } from '@/db/schemas'
+import { WorkflowError } from '@/utils/errors'
 import type { NodeType } from '@/utils/types'
 import { getExecutor } from '../executor-registry'
 import { pusher } from '../pusher'
@@ -26,6 +27,15 @@ export const executeWorkflow = schemaTask({
   onFailure: async (data) => {
     const runId = data.ctx.run.id
     const workflowId = data.payload.workflowId
+
+    const workflow = await db.query.workflows.findFirst({
+      where: (workflow, { eq }) => eq(workflow.id, workflowId),
+      with: { node: true, connections: true },
+    })
+
+    if (!workflow) {
+      return
+    }
 
     await db
       .update(executions)
@@ -96,9 +106,13 @@ export const executeWorkflow = schemaTask({
           ...nodeExecutions[node.id],
           status: 'ERROR',
           completedAt: Date.now(),
-          error: error instanceof AbortTaskRunError ? error.message : 'Unknown error',
+          error: error instanceof WorkflowError ? error.message : 'Unknown error',
         }
         await pusher.trigger(channel, 'nodes', nodeExecutions)
+
+        if (error instanceof WorkflowError) {
+          throw new AbortTaskRunError(error.message)
+        }
 
         throw error
       }
