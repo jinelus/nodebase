@@ -17,5 +17,20 @@
       "cache": false,
       "persistent": true
     }
-  }
+  },
+  "globalPassThroughEnv": [
+    "DATABASE_URL",
+    "BETTER_AUTH_URL",
+    "SENTRY_AUTH_TOKEN",
+    "BETTER_AUTH_SECRET",
+    "ENCRYPTION_KEY",
+    "PUSHER_APP_ID",
+    "PUSHER_KEY",
+    "PUSHER_SECRET",
+    "PUSHER_CLUSTER",
+    "POLAR_ACCESS_TOKEN",
+    "POLAR_SUCCESS_URL",
+    "POLAR_SERVER",
+    "TRIGGER_SECRET_KEY"
+  ]
 }
