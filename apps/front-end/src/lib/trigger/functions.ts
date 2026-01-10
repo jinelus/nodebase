@@ -1,4 +1,4 @@
-import { AbortTaskRunError, schemaTask } from '@trigger.dev/sdk'
+import { schemaTask } from '@trigger.dev/sdk'
 import { and, eq } from 'drizzle-orm'
 import z from 'zod'
 import { db } from '@/db/connection'
@@ -55,7 +55,7 @@ export const executeWorkflow = schemaTask({
     })
 
     if (!workflow) {
-      throw new AbortTaskRunError('Workflow is missing')
+      throw new WorkflowError('Workflow is missing')
     }
 
     await db.insert(executions).values({
@@ -111,7 +111,7 @@ export const executeWorkflow = schemaTask({
         await pusher.trigger(channel, 'nodes', nodeExecutions)
 
         if (error instanceof WorkflowError) {
-          throw new AbortTaskRunError(error.message)
+          throw new WorkflowError(error.message)
         }
 
         throw error

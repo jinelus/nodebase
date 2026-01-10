@@ -30,16 +30,16 @@ export const openaiExecutor: NodeExecutor<OpenAiData> = async ({
   userId,
 }) => {
   if (!data.variableName) {
-    throw new WorkflowError(`No variable name provided for OpenAi node: ${nodeId}`)
+    throw new WorkflowError(`No variable name provided for OpenAI node: ${nodeId}`)
   }
 
   const result = await taskContext.run('openai', async () => {
     if (!data.model) {
-      throw new WorkflowError(`No model provided for OpenAi node: ${nodeId}`)
+      throw new WorkflowError(`No model provided for OpenAI node: ${nodeId}`)
     }
 
     if (!data.credentialId) {
-      throw new WorkflowError(`No credential ID provided for OpenAi node: ${nodeId}`)
+      throw new WorkflowError(`No credential ID provided for OpenAI node: ${nodeId}`)
     }
 
     const systemPromptTemplate = data.systemPrompt
