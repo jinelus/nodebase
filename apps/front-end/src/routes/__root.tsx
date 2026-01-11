@@ -1,8 +1,6 @@
 import { wrapCreateRootRouteWithSentry } from '@sentry/tanstackstart-react'
-import { TanStackDevtools } from '@tanstack/react-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createRootRouteWithContext, HeadContent, Scripts } from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { ThemeProvider } from 'next-themes'
 import { NuqsAdapter } from 'nuqs/adapters/tanstack-router'
 import { Toaster } from '@/components/ui/sonner'
@@ -51,7 +49,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             <ThemeProvider enableSystem attribute={'class'}>
               <div className="min-h-screen px-6">{children}</div>
               <Toaster position="top-right" richColors />
-              <TanStackDevtools
+              {/* <TanStackDevtools
                 config={{
                   position: 'bottom-right',
                 }}
@@ -61,7 +59,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                     render: <TanStackRouterDevtoolsPanel />,
                   },
                 ]}
-              />
+              /> */}
               <Scripts />
             </ThemeProvider>
           </NuqsAdapter>

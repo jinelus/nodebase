@@ -31,7 +31,7 @@ export const createCredentialFn = createServerFn({ method: 'POST' })
     const authResult = await activeSubscribedUser()
 
     if (!authResult.success) {
-      throw new Error(JSON.stringify(authResult))
+      throw new Error(`${authResult.code}: ${authResult.message}`)
     }
 
     const valueEncrypted = await encrypt(data.value)
@@ -55,7 +55,7 @@ export const updateCredentialFn = createServerFn({ method: 'POST' })
     const authResult = await activeSubscribedUser()
 
     if (!authResult.success) {
-      throw new Error(JSON.stringify(authResult))
+      throw new Error(`${authResult.code}: ${authResult.message}`)
     }
 
     const [existing] = await db
@@ -96,7 +96,7 @@ export const deleteCredentialFn = createServerFn({ method: 'POST' })
     const authResult = await activeSubscribedUser()
 
     if (!authResult.success) {
-      throw new Error(JSON.stringify(authResult))
+      throw new Error(`${authResult.code}: ${authResult.message}`)
     }
 
     const [existing] = await db
@@ -171,7 +171,7 @@ export const getCredentialByIdFn = createServerFn({ method: 'GET' })
     const authResult = await activeSubscribedUser()
 
     if (!authResult.success) {
-      throw new Error(JSON.stringify(authResult))
+      throw new Error(`${authResult.code}: ${authResult.message}`)
     }
 
     const [credential] = await db
@@ -204,7 +204,7 @@ export const getCredentialByTypeFn = createServerFn({ method: 'GET' })
     const authResult = await activeSubscribedUser()
 
     if (!authResult.success) {
-      throw new Error(JSON.stringify(authResult))
+      throw new Error(`${authResult.code}: ${authResult.message}`)
     }
 
     const credentialsByType = await db

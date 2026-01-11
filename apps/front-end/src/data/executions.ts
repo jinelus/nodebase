@@ -26,7 +26,7 @@ export const createExecutionFn = createServerFn({ method: 'POST' })
     const authUser = await activeSubscribedUser()
 
     if (!authUser.success) {
-      throw new Error(JSON.stringify(authUser))
+      throw new Error(`${authUser.code}: ${authUser.message}`)
     }
 
     const [execution] = await db
@@ -54,7 +54,7 @@ export const updateExecutionFn = createServerFn({ method: 'POST' })
     const authUser = await activeSubscribedUser()
 
     if (!authUser.success) {
-      throw new Error(JSON.stringify(authUser))
+      throw new Error(`${authUser.code}: ${authUser.message}`)
     }
 
     const [existing] = await db.select().from(executions).where(eq(executions.id, data.id))
@@ -87,13 +87,13 @@ export const getExecutionByIdFn = createServerFn({ method: 'GET' })
     const authUser = await activeSubscribedUser()
 
     if (!authUser.success) {
-      throw new Error(JSON.stringify(authUser))
+      throw new Error(`${authUser.code}: ${authUser.message}`)
     }
 
     const [execution] = await db.select().from(executions).where(eq(executions.id, id))
 
     if (!execution) {
-      throw new Error(JSON.stringify({ success: false, message: 'Execution not found' }))
+      throw new Error('Execution not found')
     }
 
     const [workflow] = await db
