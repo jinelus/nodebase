@@ -19,6 +19,8 @@ const config = defineConfig({
   ],
   server: {
     allowedHosts: true,
+    // @ts-expect-error - Nitro attend cette config, même si les types TS de TanStack ne sont pas à jour
+    preset: 'vercel',
   },
   build: {
     minify: 'esbuild',
