@@ -42,7 +42,7 @@ const updateWorkflowNodesSchema = z.object({
 export type UpdateWorkflowNodesInput = z.infer<typeof updateWorkflowNodesSchema>
 
 export const createWorkflowFn = createServerFn({ method: 'POST' })
-  .inputValidator((data) => createWorkflowSchema.parse(data))
+  .inputValidator((data: { name: string }) => createWorkflowSchema.parse(data))
   .handler(async ({ data }) => {
     const authResult = await activeSubscribedUser()
 

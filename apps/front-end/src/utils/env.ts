@@ -8,6 +8,7 @@ export const env = createEnv({
     POLAR_ACCESS_TOKEN: z.string().optional(),
     POLAR_SUCCESS_URL: z.string().optional(),
     POLAR_SERVER: z.enum(['production', 'sandbox']).default('sandbox'),
+    POLAR_PRODUCT_ID: z.string(),
     NGROK_URL: z.url().optional(),
     PUSHER_APP_ID: z.string({ error: 'PUSHER_APP_ID is required' }),
     PUSHER_KEY: z.string({ error: 'PUSHER_KEY is required' }),

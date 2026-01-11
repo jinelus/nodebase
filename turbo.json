@@ -33,6 +33,7 @@
     "POLAR_SERVER",
     "TRIGGER_SECRET_KEY",
     "VITE_BETTER_AUTH_URL",
-    "VITE_*"
+    "VITE_*",
+    "POLAR_PRODUCT_ID"
   ]
 }
