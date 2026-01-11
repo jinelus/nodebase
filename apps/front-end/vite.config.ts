@@ -1,5 +1,3 @@
-process.env.NITRO_PRESET = 'vercel'
-
 import { wrapVinxiConfigWithSentry } from '@sentry/tanstackstart-react'
 import tailwindcss from '@tailwindcss/vite'
 import { nitroV2Plugin } from '@tanstack/nitro-v2-vite-plugin'
@@ -21,6 +19,8 @@ const config = defineConfig({
   ],
   server: {
     allowedHosts: true,
+    // @ts-expect-error - Nitro attend cette config, même si les types TS de TanStack ne sont pas à jour
+    preset: 'vercel',
   },
   build: {
     minify: 'esbuild',
