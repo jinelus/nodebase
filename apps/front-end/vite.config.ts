@@ -1,3 +1,5 @@
+process.env.NITRO_PRESET = 'vercel'
+
 import { wrapVinxiConfigWithSentry } from '@sentry/tanstackstart-react'
 import tailwindcss from '@tailwindcss/vite'
 import { nitroV2Plugin } from '@tanstack/nitro-v2-vite-plugin'
