@@ -6,8 +6,6 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import type { PaginationParams } from '@/utils/pagination'
-import { executeWorkflowFn } from '../trigger/execute-workflow'
 import {
   createWorkflowFn,
   deleteWorkflowFn,
@@ -16,7 +14,9 @@ import {
   type UpdateWorkflowNodesInput,
   updateWorkflowFn,
   updateWorkflowNodesFn,
-} from '../workflows'
+} from '@/data/workflows'
+import type { PaginationParams } from '@/utils/pagination'
+import { executeWorkflowFn } from '../trigger/execute-workflow'
 
 const WORKFLOWS_QUERY_KEY = ['workflows']
 
