@@ -19,6 +19,9 @@
     }
   },
   "globalPassThroughEnv": [
+    "NODE_ENV",
+    "VERCEL",
+    "VERCEL_URL",
     "DATABASE_URL",
     "BETTER_AUTH_URL",
     "SENTRY_AUTH_TOKEN",
