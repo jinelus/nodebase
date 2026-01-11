@@ -32,6 +32,7 @@ export const createExecutionFn = createServerFn({ method: 'POST' })
     const [execution] = await db
       .insert(executions)
       .values({
+        userId: authUser.data.userSession.user.id,
         workflowId: data.workflowId,
         triggerEventId: data.triggerEventId,
         completedAt: data.completedAt,
@@ -126,6 +127,7 @@ export const getExecutionsFn = createServerFn({ method: 'GET' })
     const { page, perPage } = data ?? {}
 
     const executionsList = await db.query.executions.findMany({
+      where: eq(executions.userId, context.session.user.id),
       limit: perPage,
       offset: page && perPage ? (page - 1) * perPage : undefined,
       orderBy: (execution, { desc }) => [desc(execution.startedAt)],
