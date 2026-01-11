@@ -32,7 +32,7 @@ export const auth = betterAuth({
         checkout({
           products: [
             {
-              productId: '99266895-397c-493d-a767-433cfb802634',
+              productId: env.POLAR_PRODUCT_ID,
               slug: 'pro',
             },
           ],
