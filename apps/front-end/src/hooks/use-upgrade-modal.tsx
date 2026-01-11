@@ -5,9 +5,9 @@ export const useUpgradeModal = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const handleError = (error: Error) => {
-    const errorData = JSON.parse(error.message)
+    const isForbidden = error.name === 'ForbiddenError' || error.message.includes('FORBIDDEN')
 
-    if (errorData.code === 'FORBIDDEN') {
+    if (isForbidden) {
       setIsOpen(true)
       return true
     }

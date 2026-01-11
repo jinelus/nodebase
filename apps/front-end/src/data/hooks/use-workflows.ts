@@ -46,6 +46,11 @@ export const useCreateWorkflow = () => {
 
       queryClient.invalidateQueries({ queryKey: WORKFLOWS_QUERY_KEY })
     },
+    onError: (error) => {
+      toast.error(
+        `Error creating workflow: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      )
+    },
   })
 }
 
