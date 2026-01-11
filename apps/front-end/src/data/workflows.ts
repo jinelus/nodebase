@@ -47,7 +47,7 @@ export const createWorkflowFn = createServerFn({ method: 'POST' })
     const authResult = await activeSubscribedUser()
 
     if (!authResult.success) {
-      throw new Error('Unauthorized')
+      throw new Error(`${authResult.code}: ${authResult.message}`)
     }
 
     const [workflow] = await db
@@ -162,7 +162,7 @@ export const updateWorkflowFn = createServerFn({ method: 'POST' })
     const authResult = await activeSubscribedUser()
 
     if (!authResult.success) {
-      throw new Error(JSON.stringify(authResult))
+      throw new Error(`${authResult.code}: ${authResult.message}`)
     }
 
     // Verify ownership
@@ -195,7 +195,7 @@ export const deleteWorkflowFn = createServerFn({ method: 'POST' })
     const authResult = await activeSubscribedUser()
 
     if (!authResult.success) {
-      throw new Error(JSON.stringify(authResult))
+      throw new Error(`${authResult.code}: ${authResult.message}`)
     }
 
     const [existing] = await db
@@ -223,7 +223,7 @@ export const updateWorkflowNodesFn = createServerFn({ method: 'POST' })
     const authResult = await activeSubscribedUser()
 
     if (!authResult.success) {
-      throw new Error(JSON.stringify(authResult))
+      throw new Error(`${authResult.code}: ${authResult.message}`)
     }
 
     const { edges, nodes, id } = data
