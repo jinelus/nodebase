@@ -47,7 +47,7 @@ export const createWorkflowFn = createServerFn({ method: 'POST' })
     const authResult = await activeSubscribedUser()
 
     if (!authResult.success) {
-      throw new Error(JSON.stringify(authResult))
+      throw new Error('Unauthorized')
     }
 
     const [workflow] = await db
