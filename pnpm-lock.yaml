@@ -166,16 +166,16 @@ importers:
         version: 1.147.3(@tanstack/query-core@5.90.5)(@tanstack/react-query@5.90.5(react@19.2.3))(@tanstack/react-router@1.147.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@tanstack/router-core@1.147.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@tanstack/react-start':
         specifier: ^1.149.0
-        version: 1.149.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(vite@7.1.12(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6))
+        version: 1.149.0(crossws@0.3.5)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(vite@7.1.12(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6))
       '@tanstack/router-plugin':
         specifier: ^1.149.0
         version: 1.149.0(@tanstack/react-router@1.147.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.1.12(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6))
       '@trigger.dev/react-hooks':
-        specifier: 4.3.1
-        version: 4.3.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.2)
+        specifier: 4.3.3
+        version: 4.3.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.2)
       '@trigger.dev/sdk':
-        specifier: 4.3.1
-        version: 4.3.1(ai@6.0.3(zod@4.1.12))(typescript@5.9.2)(zod@4.1.12)
+        specifier: 4.3.3
+        version: 4.3.3(ai@6.0.3(zod@4.1.12))(typescript@5.9.2)(zod@4.1.12)
       '@xyflow/react':
         specifier: ^12.9.3
         version: 12.9.3(@types/react@19.2.7)(immer@10.2.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -301,8 +301,8 @@ importers:
         specifier: ^16.2.0
         version: 16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@trigger.dev/build':
-        specifier: 4.3.1
-        version: 4.3.1(magicast@0.5.1)(typescript@5.9.2)
+        specifier: 4.3.3
+        version: 4.3.3(magicast@0.5.1)(typescript@5.9.2)
       '@types/node':
         specifier: ^22.10.2
         version: 22.18.13
@@ -2859,26 +2859,26 @@ packages:
   '@total-typescript/ts-reset@0.6.1':
     resolution: {integrity: sha512-cka47fVSo6lfQDIATYqb/vO1nvFfbPw7uWLayIXIhGETj0wcOOlrlkobOMDNQOFr9QOafegUPq13V2+6vtD7yg==}
 
-  '@trigger.dev/build@4.3.1':
-    resolution: {integrity: sha512-jmfKbvXnaN2RMd1PwywrRHPy1oYwMNKr/H3yNQZtd/4N/Lk9235lWmugg8WgOHtaAr8NcYqwo9OucYXqJBQsrA==}
+  '@trigger.dev/build@4.3.3':
+    resolution: {integrity: sha512-57U2nb8n9RERqFktmamSqriAgK4+e3985fwYi0EHtQ1/WDmQ0KYdiK0FEGN1ls5/vcZxbyfH/cifIA2fW0vHEg==}
     engines: {node: '>=18.20.0'}
 
-  '@trigger.dev/core@4.3.1':
-    resolution: {integrity: sha512-qsFlEJtW1dBjiokUr/3/toghRe48orBK9voPjJAPLPKe0yA7HykqZuUWYGOIbrLUHrjxEPRWfegOCwdmPvxEfQ==}
+  '@trigger.dev/core@4.3.3':
+    resolution: {integrity: sha512-HPPxbesDiEEuA1U/Qi1RWXVMkQNDCNyB7zhd3cIYd6T0KUTIt6i7ZdaqSRDhkAxva2hpaWXQsQIYwr5Jnsyohw==}
     engines: {node: '>=18.20.0'}
 
-  '@trigger.dev/react-hooks@4.3.1':
-    resolution: {integrity: sha512-UHcT105NSI9iGBOi2rF9Eqvlyw40AnV4NgIhDplCtulUygJvTV81cK/ptW7IdVsaftXVwbGh3enei3NXabkMww==}
+  '@trigger.dev/react-hooks@4.3.3':
+    resolution: {integrity: sha512-SXAAfPIj8LTYRy9FbZmvD2PO3zcTlZk8zPJus0bqbuAhz7t/Ayf/3zF3vvAhfFynrXcx7l1g085DSpgXn27a2w==}
     engines: {node: '>=18.20.0'}
     peerDependencies:
       react: ^18.0 || ^19.0 || ^19.0.0-rc
       react-dom: ^18.0 || ^19.0 || ^19.0.0-rc
 
-  '@trigger.dev/sdk@4.3.1':
-    resolution: {integrity: sha512-q/gah1kpz5MgFk4KfBkysbmTXkbYcyDR9LelWZdkM9TD7q3C7DnVYTiplv3lka1jiWxyVdRmRv8jDEFTCEEHZg==}
+  '@trigger.dev/sdk@4.3.3':
+    resolution: {integrity: sha512-aNKbmn6O8XfAJsQ3j9A8tVUm6nr+5SktHxUs804i7S4BG//b0YX0yhrKwPUe8rUGmFCYxmb3B43OOtZ0MsPyfA==}
     engines: {node: '>=18.20.0'}
     peerDependencies:
-      ai: ^4.2.0 || ^5.0.0
+      ai: ^4.2.0 || ^5.0.0 || ^6.0.0
       zod: ^3.0.0 || ^4.0.0
     peerDependenciesMeta:
       ai:
@@ -8498,27 +8498,27 @@ snapshots:
       tiny-invariant: 1.3.3
       tiny-warning: 1.0.3
 
-  '@tanstack/react-start-server@1.148.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+  '@tanstack/react-start-server@1.148.0(crossws@0.3.5)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
     dependencies:
       '@tanstack/history': 1.145.7
       '@tanstack/react-router': 1.147.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@tanstack/router-core': 1.147.1
       '@tanstack/start-client-core': 1.148.0
-      '@tanstack/start-server-core': 1.148.0
+      '@tanstack/start-server-core': 1.148.0(crossws@0.3.5)
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
     transitivePeerDependencies:
       - crossws
 
-  '@tanstack/react-start@1.149.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(vite@7.1.12(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6))':
+  '@tanstack/react-start@1.149.0(crossws@0.3.5)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(vite@7.1.12(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6))':
     dependencies:
       '@tanstack/react-router': 1.147.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@tanstack/react-start-client': 1.148.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@tanstack/react-start-server': 1.148.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@tanstack/react-start-server': 1.148.0(crossws@0.3.5)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@tanstack/router-utils': 1.143.11
       '@tanstack/start-client-core': 1.148.0
-      '@tanstack/start-plugin-core': 1.149.0(@tanstack/react-router@1.147.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.1.12(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6))
-      '@tanstack/start-server-core': 1.148.0
+      '@tanstack/start-plugin-core': 1.149.0(@tanstack/react-router@1.147.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(crossws@0.3.5)(vite@7.1.12(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6))
+      '@tanstack/start-server-core': 1.148.0(crossws@0.3.5)
       pathe: 2.0.3
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
@@ -8625,7 +8625,7 @@ snapshots:
 
   '@tanstack/start-fn-stubs@1.143.8': {}
 
-  '@tanstack/start-plugin-core@1.149.0(@tanstack/react-router@1.147.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.1.12(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6))':
+  '@tanstack/start-plugin-core@1.149.0(@tanstack/react-router@1.147.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(crossws@0.3.5)(vite@7.1.12(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6))':
     dependencies:
       '@babel/code-frame': 7.27.1
       '@babel/core': 7.28.5
@@ -8636,7 +8636,7 @@ snapshots:
       '@tanstack/router-plugin': 1.149.0(@tanstack/react-router@1.147.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.1.12(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6))
       '@tanstack/router-utils': 1.143.11
       '@tanstack/start-client-core': 1.148.0
-      '@tanstack/start-server-core': 1.148.0
+      '@tanstack/start-server-core': 1.148.0(crossws@0.3.5)
       babel-dead-code-elimination: 1.0.11
       cheerio: 1.1.2
       exsolve: 1.0.8
@@ -8656,13 +8656,13 @@ snapshots:
       - vite-plugin-solid
       - webpack
 
-  '@tanstack/start-server-core@1.148.0':
+  '@tanstack/start-server-core@1.148.0(crossws@0.3.5)':
     dependencies:
       '@tanstack/history': 1.145.7
       '@tanstack/router-core': 1.147.1
       '@tanstack/start-client-core': 1.148.0
       '@tanstack/start-storage-context': 1.147.1
-      h3-v2: h3@2.0.1-rc.7
+      h3-v2: h3@2.0.1-rc.7(crossws@0.3.5)
       seroval: 1.4.2
       tiny-invariant: 1.3.3
     transitivePeerDependencies:
@@ -8701,10 +8701,10 @@ snapshots:
 
   '@total-typescript/ts-reset@0.6.1': {}
 
-  '@trigger.dev/build@4.3.1(magicast@0.5.1)(typescript@5.9.2)':
+  '@trigger.dev/build@4.3.3(magicast@0.5.1)(typescript@5.9.2)':
     dependencies:
       '@prisma/config': 6.19.0(magicast@0.5.1)
-      '@trigger.dev/core': 4.3.1(typescript@5.9.2)
+      '@trigger.dev/core': 4.3.3(typescript@5.9.2)
       mlly: 1.8.0
       pkg-types: 1.3.1
       resolve: 1.22.11
@@ -8717,7 +8717,7 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@trigger.dev/core@4.3.1(typescript@5.9.2)':
+  '@trigger.dev/core@4.3.3(typescript@5.9.2)':
     dependencies:
       '@bugsnag/cuid': 3.2.1
       '@electric-sql/client': 1.0.14
@@ -8758,9 +8758,9 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@trigger.dev/react-hooks@4.3.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.2)':
+  '@trigger.dev/react-hooks@4.3.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.2)':
     dependencies:
-      '@trigger.dev/core': 4.3.1(typescript@5.9.2)
+      '@trigger.dev/core': 4.3.3(typescript@5.9.2)
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
       swr: 2.3.7(react@19.2.3)
@@ -8770,11 +8770,11 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@trigger.dev/sdk@4.3.1(ai@6.0.3(zod@4.1.12))(typescript@5.9.2)(zod@4.1.12)':
+  '@trigger.dev/sdk@4.3.3(ai@6.0.3(zod@4.1.12))(typescript@5.9.2)(zod@4.1.12)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/semantic-conventions': 1.36.0
-      '@trigger.dev/core': 4.3.1(typescript@5.9.2)
+      '@trigger.dev/core': 4.3.3(typescript@5.9.2)
       chalk: 5.6.2
       cronstrue: 2.59.0
       debug: 4.4.3
@@ -9237,7 +9237,7 @@ snapshots:
       confbox: 0.2.2
       defu: 6.1.4
       dotenv: 16.6.1
-      exsolve: 1.0.7
+      exsolve: 1.0.8
       giget: 2.0.0
       jiti: 2.6.1
       ohash: 2.0.11
@@ -9675,7 +9675,7 @@ snapshots:
 
   effect@3.18.4:
     dependencies:
-      '@standard-schema/spec': 1.0.0
+      '@standard-schema/spec': 1.1.0
       fast-check: 3.23.2
 
   electron-to-chromium@1.5.244: {}
@@ -10040,10 +10040,12 @@ snapshots:
       ufo: 1.6.1
       uncrypto: 0.1.3
 
-  h3@2.0.1-rc.7:
+  h3@2.0.1-rc.7(crossws@0.3.5):
     dependencies:
       rou3: 0.7.12
       srvx: 0.10.0
+    optionalDependencies:
+      crossws: 0.3.5
 
   handlebars@4.7.8:
     dependencies:
@@ -10467,7 +10469,7 @@ snapshots:
       acorn: 8.15.0
       pathe: 2.0.3
       pkg-types: 1.3.1
-      ufo: 1.6.1
+      ufo: 1.6.2
 
   module-details-from-path@1.0.4: {}
 
