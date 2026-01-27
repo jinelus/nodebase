@@ -7,6 +7,7 @@ import {
   SearchIcon,
   TrashIcon,
 } from 'lucide-react'
+import { useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
 import { Button } from './ui/button'
 import { Card, CardContent, CardDescription, CardTitle } from './ui/card'
@@ -104,6 +105,14 @@ export const EntitySearch: React.FC<EntitySearchProps> = ({
   onChange,
   placeholder = 'Search',
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (value && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [value])
+
   return (
     <div className="relative ml-auto">
       <SearchIcon className="-translate-y-1/2 absolute top-1/2 left-3 size-3.5 text-muted-foreground" />
