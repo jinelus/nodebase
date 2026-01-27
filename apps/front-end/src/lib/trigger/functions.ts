@@ -1,4 +1,4 @@
-import { schemaTask } from '@trigger.dev/sdk'
+import { AbortTaskRunError, schemaTask } from '@trigger.dev/sdk'
 import { and, eq } from 'drizzle-orm'
 import z from 'zod'
 import { db } from '@/db/connection'
@@ -61,6 +61,7 @@ export const executeWorkflow = schemaTask({
     await db.insert(executions).values({
       workflowId: workflow.id,
       triggerEventId: runId,
+      userId: workflow.userId,
     })
 
     const sortedNodes = topologicalSort(workflow.node, workflow.connections)
@@ -106,7 +107,10 @@ export const executeWorkflow = schemaTask({
           ...nodeExecutions[node.id],
           status: 'ERROR',
           completedAt: Date.now(),
-          error: error instanceof WorkflowError ? error.message : 'Unknown error',
+          error:
+            error instanceof Error || error instanceof AbortTaskRunError
+              ? error.message
+              : 'Unknown error',
         }
         await pusher.trigger(channel, 'nodes', nodeExecutions)
 

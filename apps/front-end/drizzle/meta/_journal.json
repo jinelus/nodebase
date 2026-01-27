@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1767196758775,
-      "tag": "0000_overjoyed_goblin_queen",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1767202678607,
-      "tag": "0001_many_silver_surfer",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1767300415377,
-      "tag": "0002_gorgeous_komodo",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1768157685130,
-      "tag": "0003_adorable_psylocke",
+      "when": 1769477589378,
+      "tag": "0000_windy_micromacro",
       "breakpoints": true
     }
   ]
