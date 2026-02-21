@@ -40,7 +40,7 @@ const ProtectedLayout = () => {
     <main>
       <SidebarProvider>
         <AppSidebar />
-        <SidebarInset className="">
+        <SidebarInset className="w-full overflow-hidden">
           <Outlet />
         </SidebarInset>
       </SidebarProvider>
