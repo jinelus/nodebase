@@ -94,7 +94,7 @@ Integrated through `ai` and provider SDKs:
 
 ```bash
 git clone <YOUR_REPOSITORY_URL>
-cd nodebase-01
+cd nodebase
 ```
 
 ### 3) Install dependencies
@@ -256,4 +256,5 @@ Add your demo assets here:
 ### Video
 
 [Watch demo video](https://your-video-link-here)
+
 
