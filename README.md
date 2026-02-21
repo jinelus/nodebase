@@ -247,10 +247,13 @@ pnpm --filter front-end preview
 Add your demo assets here:
 
 ### Screenshots
+<img width="1905" height="869" alt="Captura de tela 2026-02-20 233818" src="https://github.com/user-attachments/assets/5a0e2876-69c7-446d-820a-63c35618f6d9" />
 
-![Demo Screenshot 1](./docs/demo-1.png)
-![Demo Screenshot 2](./docs/demo-2.png)
+<img width="1910" height="861" alt="Captura de tela 2026-02-20 235027" src="https://github.com/user-attachments/assets/b08c9dce-6aff-4cb6-bd9e-c95ad1739435" />
+
+<img width="1897" height="867" alt="Captura de tela 2026-02-21 000130" src="https://github.com/user-attachments/assets/a8e129d2-01ac-4be2-9d71-2a8bb0f6e707" />
 
 ### Video
 
 [Watch demo video](https://your-video-link-here)
+
