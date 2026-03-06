@@ -253,8 +253,4 @@ Add your demo assets here:
 
 <img width="1897" height="867" alt="Captura de tela 2026-02-21 000130" src="https://github.com/user-attachments/assets/a8e129d2-01ac-4be2-9d71-2a8bb0f6e707" />
 
-### Video
-
-[Watch demo video](https://your-video-link-here)
-
 
