@@ -41,7 +41,7 @@ Core product areas include:
 ### Frontend
 
 - **React 19**
-- **TanStack Start** + **TanStack Router**
+- **TanStack Start**
 - **TanStack Query**
 - **Tailwind CSS v4**
 - **Radix UI** components
@@ -252,5 +252,6 @@ Add your demo assets here:
 <img width="1910" height="861" alt="Captura de tela 2026-02-20 235027" src="https://github.com/user-attachments/assets/b08c9dce-6aff-4cb6-bd9e-c95ad1739435" />
 
 <img width="1897" height="867" alt="Captura de tela 2026-02-21 000130" src="https://github.com/user-attachments/assets/a8e129d2-01ac-4be2-9d71-2a8bb0f6e707" />
+
 
 
