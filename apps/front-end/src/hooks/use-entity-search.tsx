@@ -21,7 +21,7 @@ export function useEntitySearch<
   const [searchInput, setSearchInput] = useState(params.search)
 
   const debouncedSearch = useDebouncedCallback((value: string) => {
-    setParams({ ...params, search: value || null, page: 1 })
+    setParams({ ...params, search: value || undefined, page: 1 })
   }, debounceTime)
 
   const handleSearchInputChange = (value: string) => {
