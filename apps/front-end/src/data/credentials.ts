@@ -190,10 +190,12 @@ export const getCredentialByIdFn = createServerFn({ method: 'GET' })
 
     const decryptedValue = await decrypt(credential.value)
 
+    const showedValue = decryptedValue.slice(0, 2) + '*'.repeat(decryptedValue.length - 2)
+
     return {
       credential: {
         ...credential,
-        value: decryptedValue,
+        value: showedValue,
       },
     }
   })

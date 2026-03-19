@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as ProtectedIndexRouteImport } from './routes/_protected/index'
-import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as ProtectedRestRouteImport } from './routes/_protected/_rest'
 import { Route as AuthSignupRouteImport } from './routes/_auth/signup'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
@@ -33,11 +32,6 @@ const ProtectedRoute = ProtectedRouteImport.update({
 const ProtectedIndexRoute = ProtectedIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => ProtectedRoute,
-} as any)
-const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
   getParentRoute: () => ProtectedRoute,
 } as any)
 const ProtectedRestRoute = ProtectedRestRouteImport.update({
@@ -116,7 +110,6 @@ const ProtectedEditorWorkflowsWorkflowIdRoute =
 export interface FileRoutesByFullPath {
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
-  '/dashboard': typeof ProtectedDashboardRoute
   '/': typeof ProtectedIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/workflows/$workflowId': typeof ProtectedEditorWorkflowsWorkflowIdRoute
@@ -132,7 +125,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
-  '/dashboard': typeof ProtectedDashboardRoute
   '/': typeof ProtectedIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/workflows/$workflowId': typeof ProtectedEditorWorkflowsWorkflowIdRoute
@@ -151,7 +143,6 @@ export interface FileRoutesById {
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/signup': typeof AuthSignupRoute
   '/_protected/_rest': typeof ProtectedRestRouteWithChildren
-  '/_protected/dashboard': typeof ProtectedDashboardRoute
   '/_protected/': typeof ProtectedIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_protected/_editor/workflows/$workflowId': typeof ProtectedEditorWorkflowsWorkflowIdRoute
@@ -169,7 +160,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/login'
     | '/signup'
-    | '/dashboard'
     | '/'
     | '/api/auth/$'
     | '/workflows/$workflowId'
@@ -185,7 +175,6 @@ export interface FileRouteTypes {
   to:
     | '/login'
     | '/signup'
-    | '/dashboard'
     | '/'
     | '/api/auth/$'
     | '/workflows/$workflowId'
@@ -203,7 +192,6 @@ export interface FileRouteTypes {
     | '/_auth/login'
     | '/_auth/signup'
     | '/_protected/_rest'
-    | '/_protected/dashboard'
     | '/_protected/'
     | '/api/auth/$'
     | '/_protected/_editor/workflows/$workflowId'
@@ -240,13 +228,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof ProtectedIndexRouteImport
-      parentRoute: typeof ProtectedRoute
-    }
-    '/_protected/dashboard': {
-      id: '/_protected/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof ProtectedDashboardRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/_rest': {
@@ -369,14 +350,12 @@ const ProtectedRestRouteWithChildren = ProtectedRestRoute._addFileChildren(
 
 interface ProtectedRouteChildren {
   ProtectedRestRoute: typeof ProtectedRestRouteWithChildren
-  ProtectedDashboardRoute: typeof ProtectedDashboardRoute
   ProtectedIndexRoute: typeof ProtectedIndexRoute
   ProtectedEditorWorkflowsWorkflowIdRoute: typeof ProtectedEditorWorkflowsWorkflowIdRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedRestRoute: ProtectedRestRouteWithChildren,
-  ProtectedDashboardRoute: ProtectedDashboardRoute,
   ProtectedIndexRoute: ProtectedIndexRoute,
   ProtectedEditorWorkflowsWorkflowIdRoute:
     ProtectedEditorWorkflowsWorkflowIdRoute,
