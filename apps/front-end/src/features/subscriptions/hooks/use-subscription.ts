@@ -1,25 +1,24 @@
 import { useQuery } from '@tanstack/react-query'
-import { authClient } from '@/lib/auth-client'
+import { activeSubscription } from '../active-subscribed-user'
 
 export const getSubscription = () => {
   return useQuery({
     queryKey: ['customer-state'],
     queryFn: async () => {
-      const { data } = await authClient.customer.state()
-      return data
+      const { success } = await activeSubscription()
+
+      return { success }
     },
   })
 }
 
 export const useHasActiveSubscription = () => {
-  const { data, isLoading, ...rest } = getSubscription()
+  const { data, isLoading } = getSubscription()
 
-  const hasActiveSubscription = data?.activeSubscriptions && data.activeSubscriptions.length > 0
+  const hasActiveSubscription = data?.success ?? false
 
   return {
     hasActiveSubscription,
-    subscription: data?.activeSubscriptions?.[0],
     isLoading,
-    ...rest,
   }
 }
