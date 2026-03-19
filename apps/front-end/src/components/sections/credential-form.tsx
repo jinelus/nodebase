@@ -85,12 +85,19 @@ export const CredentialForm: React.FC<CredentialFormProps> = ({ initialData }) =
     if (isEditing && initialData?.id) {
       const nextValue = data.value?.trim()
 
-      await updateCredential.mutateAsync({
-        id: initialData.id,
-        name: data.name,
-        type: data.type,
-        ...(nextValue ? { value: nextValue } : {}),
-      })
+      await updateCredential.mutateAsync(
+        {
+          id: initialData.id,
+          name: data.name,
+          type: data.type,
+          ...(nextValue ? { value: nextValue } : {}),
+        },
+        {
+          onError: (error) => {
+            handleError(error)
+          },
+        },
+      )
     } else {
       await createCredential.mutateAsync(
         {
