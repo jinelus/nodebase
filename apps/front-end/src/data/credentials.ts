@@ -5,7 +5,7 @@ import { db } from '@/db/connection'
 import { credentials } from '@/db/schemas/credentials'
 import { activeSubscribedUser } from '@/features/subscriptions/active-subscribed-user'
 import { authMiddleware } from '@/routes/_protected'
-import { decrypt, encrypt, escapeLike } from '@/utils/fn'
+import { encrypt, escapeLike } from '@/utils/fn'
 import type { PaginationParams } from '@/utils/pagination'
 
 export const CredentialsTypesValues = ['GEMINI', 'OPENAI', 'ANTHROPIC', 'GROK', 'DEEPSEEK'] as const
@@ -188,14 +188,10 @@ export const getCredentialByIdFn = createServerFn({ method: 'GET' })
       throw new Error('Credential not found or access denied')
     }
 
-    const decryptedValue = await decrypt(credential.value)
-
-    const showedValue = decryptedValue.slice(0, 2) + '*'.repeat(decryptedValue.length - 2)
-
     return {
       credential: {
         ...credential,
-        value: showedValue,
+        value: null,
       },
     }
   })
