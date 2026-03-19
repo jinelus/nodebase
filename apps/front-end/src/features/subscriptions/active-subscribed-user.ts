@@ -49,7 +49,7 @@ export const activeSubscription = createServerFn()
     async ({
       context,
     }): Promise<
-      { success: boolean } | { success: false; code: 'UNAUTHORIZED' | 'FORBIDDEN'; message: string }
+      { success: true } | { success: false; code: 'UNAUTHORIZED' | 'FORBIDDEN'; message: string }
     > => {
       if (!context.session) {
         return {
