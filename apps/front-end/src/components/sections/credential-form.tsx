@@ -11,10 +11,16 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '../ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 
-const formSchema = z.object({
+const createFormSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   type: z.enum(CredentialsTypesValues),
-  value: z.string().min(1, 'Value is required'),
+  value: z.string().trim().min(1, 'Value is required'),
+})
+
+const editFormSchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  type: z.enum(CredentialsTypesValues),
+  value: z.string().trim().optional(),
 })
 
 const credentialTypesOptions = [
@@ -45,28 +51,28 @@ const credentialTypesOptions = [
   },
 ]
 
-type FormData = z.infer<typeof formSchema>
+type FormData = z.infer<typeof editFormSchema>
 
 interface CredentialFormProps {
   initialData?: {
     id?: string
     name?: string
     type?: CredentialsTypes
-    value?: string
+    value?: string | null
   }
 }
 
 export const CredentialForm: React.FC<CredentialFormProps> = ({ initialData }) => {
+  const isEditing = !!initialData?.id
+
   const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(isEditing ? editFormSchema : createFormSchema),
     defaultValues: {
       name: initialData?.name || '',
       type: initialData?.type || CredentialsTypesValues[0],
-      value: initialData?.value || '',
+      value: '',
     },
   })
-
-  const isEditing = !!initialData?.id
 
   const { handleError, modal } = useUpgradeModal()
 
@@ -77,19 +83,30 @@ export const CredentialForm: React.FC<CredentialFormProps> = ({ initialData }) =
 
   const handleSubmit = async (data: FormData) => {
     if (isEditing && initialData?.id) {
+      const nextValue = data.value?.trim()
+
       await updateCredential.mutateAsync({
         id: initialData.id,
-        ...data,
+        name: data.name,
+        type: data.type,
+        ...(nextValue ? { value: nextValue } : {}),
       })
     } else {
-      await createCredential.mutateAsync(data, {
-        onSuccess: () => {
-          router.navigate({ to: `/credentials` })
+      await createCredential.mutateAsync(
+        {
+          name: data.name,
+          type: data.type,
+          value: data.value ?? '',
         },
-        onError: (error) => {
-          handleError(error)
+        {
+          onSuccess: () => {
+            router.navigate({ to: `/credentials` })
+          },
+          onError: (error) => {
+            handleError(error)
+          },
         },
-      })
+      )
     }
   }
 
@@ -160,7 +177,11 @@ export const CredentialForm: React.FC<CredentialFormProps> = ({ initialData }) =
                   <FormItem>
                     <FormLabel>API Key</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="sk-xxxxxxxxxxxxxxxxxxxx" {...field} />
+                      <Input
+                        type="password"
+                        placeholder={isEditing ? '********' : 'sk-xxxxxxxxxxxxxxxxxxxx'}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
