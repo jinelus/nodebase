@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useRouter } from '@tanstack/react-router'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -86,7 +86,7 @@ export const WorkflowsSearch = () => {
 
 export const WorkflowsPagination = () => {
   const [params, setParams] = useWorkflowsParams()
-  const workflows = useSuspenseQuery(useGetWorkflows(params))
+  const { data, isPending } = useQuery(useGetWorkflows(params))
 
   const handlePageChange = (newPage: number) => {
     setParams((prev) => {
@@ -96,10 +96,10 @@ export const WorkflowsPagination = () => {
 
   return (
     <EntityPagination
-      page={workflows.data.currentPage}
-      totalPages={workflows.data.totalPages}
+      page={data?.currentPage ?? 1}
+      totalPages={data?.totalPages ?? 1}
       onPageChange={handlePageChange}
-      disabled={workflows.isPending}
+      disabled={isPending}
     />
   )
 }
